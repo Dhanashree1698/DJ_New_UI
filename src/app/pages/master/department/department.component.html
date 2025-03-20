@@ -1,0 +1,200 @@
+<div class=" header pb-6 pt-6">
+  <div class="container-fluid">
+    <div class=" header-body">
+      <div class=" row align-items-center py-4">
+        <div class=" col-lg-6 col-7">
+          <nav
+            aria-label="breadcrumb"
+            class=" d-none d-md-inline-block ml-md-4"
+          >
+            <ol class=" breadcrumb breadcrumb-links breadcrumb-dark" >
+              <li class=" breadcrumb-item">
+                <a href="javascript:void(0)" class="text-gray"> <i class=" fas fa-home" routerLink="/search/quick-search"> </i> </a>
+              </li>
+
+               <li class=" breadcrumb-item">
+                <a href="javascript:void(0)" class="text-gray"> Master </a>
+              </li>
+
+              <li aria-current="page" class=" breadcrumb-item active text-dark">
+                Cabinet Master
+              </li>
+            </ol>
+          </nav>
+        </div> 
+      </div>
+    </div>
+  </div>
+</div>
+      <div class=" container-fluid mt--6">
+        <div class=" row">
+          <div class=" col">
+            <div class=" card">
+              <div class=" card-header">
+
+                <div class="row">
+                  <div class="col">
+                    <h3 class="mb-0">All Cabinets</h3>
+                    <p class="text-sm mb-0"></p>
+                  </div>
+                  <div class="col" style="text-align: right;">
+                    <button type="button" class="btn success" tooltip="Bulk Folder Access" routerLink="/upload/bulkfoldermapping" style="margin-left: 5px;">
+                      <i class="fa fa-folder fa-lg"></i>
+                    </button>
+                    <button type="button" class="btn success" tooltip="Bulk Folder Upload" routerLink="/upload/bulkfolder" style="margin-left: 5px;">
+                      <i class="fa fa-upload fa-lg"></i> 
+                    </button>
+                    <button type="button" class="btn success" tooltip="Cabinet" (click)="addDepartment(DepartmentFormPopup)" style="margin-left: 5px;">
+                      <i class="fa fa-plus fa-lg"></i> 
+                    </button>
+                    <button type="button" class="btn success" tooltip="Download" (click)="onDownloadExcelFile('Cabinet List')" style="margin-left: 5px;">
+                      <i class="fa fa-download fa-lg"></i> 
+                    </button>
+                  </div>
+                </div>
+                
+
+              </div>
+              <div class="dataTables_wrapper">
+
+                <p-table [paginator]="true" [rows]="10" [value]="formattedData" [autoLayout]="true"
+                  [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50,100]" [(first)]="first"
+                  (onPage)="paginate($event)" [loading]="loading"
+                  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                  <ng-template pTemplate="caption">
+                    
+                    <input type="text" pInputText size="50" placeholder="Search records" (input)="searchTable($event)"
+                      class="global-search">
+                  </ng-template>
+                  <ng-template pTemplate="header">
+                    <tr>
+
+                      <th *ngFor="let col of headerList; let i = index;" [ngStyle]="i==0 && {'width': '5%'}">
+                        {{col.header}}
+                        <!-- <p-sortIcon *ngIf="i==10" [field]="col.field"></p-sortIcon> -->
+                      </th>
+                      <th style="width: 5%;">
+                        ACTION
+                      </th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-car let-rowIndex="rowIndex">
+                    <tr>
+
+                      <td *ngFor="let col of headerList">
+                        {{car[col.field]}}
+                      </td>
+                      <td>
+                        <button  type="button" tooltip="Edit" style="
+                        padding: 0 0 6px 4px;
+                       color: #000;
+                       
+                        width: 28px;
+                       height: 28px;" class="btn btn-icon btn-secondary btn-icon-only rounded-circle"
+                        (click)="editDepartment(DepartmentFormPopup,car)">
+                        <span class="btn-inner--icon"><i class="fa fa-pen" style="
+                        color: #000;
+                        margin-right: 3px;
+                         margin-top: 0.32rem;
+                         size: -2px;
+                         font-size: 13px;"></i></span>
+                      </button>
+                       
+                        <!-- <button type="button" style="padding:0 0 5px 1px" class="btn btn-icon btn-icon-only" (click)="deleteDepartment(car)">
+                          <span class="btn-inner--icon"><img src="assets/img/icons/delete.svg"></span>
+                        </button> -->
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+
+
+              </div>
+   </div>
+          </div>
+        </div>
+      </div>
+
+      <ng-template #DepartmentFormPopup let-c="close" let-d="dismiss" let-modal>
+        <div class="modal-content">
+          <div class="modal-body p-0">
+            <div class="card">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <h3 class="mb-0">All Cabinet</h3>
+                <div>
+                  <button type="button" class="btn success" aria-label="Close" (click)="OnReset()">
+                    <i class="fa fa-times fa-lg" ></i>
+                  </button>
+                  <!-- <button type="button" aria-label="Download" (click)="onDownloadExcelFile()" class="btn btn-link">
+                    <i class="pi pi-download"></i>
+                  </button> -->
+                </div>
+              </div>
+              <div class="card-body">
+                <form class="needs-validation" novalidate [formGroup]="AddDepartmentForm" (ngSubmit)="onSubmit()">
+                  <div class="form-row">
+                    <div class="col-md-12 mb-3">
+                      <label class="form-control-label" for="DepartmentName">
+                        Cabinet Name *
+                      </label>
+                      <input class="form-control" id="DepartmentName" formControlName="DepartmentName" placeholder="Name" type="text" />
+                      <div class="valid-feedback">Looks good!</div>
+                      <div 
+                        *ngIf="f.DepartmentName.touched && f.DepartmentName.invalid && f.DepartmentName.errors?.required"
+                        style="color: red; font-size: 14px; margin-top: .25rem;">
+                        Name is required
+                      </div>
+                      <div 
+                        *ngIf="!!AddDepartmentForm.get('DepartmentName').errors?.pattern"
+                        style="color: red; font-size: 14px; margin-top: .25rem;">
+                        Please enter a valid name.
+                      </div>
+                    </div>                    
+                  </div>
+                  <div class="form-row">
+                    <div class="col-md-12 mb-3">
+                      <label class="form-control-label" for="CabientSize">
+                        Cabinet Size in GB *
+                      </label>
+                      <input class="form-control" id="CabientSize" formControlName="CabientSize" placeholder="Cabient Size" type="number" />
+                      <div class="valid-feedback">Looks good!</div>
+                      <div style="color: red; font-size: 14px; margin-top: .25rem;"  *ngIf="f.CabientSize.touched && f.CabientSize.invalid && f.CabientSize.errors.required">
+                        Cabient Size is required
+                      </div>
+                      <div class="alert alert-danger" *ngIf="!!AddDepartmentForm.get('CabientSize').errors?.pattern">
+                        Please enter a valid name.
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="col-md-12 mb-3">
+                      <label class="form-control-label" for="Description">
+                        Description
+                      </label>
+                      <input class="form-control"  formControlName="Description" placeholder="Description" type="text" />
+                      <div class="valid-feedback">Looks good!</div>
+                 
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="col-sm-12 text-right">
+                      <button type="submit" class="btn successbtn p-2" style="font-size: 14px; margin-right: 5px;">
+                        Submit
+                      </button>
+                      <!-- <button type="button" class="btn dangerbtn p-2" style="font-size: 14px;" (click)="OnReset()">
+                        Close
+                      </button> -->
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+      
+      <p-toast position="top-left" [showTransformOptions]="'translateY(100%)'" 
+                    [showTransitionOptions]="'1000ms'" 
+                    [hideTransitionOptions]="'1000ms'" 
+                    [showTransformOptions]="'translateX(100%)'"
+                    ></p-toast>

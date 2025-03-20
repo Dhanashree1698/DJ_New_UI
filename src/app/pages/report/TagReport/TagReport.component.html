@@ -1,0 +1,179 @@
+<div class=" header pb-6">
+  <div class=" container-fluid">
+    <div class=" header-body">
+      <div class=" row align-items-center py-4">
+        <div class=" col-lg-6 col-7">
+        
+          <nav
+            aria-label="breadcrumb"
+            class=" d-none d-md-inline-block ml-md-4"
+          >
+            <ol class=" breadcrumb breadcrumb-links breadcrumb-dark" >
+              <li class=" breadcrumb-item">
+                <a href="javascript:void(0)" class="text-gray"> <i class=" fas fa-home" routerLink="/search/quick-search"> </i> </a>
+              </li>
+              <li class=" breadcrumb-item">
+                <a href="javascript:void(0)" class="text-gray"> Report </a>
+              </li>
+              <li aria-current="page" class=" breadcrumb-item active text-dark">
+                Document Status Report
+              </li>
+            </ol>
+          </nav>
+
+
+        </div> 
+      </div>
+    </div>
+  </div>
+</div>
+<div class=" container-fluid mt--6">
+  <div class=" row">
+    <div class=" col">
+      <form [formGroup]="TagReportForm">
+      <div class=" card">
+        <div class="card-header">
+          <div class=" row">
+            <!-- <div class=" col-md-3">
+              <div class=" form-group">
+                <label  for="TemplateID" class=" form-control-label">  Select Template </label>      
+                <select name="TemplateID" id="TemplateID" class="form-control" formControlName="TemplateID">
+                  <option value=0>Select Template</option>   
+                  <option *ngFor="let _Temp of TemplateList" [value]="_Temp.TemplateID"  >  
+                  {{_Temp.TemplateName}}  
+                  </option>   
+                  </select>
+              </div>
+            </div>  -->
+            <div class=" col-md-3">
+            <div class=" form-group">
+              <label  for="TagID" class=" form-control-label">Document Status </label>      
+              <select name="TagID" id="TagID" class="form-control" formControlName="TagID" >
+                <option value=0>ALL</option>  
+                <option value=1>Document Available</option>  
+                <option value=2>Document Missing</option> 
+                </select>
+            </div>
+          </div> 
+            
+            
+            <div class=" col-md-3"  style="padding-top: 32px">  
+              <button class="btn success" tooltip="Search"  [disabled]="!isValid()"  (click)="onSearch()">
+                <i class="fa fa-search fa-lg"></i> 
+                </button>
+              <button type="button" class="btn success" tooltip="Download" [disabled]="!isValid()" (click)="onDownload()">
+                <i class="fa fa-download fa-lg"></i></button>
+              <!-- <button class="btn" [disabled]="!isValid()" style="background-color: #F2A123;border: none;color: #fff;opacity: 1;" (click)="onDownload()"> Download</button>        -->
+          </div> 
+          
+          
+          </div>
+        </div>
+
+        <div class="dataTables_wrapper">
+             
+          <p-table [paginator]="true" [rows]="10" [value]="formattedData" [autoLayout]="true" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50,100]" [(first)]="first" (onPage)="paginate($event)" [loading]="loading" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+            <ng-template pTemplate="caption">
+                
+                <input type="text" pInputText size="50" placeholder="Search records" (input)="searchTable($event)" class="global-search">
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                   
+                    <th *ngFor="let col of headerList; let i = index;"  [ngStyle]="i==0 && {'width': '5%'}">
+                        {{col.header}}
+                        <p-sortIcon *ngIf="i==10" [field]="col.field"></p-sortIcon>
+                    </th>
+                    <!-- <th style="width: 10%;">
+                      ACTION
+                    </th> -->
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-car let-rowIndex="rowIndex">
+                <tr>
+                   
+                    <td *ngFor="let col of headerList">
+                      {{car[col.field]}}
+                    </td>
+               
+                </tr>
+            </ng-template>
+        </p-table>
+                         
+
+        </div>
+        <!-- <div class="dataTables_wrapper py-4">
+          <div class="row">
+            <div class="col-sm-12 col-md-6">
+              <div class="dataTables_length" id="datatable_length">
+                <label>
+                  Show
+                  <select
+                    name="datatable_length"
+                    aria-controls="datatable"
+                    class="form-control form-control-sm"
+                    (change)="entriesChange($event)"
+                  >
+                    <option value="10" [selected]="entries == 10">10</option>
+                    <option value="25" [selected]="entries == 25">25</option>
+                    <option value="50" [selected]="entries == 50">50</option>
+                    <option value="-1" [selected]="entries == -1">All</option>
+                  </select>
+                  entries
+                </label>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-6">
+              <div id="datatable_filter" class="dataTables_filter">
+                <label>
+                  <input
+                    type="search"
+                    class="form-control form-control-sm"
+                    placeholder="Search records"
+                    aria-controls="datatable"
+                    (keyup)="filterTable($event)"
+                  />
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <ngx-datatable
+            class="material"
+            [columnMode]="'force'"
+            [headerHeight]="50"
+            [footerHeight]="50"
+            [rowHeight]="'auto'"
+            [limit]="entries != -1 ? entries : undefined"
+            [rows]="_FilteredList"
+            (activate)="onActivate($event)"
+          >
+            <ngx-datatable-column name="SrNo">
+              <ng-template let-rowIndex="rowIndex" ngx-datatable-cell-template>{{rowIndex+1}}</ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="FileNo">
+              <ng-template let-row="row" ngx-datatable-cell-template>{{row.FileNo}}</ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Document Type">
+              <ng-template let-row="row" ngx-datatable-cell-template>{{row.TagName}}</ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Status">
+            <ng-template let-row="row" ngx-datatable-cell-template>{{row.Status}}</ng-template>
+          </ngx-datatable-column>
+          
+            <ngx-datatable-column name="PageCOunt">
+            <ng-template let-row="row" ngx-datatable-cell-template>{{row.PageCount}}</ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
+
+        </div> -->
+      </div>
+    </form>
+
+    </div>
+  </div>
+</div>
+<p-toast position="top-left" [showTransformOptions]="'translateY(100%)'" 
+                    [showTransitionOptions]="'1000ms'" 
+                    [hideTransitionOptions]="'1000ms'" 
+                    [showTransformOptions]="'translateX(100%)'"></p-toast>

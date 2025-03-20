@@ -1,0 +1,148 @@
+<div class=" header pb-6">
+  <div class=" container-fluid">
+    <div class=" header-body">
+      <div class=" row align-items-center py-4">
+        <div class=" col-lg-6 col-7">
+          
+          <nav
+            aria-label="breadcrumb"
+            class=" d-none d-md-inline-block ml-md-4"
+          >
+            <ol class=" breadcrumb breadcrumb-links breadcrumb-dark" >
+              <li class=" breadcrumb-item">
+          
+                <a href="javascript:void(0)" class="text-gray"> <i class=" fas fa-home" routerLink="/search/quick-search"> </i> </a>
+              </li>
+
+              <li class=" breadcrumb-item">
+                <a href="javascript:void(0)" class="text-gray"> Upload </a>
+              </li>
+
+              <li aria-current="page" class=" breadcrumb-item active text-dark">
+                Data Upload
+              </li>
+            </ol>
+          </nav>
+
+        </div>
+
+      
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class=" container-fluid mt--6">
+  <div class=" row">
+    <div class=" col">
+      <form [formGroup]="DataUploadForm">
+      <div class=" card">     
+        <div class="card-header">
+          <div class="row">
+            
+            <div class="col-md-2">
+              <select name="TemplateID" id="TemplateID" class="form-control" formControlName="TemplateID"
+                (change)="geTemplateNameListByTempID($event.target.value)">
+                <option value=0>Select Template</option>
+                <option *ngFor="let _Temp of TemplateList" [value]="_Temp.TemplateID">
+                  {{_Temp.TemplateName}}
+                </option>
+              </select>
+            </div>
+            
+            <div class="col-md-3">
+              <div class="custom-file" style="width:100%;border: 0.5px solid #000; height: 48px; border-radius: 5px;">
+                <input type="file" name="csvReader" id="csvReader" (change)="uploadListener($event)" accept=".csv" />                
+                <label
+                  class=" custom-file-label"
+                  for="csvReader"
+                >
+                <span class="selected-file-name"></span>    
+                </label>
+              </div>
+            </div> 
+            
+            <div class="col-md-6" style="margin-top: 4px;">
+              <button type="button" class="btn success" tooltip="Upload CSV" (click)="onSubmit()" [disabled]="hasDataError()">
+                <i class="fa fa-upload fa-lg"></i>
+              </button>
+              
+              <button type="button" class="btn success" tooltip="Download CSV" (click)="downloadFile()">
+                <i class="fa fa-download fa-lg"></i> 
+              </button>
+              
+              <button type="button" class="btn success" tooltip="Pending Files" (click)="DownloadPendingFiles()">
+                <i class="fa fa-clock fa-lg"></i> 
+              </button>
+            </div>
+            
+
+
+          </div>  
+        </div>
+        <div class="dataTables_wrapper">
+          <div class="row" style="margin-top: 10px;">
+            <div class="col-sm-12 col-md-6">
+              <div class="dataTables_length" id="datatable_length">
+                <label>
+                  Show
+                  <select
+                    name="datatable_length"
+                    aria-controls="datatable"
+                    class="form-control form-control-sm"
+                    (change)="entriesChange($event)"
+                  >
+                    <option value="10" [selected]="entries == 10">10</option>
+                    <option value="25" [selected]="entries == 25">25</option>
+                    <option value="50" [selected]="entries == 50">50</option>
+                    <option value="-1" [selected]="entries == -1">All</option>
+                  </select>
+                  entries
+                </label>
+              </div>
+            </div>
+
+            <div class="col-sm-12 col-md-6">
+              <div id="datatable_filter" class="dataTables_filter">
+                <label>
+                  <input pInputText
+                    type="search"
+                    class="global-search"
+                    placeholder="Search records"
+                    aria-controls="datatable"
+                    (keyup)="filterTable($event)"
+                  />
+                </label>
+              </div>
+            </div>
+          </div>
+          <ngx-datatable
+            class="material"
+            [columnMode]="'force'"
+            [headerHeight]="50"
+            [footerHeight]="50"
+            [rowHeight]="'auto'"
+            [limit]="entries != -1 ? entries : undefined"
+            [rows]="_FilteredList"
+            (activate)="onActivate($event)"
+          >
+            <ngx-datatable-column name="SrNo">
+              <ng-template let-rowIndex="rowIndex" ngx-datatable-cell-template>{{rowIndex+1}}</ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column [name]="ColName.DisplayName" *ngFor="let ColName of _ColNameList, let j = index" [cellClass]="getCellClass">
+              <ng-template let-row="row" let-rowIndex="i" ngx-datatable-cell-template>{{row[j]}}
+                <span #tooltipRef style="color: #fff; display: none;" class="tooltip-span fas fa-info-circle" [title]="getTooltipDate(tooltipRef,i,j)"></span>
+              </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
+        </div>
+        
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+<p-toast position="top-left" [showTransformOptions]="'translateY(100%)'" 
+[showTransitionOptions]="'1000ms'" 
+[hideTransitionOptions]="'1000ms'" 
+[showTransformOptions]="'translateX(100%)'"></p-toast>

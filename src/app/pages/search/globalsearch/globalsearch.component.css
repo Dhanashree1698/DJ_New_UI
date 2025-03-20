@@ -1,0 +1,345 @@
+.FileStorageMainContainer .card .row {
+  margin: 0px;
+}
+.FileStorageMainContainer .card  {
+  width: 100%;
+}
+
+.document{
+    padding-left: 300px;
+    padding-right: 20px;
+    width: 100%;
+    float: left;
+    padding-top: 30px;
+}
+.document .mat-card{
+    width: 100%;
+    float: left;
+}
+.document h4{
+    font-size: 18px;
+}
+.head_section{
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+/* modal popup css */
+.add_document h4{
+    text-transform: uppercase;
+    color: rgba(13,27,62,0.7);
+    font-weight: bold;
+    font-size: .88rem;
+}
+.modal-dialog {
+    max-width: 530px !important;
+}
+.modal-dialog {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    box-shadow: none;
+}
+
+/* new css */
+
+.maincontainer{
+  padding: 0px ;
+}
+
+.filestoragediv{
+    padding: 0px;
+    width: 21%;
+}
+.foldercontainer, .file, .noitems
+{
+    display: block;
+    padding: 3px 3px 3px 10px;
+}
+.tabdiv{
+    padding: 0px;
+    width: 78%;
+}
+.folder, .file
+{
+    cursor: pointer;
+}
+.folder:before, .file:before
+{
+    padding-right: 10px;
+}
+
+/* 
+new css */
+
+
+.tabset > input[type="radio"] {
+  position: absolute;
+  left: -200vw;
+}
+
+.tabset .tab-panel {
+  display: none;
+}
+
+.tabset > input:first-child:checked ~ .tab-panels > .tab-panel:first-child,
+.tabset > input:nth-child(3):checked ~ .tab-panels > .tab-panel:nth-child(2),
+.tabset > input:nth-child(5):checked ~ .tab-panels > .tab-panel:nth-child(3),
+.tabset > input:nth-child(7):checked ~ .tab-panels > .tab-panel:nth-child(4),
+.tabset > input:nth-child(9):checked ~ .tab-panels > .tab-panel:nth-child(5),
+.tabset > input:nth-child(11):checked ~ .tab-panels > .tab-panel:nth-child(6) {
+  display: block;
+}
+
+
+.tabset > label {
+  position: relative;
+  display: inline-block;
+  padding: 10px 15px 25px;
+  border: 1px solid transparent;
+  border-bottom: 0;
+  cursor: pointer;
+  font-weight: 600;
+  margin: 0px;
+}
+
+#branch:hover{
+  background:linear-gradient(40deg, #FFD86F, #FC6262);
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+}
+
+
+.tabset > label:hover,
+.tabset > input:focus + label {
+  color: #06c;
+}
+
+.tabset > label:hover::after,
+.tabset > input:focus + label::after,
+.tabset > input:checked + label::after {
+  background: #06c;
+}
+
+.tabset > input:checked + label {
+  border-color: #ccc;
+  border-bottom: 1px solid #fff;
+  margin-bottom: -1px;
+  background: #f1eaea7a;
+  border-radius: 2px;
+}
+
+.tab-panel {
+ 
+  border-top: 1px solid #ccc;
+  border-top: 1px solid #ccc;
+}
+.tab-panels {
+  background: #f1eaea7a;
+  border-left: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+}
+.tabset {
+  /*max-width: 65em;*/
+
+  padding-right: 10px;
+}
+.tab-panel .dataTables_wrapper {
+  padding: 0px!important;
+}
+
+
+/* .menu {
+  visibility: hidden;
+} */
+
+/* button + .menu:active,
+button:focus + .menu {
+  visibility: visible;
+} */
+
+label:focus {
+  outline: none;
+}
+.tab-panels .dataTables_wrapper .datatable-footer-inner {
+  background: #80808061 !important;
+}
+
+.btn-icon-only {
+  width: 1.375rem;
+  height: 1.375rem;
+} 
+/* Icon*/
+#actionIcon{
+top:-2px;
+}
+.card-header {
+  padding: .25rem 1.25rem;
+  margin-bottom: 0;
+  background-color:#e9edf3 ;
+ 
+}
+
+
+.table th, .table td{
+  padding: .35rem;
+}
+
+
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+  color: #fff;
+  background:linear-gradient(40deg, #FFD86F, #FC6262);
+}
+
+.btn-icon {
+  margin-right: 6px !important;
+}
+
+.download-btn {
+  position: absolute;
+  top: 29px;
+  z-index: 10;
+  line-height: 14px;
+  left: 32px;
+  background: #007ad9;
+}
+.btn-inner--icon i:not(.fas):not(.fab) {
+  position: relative;
+  right: 1.5px;
+  bottom: 1px;
+  top: 0;
+}
+.divider {
+  margin: 1rem .5rem .4rem;
+  background-color: blue;
+  font-weight: bold;
+  height: 2px;
+}
+.tagging-download-btn {
+  position: absolute;
+  z-index: 10;
+  line-height: 8px;
+  right: 8px;
+  background: #007ad9;
+}
+
+.filestoragediv .card-body {
+  padding: 1.5rem .5rem;
+}
+
+.table {
+  font-weight: 700;
+ font-family: arial, sans-serif;
+ border-collapse: collapse;
+ width: 100%;
+}
+
+td, th {
+ border: 1px solid #dddddd;
+ text-align: left;
+ padding: 8px;
+}
+
+.sec1 {
+ margin: 0;
+ position: absolute;
+ right: 0;
+ -ms-transform: translate(-50%, -50%);
+ transform: translate(-50%, -50%);
+}
+
+::ng-deep .FileStorageMainContainer .ui-widget {
+  font-size: 12px;
+}
+
+.actionIcon::before {
+  font-size: 20px;
+}
+
+/* .no-doc {
+/* background: #f78d8d; */
+  /* color: #fff; */
+
+ 
+
+.metadata-table th {
+  padding: 4px;
+}
+
+.metadata-table tbody tr:hover {
+  background: #f78d8d;
+  color: #fff;
+}
+
+::ng-deep #fileStorageDocView td {
+  font-size: 11px;
+  border:none;
+  /* padding: 2px; */
+  /* word-break: break-word;
+  white-space: pre-wrap; */
+}
+
+::ng-deep #fileStorageDocView .card {
+  margin: 0;
+}
+
+::ng-deep #fileStorageDocView .zoom {
+  height: 725px !important;
+}
+
+.global-search {
+  width: 600px;
+  border: none;
+  padding: 8px;
+}
+.b_cl{
+  background: #006ba1;
+  color: white;
+}
+.cl{
+  background: #006ba1!important;
+  color: #fff!important;
+  border: none!important;
+}
+/* .bg-mat-menu.ng-tns-c627-1 {
+  background: #88b0c3;
+} */
+.mat-menu-item:hover:not([disabled]), .mat-menu-item.cdk-program-focused:not([disabled]), .mat-menu-item.cdk-keyboard-focused:not([disabled]), .mat-menu-item-highlighted:not([disabled]) {
+  background: #88b0c3!important;
+}
+.btn-aln{
+  text-align: right;
+}
+.tl {
+  top: 6px !important;
+  bottom: 0px !important;
+  z-index: 99999 !important;
+  position: absolute !important;
+  left: 9px !important;
+}
+.btn-aln{
+  text-align: right;
+}
+button.btn.btn-cl {
+  background: #76dfb2;
+  color: #fff;
+}
+.pd-al{
+  padding: 9px 33px !important;
+}
+.ic_s{
+  font-size: 19px !important;
+}
+
+
+.main {
+  width: 50%;
+  margin: 50px auto;
+}
+.FileStorageMainContainer  .ui-widget, .ui-widget * {
+  box-sizing: border-box;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

@@ -1,0 +1,141 @@
+<div class=" header  pb-6">
+  <div class=" container-fluid">
+    <div class=" header-body">
+      <div class=" row align-items-center py-4">
+        <div class=" col-lg-6 col-7">
+       
+          
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class=" container-fluid mt--6">
+  <div class=" row">
+    <div class="col-md-12">
+      <div class="card">
+      
+        <div class="card-body">
+        
+          <form class="needs-validation" novalidate=""  [formGroup]="AddRoleForm">
+            
+            <div class="row">
+              <div class="col-md-5 mb-3">
+                <div class="form-group">
+                  <label class="form-control-label" for="roleName">Role Name</label>
+                  <input type="text" class="form-control" id="roleName" formControlName="roleName" placeholder="Role Name" required />
+                </div>
+              </div>
+              <div class="col-md-5 mb-3">
+                <div class="form-group">
+                  <label class="form-control-label" for="remarks">Remarks</label>
+                  <input type="text" class="form-control" id="remarks" formControlName="remarks" placeholder="Remark" required />
+                </div>
+              </div>
+              <div class="col-md-2 mb-3">
+                <div class="form-group">
+                  <div class="col-lg-12 text-right">
+                    <button  type="button" class="btn success" tooltip="Back" (click)="OnBack()">
+                      <i class="fa fa-arrow-left fa-lg"></i> 
+                    </button>
+                  </div>
+                  
+              </div>
+              </div>
+            </div>
+         
+            
+            <div class="row">
+              <div class="col-md-6 mb-3">
+
+                <div style="border-top: 2px solid rgb(131, 131, 241);"  class="card card-pricing bg-secondary">
+                  <div class="card-body">
+                    <div class="form-group">
+                      <label class="form-control-label" for="remarks">Pages</label>
+                    
+                      <div class="col-sm-10">
+                        <button class="btn successbtn" style="color: #000 !important;"><input type="checkbox" formControlName="SelectAll"  (change)="OnSelectAll()" [value]=""> Select All</button>
+      
+                       
+      
+                        <ul style="list-style: none;" formArrayName="Roles">
+                            <li *ngFor="let role of roles.controls,let i=index" >
+                                <ng-container [formGroupName]="i">
+                                    <input  type="checkbox" formControlName="isChecked" [value]="role.get('isChecked').value" (click)="onCheckParent(role)"><span> {{role.get('page_name').value}}</span>  
+                                    <ul style="list-style: none;" formArrayName="subItems">
+                                        <li *ngFor="let subRole of role.get('subItems').controls,let j=index">
+                                            <ng-container [formGroupName]="j">
+                                                <input type="checkbox" formControlName="isChecked" [value]="subRole.get('isChecked').value" (click)="onCheckChild(role)"><span > {{subRole.get('page_name').value}}  </span>  
+                                            </ng-container>       
+                                        </li>
+                                    </ul>
+                                </ng-container>
+                            </li>
+                        </ul>
+      
+                    </div>
+                    </div> 
+                  </div>
+                </div>
+              </div>
+  
+              <div  class="col-md-6 mb-3">
+                <div style="border-top: 2px solid rgb(131, 131, 241);" class="card card-pricing bg-secondary">
+                  <div class="card-body">
+                    <div class="form-group">
+                      <label class="form-control-label " for="remarks">Right</label>
+                  
+                      <div class="col-sm-10">
+                        <button class="btn successbtn" style="color: #000 !important;">
+                          <input type="checkbox" formControlName="SelectAllRights"  (change)="OnSelectRightAll()" [value]=""> Select All
+                        </button>                  
+                        <ul  style="list-style: none;" formArrayName="_PageRight">
+                            <li *ngFor="let right of _PageRight.controls,let i=index" >
+                                <ng-container [formGroupName]="i">
+                                    <input type="checkbox" formControlName="isChecked" [value]="right.get('isChecked').value"><span > {{right.get('page_right').value}}</span>                             
+                                </ng-container>
+      
+                            </li>
+                        </ul>
+      
+                    </div>
+                    </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+              <div> 
+                
+                <!-- Button Container -->
+<div class="text-right">
+  <!-- Submit Button -->
+  <button type="button" class="btn successbtn p-2" (click)="onSubmit()" >
+     Submit
+  </button>
+
+  <!-- Close Button -->
+  <!-- <button type="button" class="btn dangerbtn p-2" (click)="OnBack()">
+    <i class="fa fa-times"></i> Close
+  </button> -->
+</div>
+
+                
+                <!-- <button class=" btn submit_btn" (click)="onSubmit()">Submit</button>
+                <button class=" btn close_btn"  (click)="OnBack()">Close</button> -->
+            </div> 
+  
+          </form>
+        </div>
+      
+  
+      </div>
+    </div>
+
+  </div>
+</div>
+<p-toast position="top-left" [showTransformOptions]="'translateY(100%)'" 
+                    [showTransitionOptions]="'1000ms'" 
+                    [hideTransitionOptions]="'1000ms'" 
+                    [showTransformOptions]="'translateX(100%)'"></p-toast>

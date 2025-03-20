@@ -1,0 +1,20 @@
+.chart{
+    height: 450px;
+}
+.card{
+    padding: 10px;
+}
+.card h3{
+    text-align: center;
+}
+::ng-deep .modal-dialog {
+        max-width: 1000px !important;
+        margin: 1.75rem auto;
+    }
+
+.dropdown-toggle{
+    float: right;
+    border: none;
+    margin-top: 0px;
+    padding: 5px 15px;
+}

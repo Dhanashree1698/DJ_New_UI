@@ -1,0 +1,114 @@
+<div class=" header pb-6">
+  <div class=" container-fluid">
+    <div class=" header-body">
+      <div class=" row align-items-center py-4">
+        <div class=" col-lg-6 col-7">
+       
+          <nav
+            aria-label="breadcrumb"
+            class=" d-none d-md-inline-block ml-md-4"
+          >
+            <ol class=" breadcrumb breadcrumb-links breadcrumb-dark" >
+              <li class=" breadcrumb-item">
+                <a href="javascript:void(0)" class="text-gray"> <i class=" fas fa-home" routerLink="/search/quick-search"> </i> </a>
+              </li>
+
+              <li class=" breadcrumb-item">
+                <a href="javascript:void(0)" class="text-gray"> Bulk Folder </a>
+              </li>
+
+              <li aria-current="page" class=" breadcrumb-item active text-dark">
+                Upload Bulk Folder
+              </li>
+            </ol>
+          </nav> 
+
+        </div>
+
+      
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class=" container-fluid mt--6">
+  <div class=" row">
+    <div class=" col">
+      <form [formGroup]="DataUploadForm">
+      <div class=" card">     
+        <div class="card-header">
+          <div class="row">
+            
+          
+            <div class="col-sm-8 row">
+            <div class="col-sm-6">
+              <div class="custom-file" style="width:100%;border: 0.5px solid #000; height: 48px; border-radius: 5px;">
+                <input type="file" name="csvReader" id="csvReader" (change)="uploadListener($event)" accept=".csv,.xls,.xlsx" />                
+                <label
+                  class=" custom-file-label"
+                  for="csvReader"
+                >
+                <span class="selected-file-name"></span>    
+                </label>
+              </div>
+            </div>
+            <div class="col-sm-4" style="margin-top: 5px;">
+              <button type="button" class="btn success" tooltip="Upload CSV" (click)="onSubmit()">
+                <i class="fa fa-upload fa-lg"></i>
+              </button>
+              <button type="button" class="btn success" tooltip="Download CSV"  (click)="downloadFile()">
+                <i class="fa fa-download fa-lg"></i>
+              </button>
+            </div>
+            
+          </div>
+            <div class="col-sm-4">
+              <div class=" d-flex justify-content-end">
+              <button type="button" tooltip="Back " class="btn success" (click)="back()">
+                <i class="fas fa-arrow-left fa-2x"></i>
+                 </button></div>
+            </div>
+          </div>  
+        </div>
+        
+                    
+          <div class="dataTables_wrapper">
+             
+            <p-table [paginator]="true" [rows]="10" [value]="formattedData" [autoLayout]="true" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50,100]" [(first)]="first" (onPage)="paginate($event)" [loading]="loading" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+              <ng-template pTemplate="caption">
+                  
+                  <input type="text" pInputText size="50" placeholder="Search records" (input)="searchTable($event)" class="global-search">
+              </ng-template>
+              <ng-template pTemplate="header">
+                  <tr>
+                     
+                      <th *ngFor="let col of headerList; let i = index;"  [ngStyle]="i==0 && {'width': '5%'}">
+                          {{col.header}}
+                          <p-sortIcon *ngIf="i==10" [field]="col.field"></p-sortIcon>
+                      </th>
+                  </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-car let-rowIndex="rowIndex">
+                  <tr>
+                     
+                      <td *ngFor="let col of headerList">
+                        {{car[col.field]}}
+                      </td>
+                  
+                  </tr>
+              </ng-template>
+          </p-table>
+                           
+  
+          </div>
+        
+        
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+<p-toast position="top-left" [showTransformOptions]="'translateY(100%)'" 
+[showTransitionOptions]="'1000ms'" 
+[hideTransitionOptions]="'1000ms'" 
+[showTransformOptions]="'translateX(100%)'"></p-toast>

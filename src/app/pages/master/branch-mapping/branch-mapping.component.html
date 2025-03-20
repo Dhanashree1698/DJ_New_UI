@@ -1,0 +1,224 @@
+<div class=" header pt-12 pb-6">
+  <div class=" container-fluid pt-3">
+    <div class=" header-body">
+      <div class=" row align-items-center pb-4">
+        <div class=" col-lg-6 col-7">
+          <!-- <h6 class=" h2 text-white d-inline-block mb-0">Folder-Mapping</h6> -->
+
+          <nav
+            aria-label="breadcrumb"
+            class=" d-none d-md-inline-block ml-md-4"
+          >
+            <ol class=" breadcrumb breadcrumb-links breadcrumb-dark" >
+              <li class=" breadcrumb-item">
+                <a href="javascript:void(0)" class="text-gray"> <i class=" fas fa-home" routerLink="/search/quick-search"> </i></a>
+              </li>
+
+              <li class=" breadcrumb-item">
+                <a href="javascript:void(0)" class="text-gray"> Master </a>
+              </li>
+
+              <li aria-current="page" class=" breadcrumb-item text-dark">
+                Folder-Mapping
+              </li>
+            </ol>
+          </nav>
+        </div>
+
+        <!-- <div class=" col-lg-6 col-5 text-right">
+          <a class=" btn btn-sm btn-neutral" (click)="addBranchMapping(BranchMappingFormPopup)">Add Folder Mapping</a>
+        </div> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class=" container-fluid mt--6">
+  <div class=" row">
+    <div class=" col">
+      <div class=" card">
+        <div class=" card-header">
+         
+          <div class="row">
+            <div class="col">
+              <h3 class=" mb-0">All Folder Mappings</h3>
+          <p class=" text-sm mb-0"></p>
+            </div>
+            <div class="col text-right">
+              <button type="button" class="btn btn-primary" (click)="addBranchMapping(BranchMappingFormPopup)" style="margin-left: 5px;">
+                <i class="fa fa-plus"></i> Folder Mapping
+              </button>
+              <button type="button" class="btn btn-primary" (click)="onDownloadExcelFile('Folder Mapping List')">
+                <i class="fa fa-download"></i> Download
+              </button>
+            </div>
+            
+          </div>
+        </div>
+
+    <div class="dataTables_wrapper checklist-table w-100">
+             
+          <p-table [paginator]="true" [rows]="10" [value]="formattedData" [autoLayout]="true" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50,100]" [(first)]="first" (onPage)="paginate($event)" [loading]="loading" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+            <ng-template pTemplate="caption">
+                
+                <input type="text" pInputText size="50" placeholder="Search records" (input)="searchTable($event)" class="global-search">
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                   
+                    <th *ngFor="let col of headerList; let i = index;"  [ngStyle]="i==0 && {'width': '5%'}">
+                        {{col.header}}
+                        <p-sortIcon *ngIf="i==10" [field]="col.field"></p-sortIcon>
+                    </th>
+                    <th style="width: 5%;">
+                      ACTION
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-car let-rowIndex="rowIndex">
+                <tr>
+                   
+                    <td *ngFor="let col of headerList">
+                      {{car[col.field]}}
+                    </td>
+                      <td>
+                        <button  type="button" style="
+                        padding: 0 0 6px 4px;
+                       color: #007ad9;
+                       box-shadow: 0px 0px 3px 0px #007ad9;
+                        width: 28px;
+                       height: 28px;" class="btn btn-icon btn-secondary btn-icon-only rounded-circle"
+                        (click)="editBranchMapping(BranchMappingFormPopup,car)">
+                        <span class="btn-inner--icon"><i class="fa fa-pen" style="
+                        color: #007ad9;
+                        margin-right: 3px;
+                         margin-top: 0.32rem;
+                         size: -2px;
+                         font-size: 13px;"></i></span>
+                      </button>
+                        <button type="button" style="padding:0 0 5px 4px" class="btn btn-icon btn-icon-only" >
+                          <span class="btn-inner--icon"><i class="fa fa-pen"></i></span>
+                        </button>
+                        <!-- <button type="button" style="padding:0 0 5px 1px" class="btn btn-icon btn-icon-only" (click)="deleteBranch(car)">
+                          <span class="btn-inner--icon"><img src="assets/img/icons/delete.svg"></span>
+                        </button> -->
+                      </td> 
+                </tr>
+            </ng-template>
+        </p-table>
+                         
+
+        </div>
+
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #BranchMappingFormPopup let-c="close" let-d="dismiss" let-modal>
+  <div class="modal-content">
+    <div class="modal-body p-0">
+      <div class=" card">
+        <div class=" card-header"><h3 class=" mb-0">Add Folder Mapping</h3></div>
+
+        <div class="card-body">
+          <form class="needs-validation" novalidate="" [formGroup]="AddBranchMappingForm" (ngSubmit)="onSubmit()">
+            <div class="form-row">
+
+              <div class="col-md-12 mb-3">    
+                <!-- <label class="form-control-label" for="TemplateID">Customer :</label>   -->
+                <select name="DeptID"  class="form-control form-control-sm" formControlName="DeptID" (change)="GetBranchByDepartment($event.target.value)"  >
+                  <option value=0>Select Cabinet</option>   
+                  <option *ngFor="let _Department of _DepartmentList" [value]="_Department.id"  >  
+                  {{_Department.DepartmentName}}  
+                  </option>
+                </select>
+              </div> 
+              
+
+              <div class="col-md-12 mb-3">
+                <!-- <label class="form-control-label" for="UserID">
+                  User
+                </label> -->
+                <select class="form-control form-control-sm" formControlName="UserID" data-toggle="select" id="UserID"
+                (change)="GetBranchByDepartment($event.target.value)">
+                  <option value=0> Select User</option>
+                  <option *ngFor="let _User of _UserL" [value]="_User.id"  >
+                    {{_User.userid}}
+                    </option>
+                </select>
+                <div class="valid-feedback">Looks good!</div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="col-md-12 mb-3">
+                <ul class=" list-group list-group-flush" data-toggle="checklist" >
+                  <li class=" checklist-entry list-group-item flex-column align-items-start py-4 px-4"
+                  >
+                  <div class=" checklist-item checklist-item-success">
+                    <div
+                      class=" custom-control custom-checkbox custom-checkbox-success"
+                    >
+                      <input
+                        class=" custom-control-input"
+                        type="checkbox"
+                        id="_checkAllID"
+                        (change)="master_change()"
+                        formControlName="selectAll"
+                        [value]="AddBranchMappingForm.get('selectAll').value"
+                      />
+                      <label class=" custom-control-label" for="_checkAllID">
+                        <div class=" checklist-info">
+                          <h3 class=" checklist-title mb-0">{{AddBranchMappingForm.get('selectAll').value?'Unselect ':'Select '}}All</h3>
+                        </div>
+                      </label>
+                    </div>
+
+                </div>
+                  </li>
+                  <ng-container formArrayName="checklist"> 
+                    <li *ngFor="let listItem of checklistArray.controls,let i=index"
+                    class=" checklist-entry list-group-item flex-column align-items-start py-4 px-4"
+                  >
+                    <div class=" checklist-item checklist-item-success" >
+                        <div
+                          class=" custom-control custom-checkbox custom-checkbox-success"
+                          [formGroupName]="i">
+                          <input
+                            formControlName="ischecked"
+                            [value]="listItem.get('ischecked').value"
+                            class=" custom-control-input"
+                            type="checkbox"
+                            [id]="i"
+                          />
+                          <label class=" custom-control-label" [for]="i">
+                            <div class=" checklist-info">
+                              <h3 class=" checklist-title mb-0">{{listItem.get('BranchName').value}}</h3>
+                            </div>
+                          </label>
+                        </div>
+
+                    </div>
+                  </li>
+                     </ng-container>
+                  
+                </ul>
+              </div>
+            </div>
+            <button type="button" class="btn btn-primary p-2" type="submit">
+              Submit
+            </button>
+            <button type="button" class="btn btn-primary p-2" (click)="OnReset()">Close</button>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<p-toast position="top-left" [showTransformOptions]="'translateY(100%)'" 
+                    [showTransitionOptions]="'1000ms'" 
+                    [hideTransitionOptions]="'1000ms'" 
+                    [showTransformOptions]="'translateX(100%)'"></p-toast>

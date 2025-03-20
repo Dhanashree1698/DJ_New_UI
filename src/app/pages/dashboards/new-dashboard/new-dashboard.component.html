@@ -1,0 +1,166 @@
+<div class="dashboard pt-8">
+    <div class="container-fluid">
+        <div class="dashboard_header">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="dash_heading">
+                        <h2>Port Operation Dashboard</h2>
+                        <!-- <p>Table</p> -->
+                    </div>
+                </div>
+                <div class="col-md-7">
+                    <div class="dash_form">
+                        <form [formGroup]="dashboardForm">
+                            <div class="row">
+                                <label for="" class="col-sm-1 col-form-label  mt-4 pt-1">Period</label>
+                                <div class=" col-md-5">
+                                    <div class=" form-group">
+                                      <label class=" form-control-label" for="DATE_FROM">
+                                        From Date
+                                      </label>
+                                      <input
+                                        type="text"
+                                        placeholder="Datepicker"
+                                        class="form-control"
+                                        bsDatepicker
+                                        [bsValue]="bsValue" formControlName="DATE_FROM"
+                                        [bsConfig]="{
+                                          isAnimated: true,
+                                          containerClass: 'theme-red'
+                                        }"
+                                        [maxDate]="maxDate"
+                                      />
+                                    </div>
+                                  </div>
+                                  <div class=" col-md-5">
+                                    <div class=" form-group">
+                                      <label class=" form-control-label"  for="DATETO">  To Date </label>                   
+                                      <input type="text" placeholder="Datepicker" class="form-control"  bsDatepicker [bsValue]="bsValue"
+                                        [bsConfig]="{
+                                          isAnimated: true,
+                                          containerClass: 'theme-red'
+                                        }"
+                                        [maxDate]="maxDate" formControlName="DATE_TO"
+                                      />
+                                    </div>
+                                  </div> 
+                                  <div class="col-md-1 mt-4 pt-1">
+                                    <button class="btn" style="background: #005984;border: none;color: #fff;opacity: 1;" (click)="onSearch()"> Search</button>
+                                  </div>
+                              </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <h3>Port Names v/s  Count of Vessels</h3>
+                    <div class="chart" id="PotNameChart"></div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="card">
+                    <h3>Product Name v/s Product Quantity</h3>
+                    <div class="chart" id="ProductNameChart"></div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="card">
+                    <h3>Product Quantity v/s Count of Vessels</h3>
+                    <div class="chart" id="productQuantityAndVessels"></div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="card" >
+                    <h3>Product Names v/s Suppliers Quantity</h3>
+                    <div class="dropdown">
+                        <button class="dropdown-toggle" type="button" data-toggle="dropdown">
+                          Product Name
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a (click)="SuplierPopup(ImageViewFormPopup,'AA')">AA</a></li>
+                            <li><a (click)="SuplierPopup(ImageViewFormPopup,'WSOP')">WSOP</a></li>
+                            <li><a (click)="SuplierPopup(ImageViewFormPopup,'AS')">AS</a></li>
+                            <li><a (click)="SuplierPopup(ImageViewFormPopup,'DAP')">DAP</a></li>
+                            <li><a (click)="SuplierPopup(ImageViewFormPopup,'CN')">CN</a></li>
+                            <li><a (click)="SuplierPopup(ImageViewFormPopup,'SOP')">SOP</a></li>                          
+                            <li><a (click)="SuplierPopup(ImageViewFormPopup,'MAP')">MAP</a></li>
+                            <li><a (click)="SuplierPopup(ImageViewFormPopup,'MOP')">MOP</a></li>
+                            <li><a (click)="SuplierPopup(ImageViewFormPopup,'Crystal Melamine')">Crystal Melamine</a></li>
+                            <li><a (click)="SuplierPopup(ImageViewFormPopup,'MPP')">MPP</a></li>
+                            <li><a (click)="SuplierPopup(ImageViewFormPopup,'Urea')">Urea</a></li>
+                            <li><a (click)="SuplierPopup(ImageViewFormPopup,'RP')">RP</a></li>
+                            <li><a (click)="SuplierPopup(ImageViewFormPopup,'SODIUM OCTABORATE TETRAHYDRATE')">SODIUM OCTABORATE TETRAHYDRATE</a></li>
+                            <li><a (click)="SuplierPopup(ImageViewFormPopup,'POLY HALITE')">POLY HALITE</a></li>
+                            <li><a (click)="SuplierPopup(ImageViewFormPopup,'PMS')">PMS</a></li>
+                            <li><a (click)="SuplierPopup(ImageViewFormPopup,'NPS-20-20-0-13S')">NPS-20-20-0-13S</a></li>
+                            <li><a (click)="SuplierPopup(ImageViewFormPopup,'NPK-15-15-15')">NPK-15-15-15</a></li>
+                            <li><a (click)="SuplierPopup(ImageViewFormPopup,'NPK-15-15-15-9S')">NPK-15-15-15-9S</a></li>
+                            <li><a (click)="SuplierPopup(ImageViewFormPopup,'NPK-20-20-20 (WS)')">NPK-20-20-20 (WS)</a></li>
+                            <li><a (click)="SuplierPopup(ImageViewFormPopup,'NPS-16-20-0-13S')">NPS-16-20-0-13S</a></li>
+                            <li><a (click)="SuplierPopup(ImageViewFormPopup,'PN-13-00-45')">PN-13-00-45</a></li>
+                            <li><a (click)="SuplierPopup(ImageViewFormPopup,'NPK-10-26-26')">NPK-10-26-26</a></li>
+                            <li><a (click)="SuplierPopup(ImageViewFormPopup,'NPK-19-19-19')">NPK-19-19-19</a></li>
+                            <li><a (click)="SuplierPopup(ImageViewFormPopup,'NPK-13-0-45')">NPK-13-0-45</a></li>
+                            <li><a (click)="SuplierPopup(ImageViewFormPopup,'NPK-16-16-16')">NPK-16-16-16</a></li>
+                            <li><a (click)="SuplierPopup(ImageViewFormPopup,'NPK-12-32-16')">NPK-12-32-16</a></li>
+                        </ul>
+                    </div>
+                    <div class="chart" id="productAndSupliers" style="height: 415px;"></div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+
+<ng-template #ImageViewFormPopup let-c="close" let-d="dismiss" let-modal class="suplier">
+    <div class="modal-content" id="fileStorageDocView">
+        <div class="modal-body p-0">
+        <div class="card w-100">              
+            <div class=" card-header"><h3 class=" mb-0" >Supplier View
+            <span style="float: right;cursor: pointer;" (click)="hidepopup()" class="btn-inner--icon"><img src="assets/img/icons/delete.svg"></span>
+            </h3>
+            </div>
+            <div class="card-body">
+                <div class="dataTables_wrapper checklist-table w-100">
+             
+                    <p-table [paginator]="true" [rows]="10" [value]="formattedData" [autoLayout]="true" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50,100]" [(first)]="first" (onPage)="paginate($event)" [loading]="loading" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                      <ng-template pTemplate="caption">
+                          <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
+                          <input type="text" pInputText size="50" placeholder="Search records" (input)="searchTable($event)" class="global-search">
+                      </ng-template>
+                      <ng-template pTemplate="header">
+                          <tr>
+                             
+                              <th *ngFor="let col of headerList; let i = index;"  [ngStyle]="i==0 && {'width': '5%'}">
+                                  {{col.header}}
+                                  <p-sortIcon *ngIf="i==10" [field]="col.field"></p-sortIcon>
+                              </th>
+                          </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-car let-rowIndex="rowIndex">
+                          <tr>
+                             
+                              <td *ngFor="let col of headerList">
+                                {{car[col.field]}}
+                              </td>
+                          </tr>
+                      </ng-template>
+                  </p-table>
+                                   
+          
+                  </div>
+            <div>
+            </div>
+            <br>
+            </div>
+        </div>
+        </div>
+    </div>
+</ng-template>  

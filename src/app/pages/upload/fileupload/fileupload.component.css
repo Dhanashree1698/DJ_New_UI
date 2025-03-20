@@ -1,0 +1,30 @@
+::ng-deep .ui-fileupload-choose {
+    margin-right: 2rem !important;
+}
+
+::ng-deep p-button {
+    margin-right: 2rem !important;
+}
+.success {
+    border-color:#005984    ;
+    color: #005984;
+  }
+  
+  .success:hover {
+    background-color:#fff;;
+    color:#000;
+    border-color:#007ad9;;
+  }
+  .custom-btn {
+    padding: 10px 20px;
+    border: 2px solid #007bff;
+    background-color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .custom-btn:focus {
+    outline: none;
+    background-color: #fff;
+    color: #000;
+  }

@@ -1,0 +1,230 @@
+<div class=" header bg-danger pb-6">
+  <div class=" container-fluid">
+    <div class=" header-body">
+      <div class=" row align-items-center py-4">
+        <div class=" col-lg-6 col-7">
+          <h6 class=" h2 text-white d-inline-block mb-0">File Upload</h6>
+
+          <!-- <nav
+            aria-label="breadcrumb"
+            class=" d-none d-md-inline-block ml-md-4"
+          >
+            <ol class=" breadcrumb breadcrumb-links breadcrumb-dark">
+              <li class=" breadcrumb-item">
+                <a href="javascript:void(0)"> <i class=" fas fa-home"> </i> </a>
+              </li>
+
+              <li class=" breadcrumb-item">
+                <a href="javascript:void(0)"> Upload </a>
+              </li>
+
+              <li aria-current="page" class=" breadcrumb-item active">
+                File Upload
+              </li>
+            </ol>
+          </nav> -->
+
+        </div>
+
+      
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class=" container-fluid mt--6">
+  <div class=" row">
+    <div class=" col">
+      <form [formGroup]="FileUPloadForm">
+      <div class=" card">     
+        <div class="card-header">
+            <div class="position-relative row form-group">      
+      
+              <div class="col-sm-2">               
+                <select name="BranchID" id="BranchID" class="form-control" formControlName="BranchID" >
+                  <option value='0'>Select Branch</option>   
+                  <option *ngFor="let _Bracnch of BranchList" [value]="_Bracnch.BranchID"  >  
+                  {{_Bracnch.BranchName}}  
+                  </option>
+                </select>
+              </div>  
+<!--     
+              <div class="col-sm-2">               
+                <select name="TemplateID" id="TemplateID" class="form-control" formControlName="TemplateID" >
+                  <option value=0>Select Template</option>   
+                  <option *ngFor="let _Temp of _TemplateList" [value]="_Temp.TemplateID" (change)="geTemplateNameListByTempID()" >  
+                  {{_Temp.TemplateName}}  
+                  </option>
+                </select>
+              </div> -->
+
+              <div class="col-sm-2">
+                <select name="TemplateID" id="TemplateID" class="form-control" formControlName="TemplateID"
+                  (change)="geTemplateNameListByTempID($event.target.value)">
+                  <option value=0>Select Template</option>
+                  <option *ngFor="let _Temp of _TemplateList" [value]="_Temp.TemplateID">
+                    {{_Temp.TemplateName}}
+                  </option>
+                </select>
+              </div>
+              
+
+              <!-- <div class="col-sm-3">    
+                <label class="form-control-label" for="TemplateID">
+                  Select Template 
+                </label>
+                <select name="TemplateID" id="TemplateID" class="form-control" formControlName="TemplateID" (change)="geTemplateNameListByTempID($event.target.value)">
+                  <option value=0>Select Template</option>   
+                  <option *ngFor="let _Temp of TemplateList" [value]="_Temp.TemplateID"  >  
+                  {{_Temp.TemplateName}}  
+                  </option>   
+                  </select>
+              </div>
+               -->
+              <!-- <div class="col-sm-3">               
+                <select name="DeptID" id="DeptID" class="form-control" formControlName="DeptID" >
+                  <option value='0'>Select Department</option>   
+                  <option *ngFor="let _Dept of _DeparmentList" [value]="_Dept.id"  >  
+                  {{_Dept.DepartmentName}}  
+                  </option>   
+                 </select>
+              </div> -->
+
+              <!-- <div class="col-sm-3">               
+                <select name="DeptID" id="DeptID" class="form-control" formControlName="TemplateID" >
+                  <option value='0'>Select Template</option>   
+                  <option *ngFor="let _Temp of _TemplateList" [value]="_Temp.TemplateID"  >  
+                  {{_Temp.TemplateName}}  
+                  </option>   
+                 </select>
+              </div> -->
+                     
+              <!-- <div class="col-sm-3">               
+                <select name="DocID" id="DocID" class="form-control" formControlName="DocID" >
+                  <option value='0'>Select Doc Type</option>   
+                  <option *ngFor="let _Doc of _DeptList" [value]="_Doc.DocTypeID"  >  
+                  {{_Doc.DocName}}  
+                  </option>   
+                </select>
+              </div> -->
+
+
+              <div class="col-sm-5">
+                <p-fileUpload #fileUpload (onSelect)="getFileDetails($event)" customUpload="true" (uploadHandler)="uploadFiles(fileUpload)"
+                  multiple="multiple">
+                  <ng-template pTemplate="content">
+                      <ul *ngIf="myFiles.length">
+                          <li *ngFor="let file of myFiles">{{file.name}} - {{file.size}} bytes</li>
+                      </ul>
+                  </ng-template>
+                </p-fileUpload>
+              </div>
+              <!-- <div class="col-sm-3">               
+                <div class="custom-file">
+                  <input type="file" id="customFileUploadMultiple" multiple="multiple" class="custom-file-input"  (change)="getFileDetails($event)">                
+                  <label
+                    class=" custom-file-label"
+                    for="customFileUploadMultiple"
+                  >
+                    Choose files
+                  </label>
+                </div>
+              </div>
+              <div class="col-sm-1">               
+                <button type="button" class="btn btn-success" (click)="uploadFiles()" [disabled]="myFiles.length>0?'':'disabled'">
+                  <i class=" fas fa-file-upload fa-2x"></i>
+                </button>
+              </div> -->
+                <!-- <div class="col-md-2">
+                    <input type="file" id="file" multiple  #file placeholder="Choose file"  (change)="getFileDetails($event)">                
+                  </div>
+    
+                  <div class="col-md-2">                
+                    <button type="button" class="btn btn-success" (click)="uploadFiles()">Upload File</button>
+                  </div>
+    
+                  <div class="col-md-8">
+                    
+                    <span class="upload">
+                      {{progress}}%
+                    </span>
+                    <span class="upload" *ngIf="message">
+                      {{message}}
+                    </span>
+                  </div> -->
+    
+            </div>   
+
+        </div>
+        
+          
+        <div class="dataTables_wrapper py-4" style="display: none;">
+          <div class="row">
+            <div class="col-sm-12 col-md-4">
+              <div class="dataTables_length" id="datatable_length">
+                <label>
+                  Show
+                  <select
+                    name="datatable_length"
+                    aria-controls="datatable"
+                    class="form-control form-control-sm"
+                    (change)="entriesChange($event)"
+                  >
+                    <option value="10" [selected]="entries == 10">10</option>
+                    <option value="25" [selected]="entries == 25">25</option>
+                    <option value="50" [selected]="entries == 50">50</option>
+                    <option value="-1" [selected]="entries == -1">All</option>
+                  </select>
+                  entries
+                </label>
+              </div>
+            </div>
+
+            <div class="col-sm-12 col-md-4"></div>
+
+            <div class="col-sm-12 col-md-4">
+              <div id="datatable_filter" class="dataTables_filter">
+                <label>
+                  <input
+                    type="search"
+                    class="form-control form-control-sm"
+                    placeholder="Search records"
+                    aria-controls="datatable"
+                    (keyup)="filterTable($event)"
+                  />
+                </label>
+              </div>
+            </div>
+          </div>
+          <ngx-datatable
+            class="material"
+            [columnMode]="'force'"
+            [headerHeight]="50"
+            [footerHeight]="50"
+            [rowHeight]="'auto'"
+            [limit]="entries != -1 ? entries : undefined"
+            [rows]="myFiles"
+            (activate)="onActivate($event)"
+          >
+            <ngx-datatable-column name="SrNo">
+              <ng-template let-rowIndex="rowIndex" ngx-datatable-cell-template>{{rowIndex+1}}</ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="File Name">
+              <ng-template let-row="row" ngx-datatable-cell-template>{{row.name}}</ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="File Size">
+              <ng-template let-row="row" ngx-datatable-cell-template>{{row.size}}</ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="File Type">
+              <ng-template let-row="row" ngx-datatable-cell-template>{{row.type}}</ng-template>
+            </ngx-datatable-column> 
+          </ngx-datatable>
+        </div>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+ 

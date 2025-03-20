@@ -1,0 +1,152 @@
+<div class=" header pb-6">
+  <div class=" container-fluid">
+    <div class=" header-body">
+      <div class=" row align-items-center py-4">
+        <div class=" col-lg-6 col-7">
+          <!-- <h6 class=" h2 text-white d-inline-block mb-0"> Space Utilized </h6> -->
+
+          <nav
+            aria-label="breadcrumb"
+            class=" d-none d-md-inline-block ml-md-4"
+          >
+            <ol class=" breadcrumb breadcrumb-links breadcrumb-dark" >
+              <li class=" breadcrumb-item">
+                <a href="javascript:void(0)" class="text-gray"> <i class=" fas fa-home" routerLink="/search/quick-search"> </i> </a>
+              </li>
+
+              <li class=" breadcrumb-item">
+                <a href="javascript:void(0)" class="text-gray"> Report </a>
+              </li>
+
+              <li aria-current="page" class=" breadcrumb-item active text-dark">
+                Space Utilized Report
+              </li>
+            </ol>
+          </nav>
+        </div> 
+      </div>
+    </div>
+  </div>
+</div>
+<div class=" container-fluid mt--6">
+  <div class=" row">
+    <div class=" col">
+      <form [formGroup]="StatusReportForm">
+      <div class=" card">
+        <div class="card-header">
+          <div class=" row">
+
+            <div class=" col-md-2">  
+              <div class=" form-group">
+                <label class=" form-control-label" for="DATEFROM">
+                  From Date
+                </label>
+                <input
+                  type="text"
+                  formControlName="DATEFROM"
+                  placeholder="Datepicker"
+                  class="form-control"
+                  bsDatepicker
+                  [bsValue]="bsValue"
+                  [bsConfig]="{
+                    isAnimated: true,
+                    containerClass: 'theme-red'
+                  }"
+                  [maxDate]="maxDate"
+                />
+              </div>
+            </div>
+            <div class=" col-md-2">
+              <div class=" form-group">
+                <label class=" form-control-label"  for="DATETO">  To Date </label>                   
+                <input type="text" formControlName="DATETO"  placeholder="Datepicker" class="form-control"  bsDatepicker                   [bsValue]="bsValue"
+                  [bsConfig]="{
+                    isAnimated: true,
+                    containerClass: 'theme-red'
+                  }"
+                  [maxDate]="maxDate"
+                />
+              </div>
+            </div>    
+            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">   
+              <label class=" form-control-label" for="DATEFROM">
+                Folder
+               </label>
+              <select name="BranchID" id="BranchID" class="form-control" formControlName="BranchID" >
+                <option value=0>ALL</option>   
+                <option *ngFor="let _Bracnch of BranchList" [value]="_Bracnch.BranchID"  >  
+                {{_Bracnch.BranchName}}  
+                </option>
+              </select>
+            </div>  
+            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">   
+              <label class=" form-control-label" for="DATEFROM">
+                Space Utilized
+               </label>
+              <select name="BranchID" id="BranchID" class="form-control" formControlName="BranchID" >
+                <!-- <option value=0>ALL</option>    -->
+                 <option value=0 selected disabled> Select </option>
+                <option value="1">Folder</option>
+                <option value="2">File</option>
+              </select>
+            </div>  
+
+            <!-- <div class=" col-md-3">
+              <div class=" form-group">           
+                <select name="TemplateID" id="TemplateID" class="form-control" formControlName="TemplateID">
+                  <option value=0>Select Template</option>   
+                  <option *ngFor="let _Temp of TemplateList" [value]="_Temp.TemplateID"  >  
+                  {{_Temp.TemplateName}}  
+                  </option>   
+                  </select>
+              </div>
+            </div>  -->
+  
+            <div class=" col-md-3" style="padding-top: 35px">  
+              <button class="btn success" tooltip="Search" [disabled]="!isValid()"  (click)="onSearch()"> <i class="fa fa-search fa-lg"></i></button>
+              <button type="button" class="btn success" tooltip="Download" [disabled]="!isValid()" (click)="onDownload()">
+                <i class="fa fa-download fa-lg"></i></button>
+              <!-- <button class="btn" [disabled]="!isValid()" style="background-color: #F2A123;border: none;color: #fff;" (click)="onDownload()"> Download</button>        -->
+          </div>    
+          </div>
+        </div>
+
+        <div class="dataTables_wrapper">
+             
+          <p-table [paginator]="true" [rows]="10" [value]="formattedData" [autoLayout]="true" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50,100]" [(first)]="first" (onPage)="paginate($event)" [loading]="loading" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+            <ng-template pTemplate="caption">
+                <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
+                <input type="text" pInputText size="50" placeholder="Search records" (input)="searchTable($event)" class="global-search">
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                   
+                    <th *ngFor="let col of headerList; let i = index;"  [ngStyle]="i==0 && {'width': '5%'}">
+                        {{col.header}}
+                        <p-sortIcon *ngIf="i==10" [field]="col.field"></p-sortIcon>
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-car let-rowIndex="rowIndex">
+                <tr>
+                   
+                    <td *ngFor="let col of headerList">
+                      {{car[col.field]}}
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+                         
+
+        </div>
+       
+      </div>
+    </form>
+
+    </div>
+  </div>
+</div>
+<p-toast position="top-left" [showTransformOptions]="'translateY(100%)'" 
+                    [showTransitionOptions]="'1000ms'" 
+                    [hideTransitionOptions]="'1000ms'" 
+                    [showTransformOptions]="'translateX(100%)'"></p-toast>

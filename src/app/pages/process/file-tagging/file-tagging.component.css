@@ -1,0 +1,181 @@
+/* .FileTaggingMainContainer .card{
+    width : 100%;
+}
+.FileTaggingMainContainer .card .paddingclass {
+    padding: 0px;
+}
+.FileTaggingMainContainer .card .card-header {
+    border-radius: 0;
+}
+.FileTaggingMainContainer .card .card-body {
+    padding: 15px;
+}
+.FileTaggingMainContainer .card .card-body .row {
+    margin: 0;
+}
+.FileTaggingMainContainer .card .form-control{
+    float: right;
+    width: 65%;
+    height: 35px;
+    padding: 0px 15px;
+}
+.FileTaggingMainContainer .card .form-control-label{
+    width: 35%;
+    padding: 0 1px;
+    margin-bottom: 0px;
+}
+.FileTaggingMainContainer .card .serchInput {
+    float: right;
+    width: 65%;
+    height: 35px;
+   
+}
+
+.card-header h3 {
+    font-size: 20px;
+    font-weight: 900;
+}
+.btndiv .btn{
+    padding:  0 15px;
+}
+
+.resetsave{
+    float: right;
+    width: 65%;
+    height: 35px;
+}
+
+.resetsave  .resetsavebts{
+    float: right;
+} */
+
+.modal-dialog-full-width {
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    max-width:none !important;
+
+}
+
+.modal-content-full-width  {
+    height: auto !important;
+    min-height: 100% !important;
+    border-radius: 0 !important;
+    background-color: #ececec !important 
+}
+
+.modal-header-full-width  {
+    border-bottom: 1px solid #9ea2a2 !important;
+}
+
+.modal-footer-full-width  {
+    border-top: 1px solid #9ea2a2 !important;
+}
+::ng-deep .file-tagging .modal-dialog {
+    max-width: 1400px !important;
+    margin: 1.75rem auto;
+}
+::ng-deep .file-tagging .modal {
+    /* max-width: 1250px !important; */
+    display: block;
+    height: 800px;
+    margin: auto;
+    top: 5%;
+}
+
+::ng-deep .file-tagging .modal .card-body {
+    padding: 1rem !important;
+}
+
+
+.document{
+    padding-left: 300px;
+    padding-right: 20px;
+    width: 100%;
+    float: left;
+    padding-top: 30px;
+}
+.document .mat-card{
+    width: 100%;
+    float: left;
+}
+.document h4{
+    font-size: 18px;
+}
+.head_section{
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+/* modal popup css */
+.add_document h4{
+    text-transform: uppercase;
+    color: rgba(13,27,62,0.7);
+    font-weight: bold;
+    font-size: .88rem;
+}
+.modal-dialog {
+    max-width: 530px !important;
+}
+.modal-dialog {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    box-shadow: none;
+}
+
+/* new css added by karishma */
+.margin-bottomcls{
+    margin-bottom: 5px;
+}
+.AdvancedSearchMainContainer .card{
+    width : 100%;
+}
+.AdvancedSearchMainContainer .card .paddingclass {
+    padding: 0px;
+}
+.AdvancedSearchMainContainer .card .card-header {
+    border-radius: 0;
+}
+.AdvancedSearchMainContainer .card .card-body {
+    padding: 15px;
+}
+.AdvancedSearchMainContainer .card .card-body .row {
+    margin: 0;
+}
+.AdvancedSearchMainContainer .card .form-control{
+    float: right;
+    width: 65%;
+    height: 35px;
+    padding: 0px 15px;
+}
+.AdvancedSearchMainContainer .card .form-control-label{
+    width: 35%;
+    padding: 0 1px;
+    margin-bottom: 0px;
+}
+.AdvancedSearchMainContainer .card .serchInput {
+    height: 35px;
+   
+}
+.AdvancedSearchMainContainer .card .serchInput input{
+    width: 213px;
+}
+.card-header h3 {
+    font-size: 20px;
+    font-weight: 700;
+}
+.btndiv .btn{
+    padding:  0 15px;
+}
+
+.resetsave{
+    float: right;
+    width: 65%;
+    height: 35px;
+}
+
+.resetsave  .resetsavebts{
+    float: right;
+}

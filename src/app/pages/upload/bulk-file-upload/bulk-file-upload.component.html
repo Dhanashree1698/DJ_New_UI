@@ -1,0 +1,110 @@
+<div class=" header pb-6">
+  <div class=" container-fluid">
+    <div class=" header-body">
+      <div class=" row align-items-center py-4">
+        <div class=" col-lg-6 col-7">
+          <!-- <h6 class=" h2 text-white d-inline-block mb-0">File Upload</h6> -->
+
+          <nav aria-label="breadcrumb" class=" d-none d-md-inline-block ml-md-4">
+            <ol class=" breadcrumb breadcrumb-links breadcrumb-dark" >
+              <li class=" breadcrumb-item">
+
+                <a href="javascript:void(0)" class="text-gray"> <i class=" fas fa-home"
+                    routerLink="/search/quick-search"> </i> </a>
+              </li>
+
+              <li class=" breadcrumb-item">
+                <a href="javascript:void(0)" class="text-gray"> Upload </a>
+              </li>
+
+              <li aria-current="page" class=" breadcrumb-item active text-dark">
+                Bulk File Upload
+              </li>
+            </ol>
+          </nav>
+
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class=" container-fluid mt--6">
+  <div class=" row">
+    <div class=" col">
+      <form [formGroup]="FileUPloadForm">
+        <div class=" card">
+          <div class="card-header" style="margin-bottom: -43px;">
+            <div class="position-relative row form-group">
+
+              <div class="col-sm-4" style="padding-top: 32px">
+                <p-fileUpload #fileUpload (onSelect)="getFileDetails($event)" customUpload="true"
+                  (uploadHandler)="uploadFiles(fileUpload)" multiple="multiple"
+                  accept=".pdf,.doc,.docx,.tif,.tiff,.jpeg,.jpg,.png,.zip,.xls,.xlsx" invalidFileSizeMessageSummary
+                  invalidFileTypeMessageSummary>
+                  <ng-template pTemplate="content">
+                    
+                    <ul *ngIf="myFiles.length">
+                      <!-- <li *ngFor="let file of myFiles">{{file.name}} - {{file.size}} bytes</li> -->
+                    </ul>
+                  </ng-template>
+                </p-fileUpload>
+               
+              </div>
+       
+
+            </div>
+
+          </div>
+
+
+          <div class="dataTables_wrapper checklist-table w-100">
+
+            <p-table [paginator]="true" [rows]="10" [value]="formattedData" [autoLayout]="true"
+              [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50,100]" [(first)]="first"
+              (onPage)="paginate($event)" [loading]="loading"
+              currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+              <ng-template pTemplate="caption">
+                
+                <input type="text" pInputText size="50" placeholder="Search records" (input)="searchTable($event)"
+                  class="global-search">
+                <!-- <button type="button" class="btn success p-2" (click)="onDownloadExcelFile('Uploaded List')"
+                  style="background-color: #F2A123;border: none;color: #fff;opacity: 1; float: right;text-align: right;    padding: 3px 6px;">
+                  <i class="fa fa-download"></i> Download</button> -->
+                  <!-- <button type="button" class="btn success p-2" (click)="onDownloadExcelFile('Uploaded List')" style="float: right;">
+                    <i class="fa fa-download"></i> Download</button> -->
+              </ng-template>
+              <ng-template pTemplate="header">
+                <tr>
+
+                  <th *ngFor="let col of headerList; let i = index;" [ngStyle]="i==0 && {'width': '5%'}">
+                    {{col.header}}
+                    <p-sortIcon *ngIf="i==10" [field]="col.field"></p-sortIcon>
+                  </th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-car let-rowIndex="rowIndex">
+                <tr>
+
+                  <td *ngFor="let col of headerList">
+                    {{car[col.field]}}
+                  </td>
+
+                </tr>
+              </ng-template>
+            </p-table>
+
+
+          </div>
+
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<p-toast position="top-left" [showTransformOptions]="'translateY(100%)'" 
+                    [showTransitionOptions]="'1000ms'" 
+                    [hideTransitionOptions]="'1000ms'" 
+                    [showTransformOptions]="'translateX(100%)'"></p-toast>

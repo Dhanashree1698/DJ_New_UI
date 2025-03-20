@@ -1,0 +1,170 @@
+<div class=" header pb-6">
+  <div class=" container-fluid">
+    <div class=" header-body">
+      <div class=" row align-items-center py-4">
+        <div class=" col-lg-6 col-7">
+          <nav
+            aria-label="breadcrumb"
+            class=" d-none d-md-inline-block ml-md-4"
+          >
+            <ol class=" breadcrumb breadcrumb-links breadcrumb-dark" >
+              <li class=" breadcrumb-item">
+                <a href="javascript:void(0)" class="text-gray"> <i class=" fas fa-home" routerLink="/search/quick-search"> </i> </a>
+              </li>
+
+               <li class=" breadcrumb-item">
+                <a href="javascript:void(0)" class="text-gray"> Master </a>
+              </li>
+
+              <li aria-current="page" class=" breadcrumb-item active text-dark">
+                Template Master
+              </li>
+            </ol>
+          </nav>
+        </div> 
+      </div>
+    </div>
+  </div>
+</div>
+<div class=" container-fluid mt--6">
+  <div class=" row">
+    <div class=" col">
+      <div class=" card">
+        <div class="card-header">
+          <div class="row">
+            <div class="col">
+              <h3 class="mb-0">All Template</h3>
+              <p class="text-sm mb-0"></p>
+            </div>
+            <div class="col text-right">
+              <button type="button" class="btn success" tooltip="Template" (click)="addTemplate(TemplateFormPopup)">
+                <i class="fa fa-plus fa-lg"></i> 
+              </button>
+              <button type="button" class="btn success" tooltip="Template Access" routerLink="/master/template-mapping">
+                <i class="fa fa-user fa-lg"></i> 
+              </button>
+              <button type="button" class="btn success" tooltip="Download" (click)="onDownloadExcelFile('Template List')">
+                <i class="fa fa-download fa-lg"></i> 
+              </button>
+            </div>
+          </div>
+          
+
+
+        </div>
+        
+        
+        <div class="dataTables_wrapper checklist-table w-100">
+             
+          <p-table [paginator]="true" [rows]="10" [value]="formattedData" [autoLayout]="true" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50,100]" [(first)]="first" (onPage)="paginate($event)" [loading]="loading" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+            <ng-template pTemplate="caption">
+                
+                <input type="text" pInputText size="50" placeholder="Search records" (input)="searchTable($event)" class="global-search">
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                   
+                    <th *ngFor="let col of headerList; let i = index;"  [ngStyle]="i==0 && {'width': '5%'}">
+                        {{col.header}}
+                        <p-sortIcon *ngIf="i==10" [field]="col.field"></p-sortIcon>
+                    </th>
+                    <th style="width: 5%;">
+                      ACTION
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-car let-rowIndex="rowIndex">
+                <tr>
+                   
+                    <td *ngFor="let col of headerList">
+                      {{car[col.field]}}
+                    </td>
+                      <td>
+                        <button  type="button" tooltip="Edit" style="
+                        padding: 0 0 6px 4px;
+                       color: #000;
+                      
+                        width: 28px;
+                       height: 28px;" class="btn btn-icon btn-secondary btn-icon-only rounded-circle"
+                       (click)="editTemplate(TemplateFormPopup,car)">
+                        <span class="btn-inner--icon"><i class="fa fa-pen" style="
+                        color: #000;
+                        margin-right: 3px;
+                         margin-top: 0.32rem;
+                         size: -2px;
+                         font-size: 13px;"></i></span>
+                      </button>
+                        <!-- <button type="button" style="padding:0 0 5px 4px" class="btn btn-icon btn-icon-only" (click)="editTemplate(TemplateFormPopup,car)">
+                          <span class="btn-inner--icon"><i class="fa fa-pen" aria-hidden="true"></i></span>
+                        </button> -->
+                        <!-- <button type="button" style="padding:0 0 5px 1px" class="btn btn-icon btn-icon-only" (click)="deleteTemplate(car)">
+                          <span class="btn-inner--icon"><img src="assets/img/icons/delete.svg"></span>
+                        </button> -->
+
+                      </td> 
+                </tr>
+            </ng-template>
+        </p-table>
+                         
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #TemplateFormPopup let-c="close" let-d="dismiss" let-modal>
+  <div class="modal-content">
+    <div class="modal-body p-0">
+      <div class=" card">
+        <div class=" card-headers"> <div class="row">
+          <div class="col-sm-6"><h3 class="header-title">Add Template</h3></div>
+          <div class="col-sm-6" style="text-align: end;"><button type="button" class="btn success" >
+            <i class="fa fa-times fa-lg" (click)="OnReset()"></i> 
+          </button></div>
+        </div></div>
+
+        <div class="card-body">
+          <form class="needs-validation" novalidate="" [formGroup]="AddTemplateForm" (ngSubmit)="onSubmit()">
+            <div class="form-row">
+              <div class="col-md-12 mb-3">
+                <label class="form-control-label" for="TemplateName">
+                  Name
+                </label>
+                <input class="form-control" id="TemplateName" formControlName="TemplateName" placeholder="Name" type="text"/>
+                <div class="valid-feedback">Looks good!</div>
+                <!-- <div  class="errorMsg-feedback"
+                 *ngIf="f.TemplateName.touched && f.TemplateName.invalid && f.TemplateName.errors.required">Required</div> -->
+
+                <div style="margin-top: .25rem;" class="alert alert-danger"
+                *ngIf="f.TemplateName.touched && f.TemplateName.invalid && f.TemplateName.errors.required">Name is required</div>
+                <div class="alert alert-danger" *ngIf="!!AddTemplateForm.get('TemplateName').errors?.pattern">Please enter valid name.
+                </div>
+             
+              </div>
+
+              <div class="col-md-12 mb-3">
+                <label class="form-control-label" for="TempCode">
+                  Temp Code
+                </label>
+                <input class="form-control"  formControlName="TempCode" placeholder="Temp Code" type="text"/>
+                
+             
+              </div>
+
+            </div>
+            <button type="button" class="btn successbtn p-2" type="submit">
+              Submit
+            </button>
+            <!-- <button type="button" class="btn dangerbtn p-2" (click)="OnReset()">Close</button> -->
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<p-toast position="top-left" [showTransformOptions]="'translateY(100%)'" 
+                    [showTransitionOptions]="'1000ms'" 
+                    [hideTransitionOptions]="'1000ms'" 
+                    [showTransformOptions]="'translateX(100%)'"></p-toast>

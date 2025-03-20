@@ -1,0 +1,128 @@
+.document{
+    padding-left: 300px;
+    padding-right: 20px;
+    width: 100%;
+    float: left;
+    padding-top: 30px;
+}
+.document .mat-card{
+    width: 100%;
+    float: left;
+}
+.document h4{
+    font-size: 18px;
+}
+.head_section{
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+/* modal popup css */
+.add_document h4{
+    text-transform: uppercase;
+    color: rgba(13,27,62,0.7);
+    font-weight: bold;
+    font-size: .88rem;
+}
+.modal-dialog {
+    max-width: 530px !important;
+}
+.modal-dialog {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    box-shadow: none;
+}
+
+/* new css added by karishma */
+.margin-bottomcls{
+    margin-bottom: 5px;
+}
+.AdvancedSearchMainContainer .card{
+    width : 100%;
+}
+.AdvancedSearchMainContainer .card .paddingclass {
+    padding: 0px;
+}
+.AdvancedSearchMainContainer .card .card-header {
+    border-radius: 0;
+}
+.AdvancedSearchMainContainer .card .card-body {
+    padding: 15px;
+   
+box-shadow: 0 4px 10px 8px #c2cdd7;
+}
+.AdvancedSearchMainContainer .card .card-body .row {
+    margin: 0;
+}
+.AdvancedSearchMainContainer .card .form-control{
+    float: right;
+    width: 65%;
+    /* height: 35px; */
+    padding: 0px 15px;
+}
+#multiSearchTextArea {
+    float: none;
+    width: 100%;
+}
+.search-icon {
+    margin-top: 2rem;
+}
+.fa-search {
+    zoom: 1.5;
+}
+.AdvancedSearchMainContainer .card .form-control-label{
+    width: 35%;
+    padding: 13px 1px;
+    margin-bottom: 0px;
+}
+.AdvancedSearchMainContainer .card .serchInput {
+    height: 35px;
+   
+}
+.AdvancedSearchMainContainer .card .serchInput input{
+    width: 213px;
+}
+.card-header h3 {
+    font-size: 20px;
+    font-weight: 700;
+}
+.btndiv .btn{
+    padding:  10px 30px;
+}
+
+.resetsave{
+    float: right;
+    width: 65%;
+    height: 35px;
+}
+
+.resetsave  .resetsavebts{
+    float: right;
+}
+/* .success {
+    border-color:#005984    ;
+    color: #005984;
+  }
+  
+  .success:hover {
+    background-color:#007ad9;;
+    color:white;
+    border-color:#007ad9;;
+  } */
+
+  .btn-primary {
+    background-color: #003366;
+    border-color: #003366;
+    color: white;
+    font-weight: 500;
+    text-transform: uppercase;
+    border-radius: 4px;
+    padding: 8px 16px;
+    transition: background-color 0.3s, border-color 0.3s;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #004085;
+  }

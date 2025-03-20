@@ -1,0 +1,115 @@
+<div class=" header pb-6">
+  <div class=" container-fluid">
+    <div class=" header-body">
+      <div class=" row align-items-center py-4">
+        <div class=" col-lg-6 col-7">
+           <nav
+            aria-label="breadcrumb"
+            class=" d-none d-md-inline-block ml-md-4"
+          >
+            <ol class=" breadcrumb breadcrumb-links breadcrumb-dark" >
+              <li class=" breadcrumb-item">
+                <a href="javascript:void(0)" class="text-gray"> <i class=" fas fa-home" routerLink="/search/quick-search"> </i> </a>
+              </li>
+              <li class=" breadcrumb-item">
+                <a href="javascript:void(0)" class="text-gray"> Upload </a>
+              </li>
+              <li aria-current="page" class=" breadcrumb-item active text-dark">
+                <a href="javascript:void(0)" class="text-dark">File Name Mapping </a>
+              </li>
+            </ol>
+          </nav>
+
+        </div>
+
+      
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class=" container-fluid mt--6">
+  <div class=" row">
+    <div class=" col">
+      <form [formGroup]="DataUploadForm">
+      <div class=" card">     
+        <div class="card-header">
+          <div class="position-relative row form-group">
+            
+          
+            
+            <div class="col-sm-3">
+              <div class="custom-file" style="width:100%;border: 0.5px solid #000; height: 48px; border-radius: 5px;">
+                <input type="file" name="csvReader" id="csvReader" (change)="uploadListener($event)" accept=".csv" />                
+                <label
+                  class=" custom-file-label"
+                  for="csvReader"
+                >
+                <span class="selected-file-name"></span>    
+                </label>
+              </div>
+            </div>
+            
+
+        <div class="col-sm-6" style="margin-top: 5px;">
+    <button type="button" class="btn success" tooltip="Upload CSV" (click)="onSubmit()">
+        <i class="fas fa-upload fa-lg"></i> 
+    </button>
+    <button type="button" class="btn success" tooltip="CSV Format"  (click)="downloadFile()">
+      <i class="fas fa-download fa-lg"></i> 
+    </button>
+    <button type="button" class="btn success" tooltip="Sync Files" (click)="BulkFileUpload()">
+        <i class="fa fa-info-circle fa-lg"></i> 
+    </button>
+    <button type="button" class="btn success" tooltip="Pending Files" (click)="DownloadPendingFiles()">
+      <i class="fa fa-clock fa-lg"></i> 
+    </button>
+</div>
+
+          </div>  
+        </div>
+       
+          <div class="dataTables_wrapper">
+             
+            <p-table [paginator]="true" [rows]="10" [value]="formattedData" [autoLayout]="true" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50,100]" [(first)]="first" (onPage)="paginate($event)" [loading]="loading" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+              <ng-template pTemplate="caption">
+                  
+                  <input type="text" pInputText size="50" placeholder="Search records" (input)="searchTable($event)" class="global-search">
+                  <!-- <button type="button" class="btn success p-2" (click)="onDownloadExcelFile('File Mapping List')" style="background-color: #F2A123;border: none;color: #fff;opacity: 1; float: right;text-align: right;    padding: 3px 6px;">
+                    <i class="fa fa-download"></i> Download</button> -->
+                    <!-- <button type="button" class="btn success p-2" (click)="onDownloadExcelFile('File Mapping List')" style="float: right;">
+                      <i class="fa fa-download"></i> Download</button> -->
+              </ng-template>
+              <ng-template pTemplate="header">
+                  <tr>
+                     
+                      <th *ngFor="let col of headerList; let i = index;"  [ngStyle]="i==0 && {'width': '5%'}">
+                          {{col.header}}
+                          <p-sortIcon *ngIf="i==10" [field]="col.field"></p-sortIcon>
+                      </th>
+                  </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-car let-rowIndex="rowIndex">
+                  <tr>
+                     
+                      <td *ngFor="let col of headerList">
+                        {{car[col.field]}}
+                      </td>
+                  
+                  </tr>
+              </ng-template>
+          </p-table>
+                           
+  
+          </div>
+       
+        
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+<p-toast position="top-left" [showTransformOptions]="'translateY(100%)'" 
+[showTransitionOptions]="'1000ms'" 
+[hideTransitionOptions]="'1000ms'" 
+[showTransformOptions]="'translateX(100%)'"></p-toast>

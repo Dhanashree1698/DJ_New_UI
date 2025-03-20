@@ -1,0 +1,161 @@
+<div class=" header pb-6">
+  <div class=" container-fluid">
+    <div class=" header-body">
+      <div class=" row align-items-center py-4">
+        <div class=" col-lg-6 col-7">
+          <!-- <h6 class=" h2 text-white d-inline-block mb-0">Template Config</h6> -->
+
+          <!-- <nav
+            aria-label="breadcrumb"
+            class=" d-none d-md-inline-block ml-md-4"
+          >
+            <ol class=" breadcrumb breadcrumb-links breadcrumb-dark">
+              <li class=" breadcrumb-item">
+                <a href="javascript:void(0)"> <i class=" fas fa-home"> </i> </a>
+              </li>
+
+              <li class=" breadcrumb-item">
+                <a href="javascript:void(0)"> Master </a>
+              </li>
+
+              <li aria-current="page" class=" breadcrumb-item active">
+                Template
+              </li>
+            </ol>
+          </nav> -->
+        </div>
+
+        <!-- <div class=" col-lg-6 col-5 text-right">
+          <a class=" btn btn-sm btn-neutral" (click)="addTemplate(TemplateFormPopup)"> Add Template</a>
+        </div> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class=" container-fluid mt--6">
+  <div class=" row">
+    <div class=" col">
+      <div class=" card">
+        <div class=" card-header">
+          
+          <div class="row">
+            <div class="col">
+              <h3 class=" mb-0">All Template</h3>
+          <p class=" text-sm mb-0"></p>
+            </div>
+            <div class="col" style="text-align: right;">
+              <!-- <a class=" btn btn-sm btn-neutral" (click)="addTemplate(TemplateFormPopup)"> Add Template</a> -->
+              <button type="button" class="btn success p-2" (click)="addTemplate(TemplateFormPopup)" style="float: right;margin-left: 5px;">
+                <i class="fa fa-plus">Template</i> </button>
+              
+            </div>
+          </div>
+        </div>
+        <div class="dataTables_wrapper py-4">
+          <div class="row">
+            <div class="col-sm-12 col-md-6">
+              <div class="dataTables_length" id="datatable_length">
+                <label>
+                  Show
+                  <select
+                    name="datatable_length"
+                    aria-controls="datatable"
+                    class="form-control form-control-sm"
+                    (change)="entriesChange($event)"
+                  >
+                    <option value="10" [selected]="entries == 10">10</option>
+                    <option value="25" [selected]="entries == 25">25</option>
+                    <option value="50" [selected]="entries == 50">50</option>
+                    <option value="-1" [selected]="entries == -1">All</option>
+                  </select>
+                  entries
+                </label>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-6">
+              <div id="datatable_filter" class="dataTables_filter">
+                <label>
+                  <input
+                    type="search"
+                    class="form-control form-control-sm"
+                    placeholder="Search records"
+                    aria-controls="datatable"
+                    (keyup)="filterTable($event)"
+                  />
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <ngx-datatable
+            class="material"
+            [columnMode]="'force'"
+            [headerHeight]="50"
+            [footerHeight]="50"
+            [rowHeight]="'auto'"
+            [limit]="entries != -1 ? entries : undefined"
+            [rows]="_FilteredList"
+            (activate)="onActivate($event)"
+          >
+            <ngx-datatable-column name="SrNo">
+              <ng-template let-rowIndex="rowIndex" ngx-datatable-cell-template>{{rowIndex+1}}</ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="TemplateName">
+              <ng-template let-row="row" ngx-datatable-cell-template>{{row.TemplateName}}</ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Description">
+              <ng-template let-row="row" ngx-datatable-cell-template>{{row.Description}}</ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="IsActive">
+              <ng-template let-row="row" ngx-datatable-cell-template>{{row.IsActive}}</ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Action" sortable="false" prop="id">
+              <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                <button type="button" style="padding:0 0 5px 4px" class="btn btn-icon btn-warning btn-icon-only rounded-circle" (click)="editTemplate(TemplateFormPopup,row)">
+                  <span class="btn-inner--icon"><i class="fa fa-edit"></i></span>
+                </button>
+                <!-- <button type="button" style="padding:0 0 5px 1px" class="btn btn-icon btn-icon-only rounded-circle" (click)="deleteTemplate(value)">
+                  <span class="btn-inner--icon"><img src="assets/img/icons/delete.svg"></span>
+                </button> -->
+          </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #TemplateFormPopup let-c="close" let-d="dismiss" let-modal>
+  <div class="modal-content">
+    <div class="modal-body p-0">
+      <div class=" card">
+        <div class=" card-header"><h3 class=" mb-0">Add Template</h3></div>
+
+        <div class="card-body">
+          <form class="needs-validation" novalidate="" [formGroup]="AddTemplateForm" (ngSubmit)="onSubmit()">
+            <div class="form-row">
+              <div class="col-md-12 mb-3">
+                <label class="form-control-label" for="TemplateName">
+                  Name
+                </label>
+                <input class="form-control" id="TemplateName" formControlName="TemplateName" placeholder="Name" type="text"/>
+                <div class="valid-feedback">Looks good!</div>
+              </div>
+            </div>
+            <button type="button" class="btn success p-2" type="submit">
+              Submit
+            </button>
+            <button type="button" class="btn success p-2" (click)="OnReset()">Close</button>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<p-toast position="top-left" [showTransformOptions]="'translateY(100%)'" 
+                    [showTransitionOptions]="'1000ms'" 
+                    [hideTransitionOptions]="'1000ms'" 
+                    [showTransformOptions]="'translateX(100%)'"></p-toast>

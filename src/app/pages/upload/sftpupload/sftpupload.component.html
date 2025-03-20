@@ -1,0 +1,163 @@
+<div class=" header pb-6">
+  <div class=" container-fluid">
+    <div class=" header-body">
+      <div class=" row align-items-center py-4">
+        <div class=" col-lg-6 col-7">
+          <!-- <h6 class=" h2 text-white d-inline-block mb-0">SFTP File Upload</h6> -->
+
+          <nav aria-label="breadcrumb" class=" d-none d-md-inline-block ml-md-4">
+            <ol class=" breadcrumb breadcrumb-links breadcrumb-dark" >
+              <li class=" breadcrumb-item">
+
+                <a href="javascript:void(0)" class="text-gray"> <i class=" fas fa-home"
+                    routerLink="/search/quick-search"> </i> </a>
+              </li>
+
+              <li class=" breadcrumb-item">
+                <a href="javascript:void(0)" class="text-gray"> Upload </a>
+              </li>
+
+              <li aria-current="page" class=" breadcrumb-item active text-dark">
+                SFTP Upload
+              </li>
+            </ol>
+          </nav>
+
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class=" container-fluid mt--6">
+  <div class=" row">
+    <div class=" col">
+      <form [formGroup]="sftpuploadForm">
+        <div class=" card">
+          <div class="card-header">
+            <div class="position-relative row form-group">
+
+           
+              <div class="col-sm-3">
+                <label class="form-control-label float-left pr-2" for="TemplateName" style="padding-top: 11px;">
+                  Cabinet
+                </label>
+                <select name="DeptID" id="DeptID" class="form-control" style="width: 75%;" formControlName="DeptID"
+                  (change)="geBranchListByUserID($event.target.value)">
+                  <option value='0'>Select Cabinet</option>
+                  <option *ngFor="let _Department of _DepartmentList" [value]="_Department.id">
+                    {{_Department.DepartmentName}}
+                  </option>
+                </select>
+              </div>
+
+              <div class="col-sm-3">
+                <label class="form-control-label float-left pr-2" style="padding-top:11px;" for="T`emplateName">
+                  Folder
+                </label>
+                <select name="BranchID" id="BranchID" class="form-control" style="width: 75%;"
+                  formControlName="BranchID">
+                  <option value='0'>Select Folder</option>
+                  <option *ngFor="let _Bracnch of BranchList" [value]="_Bracnch.BranchID">
+                    {{_Bracnch.BranchName}}
+                  </option>
+                </select>
+              </div>
+
+              <div class="col-sm-4" style="margin-top: 5px;">
+                <button type="button" class="btn success" tooltip="Search"  (click)="GetFileCount()">
+                  <i class="fa fa-search fa-lg"></i> 
+                </button>
+                <button type="button" class="btn success" tooltip=" Sync All Files" (click)="onSubmit()">
+                 <i class=" fas fa-file-upload fa-lg"></i>  
+                </button>
+                <button type="button" class="btn success" tooltip="Download" (click)="onDownloadExcelFile('SFTP Upload List')">
+                <i class="fa fa-download fa-lg"></i> </button>
+
+
+              </div>
+
+            </div>
+          </div>
+
+
+          <div class="dataTables_wrapper">
+
+            <p-table [paginator]="true" [rows]="10" [value]="formattedData" [autoLayout]="true"
+              [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50,100]" [(first)]="first"
+              (onPage)="paginate($event)" [loading]="loading"
+              currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+              <ng-template pTemplate="caption">
+                
+                <input type="text" pInputText size="50" placeholder="Search records" (input)="searchTable($event)"
+                  class="global-search">
+                <!-- <button type="button" class="btn btn-primary p-2" (click)="onDownloadExcelFile('SFTP Upload List')" style="background-color: #F2A123;border: none;color: #fff;opacity: 1; float: right;text-align: right;    padding: 3px 6px;">
+                  <i class="fa fa-download"></i> Download</button> -->
+              
+              </ng-template>
+              <ng-template pTemplate="header">
+                <tr>
+
+                  <th *ngFor="let col of headerList; let i = index;" [ngStyle]="i==0 && {'width': '5%'}">
+                    {{col.header}}
+                    <p-sortIcon *ngIf="i==10" [field]="col.field"></p-sortIcon>
+                  </th>
+                  <th style="width: 10%; text-align: center;">
+                    ACTION
+                  </th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-car let-rowIndex="rowIndex">
+                <tr>
+
+                  <td *ngFor="let col of headerList; let i = index;" [ngStyle]="i==1 && {'width': '15%'}">
+                    {{car[col.field]}}
+                  </td>
+                  <td style="text-align: center;">
+                    <!-- <button type="button" style="padding:0 0 5px 4px" class="btn btn-icon btn-icon-only"
+                      (click)="editBranch(BranchFormPopup,car)">
+                      <span class="btn-inner--icon"><i class="fas fa-sync"></i></span>
+                    </button> -->
+                    <button  type="button" style="
+                    padding: 0 0 6px 4px;
+                   color: #000;
+                   
+                    width: 28px;
+                   height: 28px;" class="btn btn-icon btn-secondary btn-icon-only rounded-circle"
+                   (click)="editBranch(BranchFormPopup,car)">
+                    <span class="btn-inner--icon"><i class="fas fa-sync" style="
+                    color: #000;
+                    margin-right: 3px;
+                     margin-top: 0.32rem;
+                     size: -2px;
+                     font-size: 13px;"></i></span>
+                  </button>
+                    <!-- <button type="button" style="padding:0 0 5px 1px" class="btn btn-icon btn-icon-only"
+                      (click)="deleteBrnach(car)">
+                      <span class="btn-inner--icon"><img src="assets/img/refresh.png"></span>
+                    </button> -->
+
+                  </td>
+
+
+
+
+
+                </tr>
+              </ng-template>
+            </p-table>
+
+
+          </div>
+
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<p-toast position="top-left" [showTransformOptions]="'translateY(100%)'" 
+                    [showTransitionOptions]="'1000ms'" 
+                    [hideTransitionOptions]="'1000ms'" 
+                    [showTransformOptions]="'translateX(100%)'"></p-toast>

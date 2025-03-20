@@ -1,0 +1,759 @@
+<!-- <div class=" header bg-danger pb-6">
+  <div class=" container-fluid">
+    <div class=" header-body">
+      <div class=" row align-items-center py-4">
+        <div class=" col-lg-6 col-7">
+          <h6 class=" h2 text-white d-inline-block mb-0">Default</h6>
+
+          <nav aria-label="breadcrumb" class=" d-none d-md-inline-block ml-md-4">
+            <ol class=" breadcrumb breadcrumb-links breadcrumb-dark">
+              <li class=" breadcrumb-item">
+                <a href="javascript:void(0)"> <i class=" fas fa-home"> </i> </a>
+              </li>
+
+              <li class=" breadcrumb-item">
+                <a href="javascript:void(0)"> User Dashboards </a>
+              </li>
+
+              <li aria-current="page" class=" breadcrumb-item active">
+                Default
+              </li>
+            </ol>
+          </nav>
+
+          <!-- <div class=" col-lg-6 col-5 text-right">
+            <select class="form-control form-control-sm" formControlName="UserID" data-toggle="select" id="UserID"
+            (change)="getBranchForUser($event.target.value)">
+              <option value="0"> Select User</option>
+              <option *ngFor="let _User of _UserL" [value]="_User.id"  >
+                {{_User.userid}}
+                </option>
+            </select>
+          </div> --
+
+</div>
+
+
+</div>
+
+<div class=" row">
+
+    <div class=" col-xl-3 col-md-6">
+        <div class=" card card-stats">
+            <div id="dashboardCardbody" class=" card-body">
+                <div class=" row">
+                    <div class=" col">
+                        <h5 class=" card-title text-uppercase text-muted mb-0">
+                            Data Upload
+                        </h5>
+
+                        <span class=" h2 font-weight-bold mb-0">  {{DatauploadCount}}  </span>
+                    </div>
+
+                    <div class=" col-auto">
+                        <div class=" icon icon-shape bg-gradient-green text-white rounded-circle shadow">
+                            <i class="fa fa-database"> </i>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+    <div class=" col-xl-3 col-md-6">
+        <div class=" card card-stats">
+            <div id="dashboardCardbody" class=" card-body">
+                <div class=" row">
+                    <div class=" col">
+                        <h5 class=" card-title text-uppercase text-muted mb-0">
+                            File Upload
+                        </h5>
+
+                        <span class=" h2 font-weight-bold mb-0"> {{FileUploadCount}} </span>
+                    </div>
+
+                    <div class=" col-auto">
+                        <div class=" icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                            <i class="fa fa-file"> </i>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+    <div class=" col-xl-3 col-md-6">
+        <div class=" card card-stats">
+            <div id="dashboardCardbody" class=" card-body">
+                <div class=" row">
+                    <div class=" col">
+                        <h5 class=" card-title text-uppercase text-muted mb-0">
+                            Total Tags
+                        </h5>
+
+                        <span class=" h2 font-weight-bold mb-0">{{TaggingCount}}</span>
+                    </div>
+
+                    <div class=" col-auto">
+                        <div class=" icon icon-shape bg-gradient-info text-white rounded-circle shadow">
+                            <i class="fa fa-tag"> </i>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+    <div class=" col-xl-3 col-md-4">
+        <div class=" card card-stats">
+            <div id="dashboardCardbody" class=" card-body">
+                <div class=" row">
+                    <div class=" col">
+                        <h5 class=" card-title text-uppercase text-muted mb-0">
+                            Total users
+                        </h5>
+
+                        <span class=" h2 font-weight-bold mb-0"> {{UserCount}}  </span>
+                    </div>
+
+                    <div class=" col-auto">
+                        <div class=" icon icon-shape bg-gradient-orange text-white rounded-circle shadow">
+                            <i class="fa fa-user"> </i>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+    <!-- <div class=" col-xl-2 col-md-6">
+          <div class=" card card-stats">
+            <div id="dashboardCardbody" class=" card-body">
+              <div class=" row">
+                <div class=" col">
+                  <h5 class=" card-title text-uppercase text-muted mb-0">
+                    Space Used
+                  </h5>
+
+                  <span class=" h2 font-weight-bold mb-0"> 10MB  </span>
+                </div>
+
+                <div class=" col-auto">
+                  <div class=" icon icon-shape bg-gradient-orange text-white rounded-circle shadow">
+                    <i class="fa fa-user"> </i>
+                  </div>
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+        </div> -->
+<!-- 
+        <div class=" col-xl-2 col-md-6">
+          <div class=" card card-stats">
+            <div id="dashboardCardbody" class=" card-body">
+              <div class=" row">
+                <div class=" col">
+                  <h5 class=" card-title text-uppercase text-muted mb-0">
+                    Space Available
+                  </h5>
+
+                  <span class=" h2 font-weight-bold mb-0"> 50GB  </span>
+                </div>
+
+                <div class=" col-auto">
+                  <div class=" icon icon-shape bg-gradient-orange text-white rounded-circle shadow">
+                    <i class="fa fa-user"> </i>
+                  </div>
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+        </div> --
+
+
+
+</div>
+</div>
+</div>
+</div>
+
+<div class=" container-fluid mt--6">
+    <div class=" row">
+        <div class=" col-xl-6">
+            <div class=" card bg-default">
+                <div class=" card-header bg-white">
+                    <div class=" row align-items-center">
+                        <div class=" col">
+                            <h6 class=" text-dark text-uppercase ls-1 mb-1">Overview</h6>
+
+                            <h5 class=" h3 text-dark mb-0">Data Upload Analysis</h5>
+                        </div>
+
+                        <div class="col">
+                            <ul class="nav nav-pills justify-content-end">
+                                <li class="nav-item mr-2 mr-md-0" data-toggle="chart" data-target="#chart-sales" (click)="updateOptions('M')">
+                                    <a href="javascript:void(0)" class="nav-link py-2 px-3" [ngClass]="{ active: clicked === true }" data-toggle="tab" (click)="clicked = true; clicked1 = false">
+                                        <span class="d-none d-md-block">Month</span>
+                                        <span class="d-md-none">M</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item" data-toggle="chart" data-target="#chart-sales" (click)="updateOptions('W')">
+                                    <a href="javascript:void(0)" class="nav-link py-2 px-3" [ngClass]="{ active: clicked1 === true }" data-toggle="tab" (click)="clicked = false; clicked1 = true">
+                                        <span class="d-none d-md-block">Week</span>
+                                        <span class="d-md-none">W</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body bg-white">
+                    <div class=" chart">
+                        <div style="height:100%;width: 100%;" id="chart-sales-dark" class="chart-canvas"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class=" col-xl-6">
+            <div class=" card bg-default">
+                <div class=" card-header bg-white">
+                    <div class=" row align-items-center">
+                        <div class=" col">
+                            <h6 class=" text-dark text-uppercase ls-1 mb-1">Overview</h6>
+
+                            <h5 class=" h3 text-dark mb-0">File Upload Analysis</h5>
+                        </div>
+
+                        <div class="col">
+                            <ul class="nav nav-pills justify-content-end">
+                                <li class="nav-item mr-2 mr-md-0" data-toggle="chart" data-target="#chart-sales" (click)="updateOptions('M')">
+                                    <a href="javascript:void(0)" class="nav-link py-2 px-3" [ngClass]="{ active: clicked === true }" data-toggle="tab" (click)="clicked = true; clicked1 = false">
+                                        <span class="d-none d-md-block">Month</span>
+                                        <span class="d-md-none">M</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item" data-toggle="chart" data-target="#chart-sales" (click)="updateOptions('W')">
+                                    <a href="javascript:void(0)" class="nav-link py-2 px-3" [ngClass]="{ active: clicked1 === true }" data-toggle="tab" (click)="clicked = false; clicked1 = true">
+                                        <span class="d-none d-md-block">Week</span>
+                                        <span class="d-md-none">W</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body bg-white">
+                    <div class=" chart">
+                        <div style="height:100%;width: 100%;" id="chart-fileupload" class="chart-canvas"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class=" row">
+        <div class=" col-xl-6">
+            <div class=" card">
+                <div class=" card-header bg-transparent">
+                    <div class=" row align-items-center">
+                        <div class=" col">
+                            <h6 class=" text-uppercase text-dark ls-1 mb-1">Activity Analysis</h6>
+
+                            <h5 class="text-dark h3 mb-0">Total Activities</h5>
+                        </div>
+                    </div>
+                </div>
+
+                <div class=" card-body">
+                    <div class=" chart">
+                        <div class="chart-canvas" style="height:100%;width: 100%;" id="chart-bars"> </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class=" col-xl-6">
+            <div class=" card">
+                <div class=" card-header bg-transparent">
+                    <div class=" row align-items-center">
+                        <div class=" col">
+                            <h6 class=" text-uppercase text-dark ls-1 mb-1">Log Analysis </h6>
+
+                            <h5 class="text-dark h3 mb-0">Total Log</h5>
+                        </div>
+                    </div>
+                </div>
+
+                <div class=" card-body">
+                    <div class=" chart">
+                        <div class="chart-canvas" style="height:100%;width: 100%;" id="chart-bars_UserLog"> </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div> -->
+<div class=" header pb-6">
+    <div class=" header-body">
+        <div class="align-items-center py-4">
+            <div class="dashboard">
+                <div class="well">
+                    <div class="user_dashboard">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="card card_box task">
+                                    <img src="assets/img/task1.png">
+                                    <div class="card_box_txt">
+                                        <h3 class="cursor-pointer" (click)="downloadData('Checker Pending')">{{Maker}}</h3>
+                                        <!-- <h3 class="cursor-pointer" (click)="DLoadData('TaskOverdue')">112</h3> -->
+                                        <p>Task Overdue</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card card_box task_dur">
+                                    <img src="assets/img/task2.png">
+                                    <div class="card_box_txt">
+                                        <h3 class="cursor-pointer" (click)="DLoadData('Checker Pending')">{{Maker}} </h3>
+                                        <p>Tasks Due This Week</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card card_box tasks_blue">
+                                    <img src="assets/img/task3.png">
+                                    <div class="card_box_txt">
+                                        <h3 class="cursor-pointer" (click)="DLoadData('Checker Pending')">{{Maker}}</h3>
+                                        <p>Tasks Due Today</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="card card_box">
+                                    <img src="assets/img/folder.png">
+                                    <div class="card_box_txt">
+                                        <h3 class="cursor-pointer" >{{Folder}} 
+                                           
+                                            <div class="dropdown" style="margin-top: -30px;">
+                                                <button class="dropdown-toggle folder_dropdown" data-toggle="dropdown">
+                                                    <i class="fa fa-caret-down" aria-hidden="true"></i>
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a   (click)="FolderStruture('Cabinet')">Cabinet</a></li>
+                                                    <li><a  (click)="FolderStruture('Folder')">Folder</a></li>
+                                                    <li><a   (click)="FolderStruture('SubFolder')">Sub Folder</a></li>
+                                                </ul>
+                                            </div>
+
+                                         
+
+                                         
+
+                                        <!-- <div class="dropdown">
+                                            <button class="dropdown-toggle" type="button" data-toggle="dropdown">
+                                              <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li><a href="#">HTML</a></li>
+                                            </ul>
+                                        </div> -->
+                                           
+                                            <!-- <i class="fa fa-caret-down" aria-hidden="true">Cabinet</i>
+                                            <i class="fa fa-caret-down" aria-hidden="true"> Folder</i>
+                                            <i class="fa fa-caret-down" aria-hidden="true">Sub Folder</i> -->
+
+                                        </h3>
+                                        <p (click)="DLoadData('Folder')">{{Foldername}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card card_box">
+                                    <img src="assets/img/metadata.png">
+                                    <div class="card_box_txt">
+                                        <h3 class="cursor-pointer" (click)="DLoadData('Metadata')">{{Metadata}}<i class="fa fa-caret-down" aria-hidden="true"></i></h3>
+                                        <p>Template</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card card_box">
+                                    <img src="assets/img/favorite.png">
+                                    <div class="card_box_txt">
+                                        <h3 class="cursor-pointer"  (click)="DLoadData('Favourite')">{{Favourite}} <i class="fa fa-caret-down" aria-hidden="true"></i></h3>
+                                        <p>Favorite File</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card card_box" style="height: 101px;">
+                                    <img src="assets/img/help.png">
+                                    <div class="card_box_txt">
+                                        <h4>Help</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <h3>Recent Activities </h3>
+                                    <p>From Last Week</p>
+                                    <div id="activityChart"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="text_dropdown">
+                                        <h3>File Type </h3>
+                                        <div class="dropdown">
+                                            <button class="dropdown-toggle" type="button" data-toggle="dropdown">
+                                              <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li><a href="#">HTML</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="total-count">
+                                        <div class="linear-gradient"></div>
+                                        <img src="assets/img/icons/dashboard/Union.png" />
+                                        <span class="label">Total Files</span><br />
+                                        <span class="count cursor-pointer" (click)="downloadData('total files')">{{TotalFiles}}</span>
+                                    </div>
+                                    <div id="filesChart"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card missing_documents">
+                                    <img src="assets/img/missing_document.png">
+                                    <h3>Missing Documents</h3>
+                                    <h1 class="cursor-pointer" (click)="downloadData('missing_document')">0</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div
+    class="modal"
+    tabindex="-1"
+    role="dialog"
+    [ngStyle]="{'display':displayStyle}">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">{{type}}</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closePopup()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="card-body">
+                <div class="row">
+                  <!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> -->
+                  
+                    <div class="dataTables_wrapper checklist-table w-100">
+         
+                        <p-table #dt [columns]="headerList" [paginator]="true" [rows]="10" [value]="formattedData" [autoLayout]="true" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50,100]" [(first)]="first" (onPage)="paginate($event)" [loading]="loading" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                          <ng-template pTemplate="caption">
+                              <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
+                              <input type="text" pInputText size="50" placeholder="Search records" (input)="searchTable($event)" class="global-search">
+                              <button (click)="dt.exportCSV()" class="btn btn-sm btn-primary download-data">Download</button>
+                            </ng-template>
+                          <ng-template pTemplate="header">
+                              <tr>
+                                  <!-- <th [style.width]="'35px'">
+                                    <p-checkbox (onChange)="selectAllRow($event, doc)" #e></p-checkbox>
+                                  </th>
+                                   -->
+                                  <th *ngFor="let col of headerList; let i = index;"  [ngStyle]="i==0 && {'width': '7%'}">
+                                      {{col.header}}
+                                      <p-sortIcon *ngIf="i==10" [field]="col.field"></p-sortIcon>
+                                  </th>
+                                  <!-- <th style="width: 10%;">
+                                    ACTION
+                                  </th> -->
+                              </tr>
+                          </ng-template>
+                          <ng-template pTemplate="body" let-car let-rowIndex="rowIndex">
+                              <tr>
+                                  <!-- <td [style.width]="'35px'">
+                                 
+                                 
+                                  <p-checkbox [(ngModel)]="car.selected" [binary]="true" [ngModelOptions]="{standalone: true}" (onChange)="selectRow($event, car)" #e></p-checkbox>
+                               
+                                  </td>
+                                   -->
+                                  <td *ngFor="let col of headerList">
+                                    <ng-container *ngIf="col.field === 'FileNo' && isFileNoLink">
+                                        <a href="javascript:void(0)" (click)="MetaData(ImageViewFormPopup, car)">{{car[col.field]}}</a>
+                                    </ng-container>
+                                    <ng-container *ngIf="col.field !== 'FileNo' || !isFileNoLink">
+                                        {{car[col.field]}}
+                                    </ng-container>
+                                  </td>
+
+                                 
+                                    <!-- <button type="button" style="padding:0 0 5px 4px" class="btn btn-icon btn-success btn-icon-only rounded-circle" (click)="Editinward(InwardFormPopup,car)">
+                                      <span class="btn-inner--icon"><i class="fa fa-plus"></i></span>
+                                    </button>  -->
+                
+
+                              
+                              </tr>
+                          </ng-template>
+                      </p-table>
+                                       
+              
+                      </div>
+
+                </div>
+              </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" 
+                    (click)="closePopup()">
+            Close
+            </button>
+        </div>
+        </div>
+    </div>
+</div>
+
+
+<ng-template #ImageViewFormPopup let-c="close" let-d="dismiss" let-modal>
+    <div class="modal-content" id="fileStorageDocView">
+        <div class="modal-body p-0">
+        <div class="card w-100">              
+            <div class=" card-header">
+                <h3 class=" mb-0" >Document View
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeDocViewPopup()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </h3>
+            </div>
+            <div class="card-body" style="padding:0">
+                <div class="action-buttons">
+                    <div style="float: right;" *ngIf="_ShareLink == 'true'" >
+                        <button type="button" tooltip="Share link" style="padding:1px 1px 1px 1px;float: left"
+                        class="btn btn-icon btn-secondary btn-icon-only rounded-circle"  (click)="ShareLink(ShareLinkFormPopup)" >
+                        <span class="btn-inner--icon"><i id="actionIcon" class="fa fa-share-alt actionIcon"></i></span>
+                        </button>
+                    </div>
+                    <div style="float: right;" *ngIf="_isEmail == 'true'" >
+                        <button type="button" tooltip="Send E-Mail" style="padding:1px 1px 1px 1px;float: left"
+                        class="btn btn-icon btn-secondary btn-icon-only rounded-circle"   (click)="SendBulkEmail(EmailFormPopup)">
+                        <span class="btn-inner--icon"><i id="actionIcon" class="fa fa-envelope actionIcon"></i></span>
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                <div class="col-lg-4 metadata-table">
+                
+                    <table class="table-hover table">                
+                    <tr *ngFor="let Ilst of _IndexList">                   
+                        <td><b>{{Ilst.DisplayName}}</b></td>
+                        <td>{{Ilst.ColValues}}</td>                    
+                        </tr>                
+                    </table>
+
+                </div>
+
+                <div class="col-lg-8" *ngIf="FilePath">
+                    <ng-container *ngIf="fileExt != '.pdf'">
+                    <ngx-doc-viewer
+                        [url]="FilePath"
+                        viewer="google"
+                        style="width:100%;height:90vh;"
+                    ></ngx-doc-viewer>
+                    </ng-container>
+                    <ng-container *ngIf="fileExt == '.pdf'">
+                    <ngx-extended-pdf-viewer  id="Viewer"
+                    [page] ="_PageNo"
+                    [useBrowserLocale]="true"
+                    [textLayer]="true"
+                    [showHandToolButton]="true"
+                    [height]="'90vh'"
+        
+                    *ngIf="FilePath" [src]="FilePath"
+                    > 
+        
+                    </ngx-extended-pdf-viewer>
+                    </ng-container>
+                </div>
+
+
+                </div>
+            </div>
+            </div>
+            <br>
+            </div>
+    </div>
+</ng-template>  
+
+<div [formGroup]="downloadForm">
+<ng-template #EmailFormPopup let-c="close" let-d="dismiss" let-modal>
+    <div class="modal-content" style="width: 1000px; position: relative; right: 40%;">
+      <div class="modal-body p-0">
+        <div class=" card m-0">
+          <div class=" card-header">
+            <h3 class=" mb-0">Send Email
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeSendEmailPopup()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </h3>
+        </div>
+         <div class="card-body">
+            <div class="form-row">
+                
+                <div class="col-md-12 mb-3">
+                    <label class="form-control-label" for="ToEmailID">
+                      To 
+                    </label>
+                    <!-- <input formControlName="ToEmailID" placeholder="Email" type="email" class="form-control"/> -->
+                    <tag-input 
+                      [(ngModel)]="emailReciepients" 
+                      [ngModelOptions]="{standalone: true}"
+                      [secondaryPlaceholder]="'Enter email address'"
+                      placeholder="Enter email address"
+                      [editable]='true' 
+                      [errorMessages]="errorMessages"
+                      [validators]="validators" 
+                      #tagInput
+                      [onAdding]="onAddedFunc">
+                    </tag-input>
+                  </div>
+                  <div class="col-md-9">
+                    <label class="form-control-label" for="Subject" style="float:left;padding-right: 45px; padding-top: 12px;" >
+                      Subject
+                       </label>
+                       <input class="form-control mt-2 mb-2" style="width:86%;"  formControlName="Subject" placeholder="Subject" type="text"/>
+                      
+                  </div>
+                  <div class="col-md-3" style="display: flex;justify-content:center;align-items: center;">
+                    <input type="checkbox" style="height: 20px;width:20PX;margin-right: 10px;" checked="true" formControlName="predefined" name="predefined" value="Pre Defined">
+                    <label class="form-control-label" for="predefined" style="padding-top: 10px;">
+                      Pre Difined Template 
+                    </label>
+                  </div>    
+                  <angular-editor formControlName="htmlContent" [config]="editorConfig"></angular-editor>
+                                             
+
+                
+              </div>
+              <div class=" col-md-8" style="padding-top: 32px">  
+                <button class="btn btn-primary" [disabled]="!emailReciepients.length" (click)="onSendEmail()"> Send</button>
+                <button class="btn btn-primary"  (click)="closeSendEmailPopup()"> Close</button>
+               
+              </div>
+              <!-- <button type="button" class="btn btn-warning" (click)="OnReset()">Clear</button> -->
+  
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #ShareLinkFormPopup let-c="close" let-d="dismiss" let-modal>
+    <div class="modal-content" style="width: 1000px; position: relative; right: 40%;">
+      <div class="modal-body p-0">
+        <div class=" card m-0">
+          <div class=" card-header">
+            <h3 class=" mb-0">Share Link
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeShareLinkPopup(ShareLinkFormPopup)">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </h3>
+        </div>
+         <div class="card-body">
+            <div class="form-row">
+                
+                <div class="col-md-12 mb-3">
+                    <label class="form-control-label" for="ToEmailID">
+                      To 
+                    </label>
+                    <!-- <input formControlName="ToEmailID" placeholder="Email" type="email" class="form-control"/> -->
+                    <tag-input 
+                      [(ngModel)]="emailReciepientsShare" 
+                      [ngModelOptions]="{standalone: true}" 
+                      [editable]='true'
+                      [secondaryPlaceholder]="'Enter email address'"
+                      placeholder="Enter email address"
+                      [errorMessages]="errorMessages"
+                      [validators]="validators" 
+                      #tagInput
+                      [onAdding]="onAddedFunc">
+                    </tag-input>
+                  </div>
+                  <div class="col-md-9">
+                    <label class="form-control-label" for="Subject" style="float:left;padding-right: 45px; padding-top: 12px;" >
+                      Subject
+                       </label>
+                       <input class="form-control mt-2 mb-2" style="width:86%;"  formControlName="Subject" placeholder="Subject" type="text"/>
+                      
+                  </div>
+                  <div class="col-md-3" style="display: flex;justify-content:center;align-items: center;">
+                    <input type="checkbox" style="height: 20px;width:20PX;margin-right: 10px;" checked="true" formControlName="predefined" name="predefined" value="Pre Defined">
+                    <label class="form-control-label" for="predefined" style="padding-top: 10px;">
+                      Pre Difined Template 
+                    </label>
+                  </div>
+                  <!-- <br /> -->
+                   <!-- <br />
+                  -->
+                  <angular-editor formControlName="htmlContent" [config]="editorConfig"></angular-editor>
+                                                                                  
+                </div>
+                <div class="col-md-12 mb-3">
+                    <label class="form-control-label" for="ValidDate">
+                      Expire On
+                    </label>
+                    <input type="text" formControlName="ValidDate"  placeholder="Valid Date" class="form-control"  bsDatepicker [bsValue]="bsValue"
+                    [bsConfig]="{
+                      isAnimated: true,
+                      containerClass: 'theme-red'
+                    }"
+                    [minDate]="today"
+                  />  
+                
+                </div>                            
+
+                
+              <!-- </div> -->
+              <div class=" col-md-8" style="padding-top: 32px">  
+                <button class="btn btn-primary" [disabled]="!emailReciepientsShare.length" (click)="onSendEmailByShare()"> Send</button>
+                <button class="btn btn-primary"  (click)="closeShareLinkPopup()"> Close</button>
+               
+              </div>
+              <!-- <button type="button" class="btn btn-warning" (click)="OnReset()">Clear</button> -->
+  
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</div>

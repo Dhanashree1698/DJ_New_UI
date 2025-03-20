@@ -1,0 +1,191 @@
+
+<div class="AdvancedSearchMainContainer">
+  <div class=" header pb-6">
+    <div class=" container-fluid">
+      <div class=" header-body">
+        <div class=" row align-items-center py-4">
+          <div class=" col-lg-6 col-7">
+           
+            <nav aria-label="breadcrumb" class=" d-none d-md-inline-block ml-md-4">
+              <ol class=" breadcrumb breadcrumb-links breadcrumb-dark" >
+                <li class=" breadcrumb-item">
+                  <a href="javascript:void(0)" class="text-gray"> <i class=" fas fa-home"
+                      routerLink="/search/quick-search"> </i> </a>
+                </li>
+
+                <li class=" breadcrumb-item">
+                  <a href="javascript:void(0)" class="text-gray"> Search </a>
+                </li>
+
+                <li aria-current="page" class=" breadcrumb-item active text-dark">
+                  Basic Search
+                </li>
+              </ol>
+            </nav>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- <div class=" header bg-danger pb-6">
+  <div class=" container-fluid">
+    <div class=" header-body">
+      <div class=" row align-items-center py-4">
+        <div class=" col-lg-6 col-7">
+          <h6 class=" h2 text-white d-inline-block mb-0">Bulk Downlaod</h6>
+
+          <nav
+            aria-label="breadcrumb"
+            class=" d-none d-md-inline-block ml-md-4"
+          >
+            <ol class=" breadcrumb breadcrumb-links breadcrumb-dark">
+              <li class=" breadcrumb-item">
+                <a href="javascript:void(0)"> <i class=" fas fa-home" routerLink="/search/quick-search"> </i> </a>
+              </li>
+
+              <li class=" breadcrumb-item">
+                <a href="javascript:void(0)"> Search </a>
+              </li>
+
+              <li aria-current="page" class=" breadcrumb-item active">
+                Bulk Downlaod
+              </li>
+            </ol>
+          </nav>
+        </div>
+
+      
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<div class=" container-fluid mt--6">
+  <div class=" row">
+    <div class="card">
+      <form [formGroup]="AdvancedSearchForm">
+         
+        <div class="card-body">
+            <div class="position-relative row form-group">                       
+                
+             <div class="col-lg-3 col-md-4 col-sm-4 col-xs-4">    
+              <label class="form-control-label" for="TemplateID">Template :</label>           
+                <select name="TemplateID" id="TemplateID" class="form-control" formControlName="TemplateID" (change)="geTemplateNameListByTempID()">
+                  <option value=0>Select Template</option>   
+                  <option *ngFor="let _Temp of _TemplateList" [value]="_Temp.TemplateID"  >  
+                  {{_Temp.TemplateName}}  
+                  </option>   
+                  </select>
+              </div>
+
+              <!-- <div class="col-lg-3 col-md-4 col-sm-4 col-xs-4">  
+                  <label class="form-control-label" for="TemplateID">Search By :</label>           
+                  <select name="SearchByID" id="SearchByID" class="form-control" formControlName="SearchByID">                      
+                    <option value=0>Select Search By </option>      
+                    <option *ngFor="let _SerchBy of _SearchByList" [value]="_SerchBy.SID"  >  
+                         {{_SerchBy.SearchBy}}  
+                         </option>   
+                   </select>                   
+                </div> -->
+
+
+               
+              <div class="col-lg-9 col-md-4 col-sm-4 col-xs-4">  
+               
+                <div class="d-flex">
+                  <label class="form-control-label" for="TemplateID" style="width:17%;">Uplaod CSV File :</label> 
+                <div class="custom-file" style="width: 40%;">  
+                                 
+                  <input type="file" name="csvReader"  id="csvReader" (change)="uploadListener($event)" accept=".csv"
+                  
+                  />                  
+                  <label style="width: 97%;"
+                    class=" custom-file-label"
+                    for="csvReader">
+                    <span class="selected-file-name"></span>                   
+                  </label>
+                </div>
+              
+                <button type="button" class="btn btn-primary" style="font-size: 12px;width: 25%;" (click)="downloadBulkFileBYCSV()">
+                  Download Files <i class="fa fa-download"></i>
+                </button>
+                <button type="button" class="btn btn-primary" style="font-size: 12px;width: 25%;" (click)="downloadBulkFileBYCSVOnSFTP()">
+                  Download Files On SFTP <i class="fa fa-download"></i>
+                </button>
+                <button type="button" class="btn btn-warning" style="font-size: 12px;width: 25%;" (click)="downloadFile()">
+                  Download CSV <i class=" fas fa-file-download"></i> 
+                </button>    
+              </div>             
+              </div>
+
+              </div>   
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="form-group">                  
+                 
+                    <div class="row">
+                      <div class="col-md-6 p-0">
+                        <label class="">Multi-Search</label>                 
+                        <textarea  formControlName="FileNo" placeholder="Search multiple File by Comma Seperator" class="form-control" formControlName="FileNo" id="multiSearchTextArea" cols="10"  rows="4"></textarea>
+                        
+                      </div>
+                      <div class="col-md-6 search-icon">
+                          <div class="input-group-append btndiv" id="search-addon">
+                            <button
+                            class="btn btn-primary"
+                            (click)="downloadBulkFile()"
+                            type="button"
+                            >
+                              Download Files<i class="fa fa-download"></i>
+                              </button>
+                          </div>
+                       </div>
+                      </div>
+                      
+                    <!-- <input
+                        type="text"
+                        class="form-control"
+                        name="FileNo"
+                        id="FileNo"
+                        placeholder="Search by File No"
+                        formControlName="FileNo"
+                        [readonly]="isReadonly"
+                        aria-describedby="search-addon"
+                      /> -->
+                    <!-- <div class="input-group-append btndiv" id="search-addon">
+                        <button
+                        class="btn btn-outline-primary"
+                        (click)="getSearchResult()"
+                        type="button"
+                      >
+                        <i class="fa fa-search"></i>
+                      </button>
+                    </div> -->
+                    
+                 
+                </div>
+
+              </div>   
+                  <!-- <div class="col-md-3">
+        
+                    <input name="FileNo"  formControlName="FileNo" type="text" class="form-control">
+                  </div> -->
+    
+                  <!-- <div class="col-md-3">                
+                    <button type="button" class="btn btn-success" (click)="getSearchResult()">Search</button>
+                  </div> -->             
+
+        </div>        
+
+
+    </form>
+    </div>
+  </div>
+</div>
+
+
+</div>
+
+ 

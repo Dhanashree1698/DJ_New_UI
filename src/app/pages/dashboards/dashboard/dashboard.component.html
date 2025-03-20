@@ -1,0 +1,440 @@
+<div class=" header pb-6">
+    <div class=" header-body">
+        <div class="align-items-center py-4">
+            <div class="dashboard">
+                <h2>Dashboard</h2>
+                <div class="well">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li><a href="#dmsStatistics" class="active" data-toggle="tab">DMS Statistics</a></li>
+                        <li><a href="#documentControl" data-toggle="tab">Document Control</a></li>
+                    </ul>
+                    <div id="myTabContent" class="tab-content">
+                        <div class="tab-pane active in" id="dmsStatistics">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="card card_box">
+                                        <img src="assets/img/folder.png">
+                                        <div class="card_box_txt">
+                                            <h3 class="cursor-pointer" >{{Folder}} 
+                                               
+                                                <div class="dropdown" style="margin-top: -30px;">
+                                                    <button class="dropdown-toggle folder_dropdown" data-toggle="dropdown">
+                                                        <i class="fa fa-caret-down" aria-hidden="true"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a  style="font-size:10px;"  (click)="FolderStruture('Cabinet')">Cabinet</a></li>
+                                                        <li><a  style="font-size:10px;" (click)="FolderStruture('Folder')">Folder</a></li>
+                                                        <li><a  style="font-size:10px;" (click)="FolderStruture('SubFolder')">Sub Folder</a></li>
+                                                    </ul>
+                                                </div>
+
+                                             
+
+                                             
+
+                                            <!-- <div class="dropdown">
+                                                <button class="dropdown-toggle" type="button" data-toggle="dropdown">
+                                                  <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a href="#">HTML</a></li>
+                                                </ul>
+                                            </div> -->
+                                               
+                                                <!-- <i class="fa fa-caret-down" aria-hidden="true">Cabinet</i>
+                                                <i class="fa fa-caret-down" aria-hidden="true"> Folder</i>
+                                                <i class="fa fa-caret-down" aria-hidden="true">Sub Folder</i> -->
+
+                                            </h3>
+                                            <p (click)="DLoadData('Folder')">{{Foldername}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="card card_box">
+                                        <img src="assets/img/online_user.png">
+                                        <div class="card_box_txt">
+                                            <h3 class="cursor-pointer" (click)="DLoadData('User')">{{User}} <i class="fa fa-caret-down" aria-hidden="true"></i></h3>
+                                            <p>Total Users</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="card card_box">
+                                        <img src="assets/img/metadata.png">
+                                        <div class="card_box_txt">
+                                            <h3 class="cursor-pointer" (click)="DLoadData('Metadata')">{{Metadata}} <i class="fa fa-caret-down" aria-hidden="true"></i></h3>
+                                            <p>Template</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="card card_box">
+                                        <img src="assets/img/folder.png">
+                                        <div class="card_box_txt">
+                                            <h3 class="cursor-pointer" (click)="DLoadData('Pages')">{{PageCount}}</h3>
+                                            <p>Number of Pages</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <div class="text_dropdown">
+                                            <h3>Downloads & Uploads</h3>
+                                            <div class="dropdown">
+                                                <button class="dropdown-toggle" type="button" data-toggle="dropdown">
+                                                  <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
+                                                </button>
+                                                
+                                                <ul class="dropdown-menu">
+                                                    <li><a  (click)="DownloadData('Month')" >Month</a></li>
+                                                    <li><a  (click)="DownloadData('Year')">Year</a></li>
+                                                    <li><a  (click)="DownloadData('TIllDate')">Till Date</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <p>From Last Week</p>
+                                        <div id="downloadUploadChart"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card status_chart">
+                                        <h3>OCR Conversion Status</h3>
+                                        <div id="ocrStatusChart"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <div class="text_dropdown">
+                                            <h3>Storage Utilization in GB </h3>
+                                            <div class="dropdown">
+                                                <button class="dropdown-toggle" type="button" data-toggle="dropdown">
+                                                  <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a href="#">HTML</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div id="chartdiv"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <div class="text_dropdown" (click)="DLoadData('LoginFailed')">
+                                            <h3>Failed Login Attempts</h3>
+                                            <div class="dropdown">
+                                                <button class="dropdown-toggle" type="button" data-toggle="dropdown">
+                                                  <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a href="#">HTML</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <p>From Last Week</p>
+                                        <div class="row">
+                                            <div class="col-md-7">
+                                                <h1 class="main-count">{{LoginTillDate}}</h1>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <div class="login-attempts">
+                                                    <img src="assets/img/icons/dashboard/Group_803.png" />
+                                                    <div class="last-week-login">
+                                                        <p class="label">Last Week</p>
+                                                        <p class="count cursor-pointer" (click)="downloadData('Login last week')">{{LoginLastWeek}}</p>
+                                                    </div>
+                                                </div>
+                                                <div class="login-attempts">
+                                                    <img src="assets/img/icons/dashboard/Group_805.png" />
+                                                    <div class="last-week-login">
+                                                        <p class="label">Till Date</p>
+                                                        <p class="count cursor-pointer" (click)="downloadData('Login till date')">{{LoginTillDate}}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card send_card_box">
+                                        <h3>Email Sent / Not Sent</h3>
+                                        <div id="chartdiv2"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <div class="text_dropdown">
+                                            <h3>Deleted Documents</h3>
+                                            <div class="dropdown">
+                                                <button class="dropdown-toggle" type="button" data-toggle="dropdown">
+                                                  <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a href="#">HTML</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <p>From Last Week</p>
+                                        <div class="row">
+                                            <div class="col-md-7">
+                                                <h1 class="main-count">{{DeleteTillDate}}</h1>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <div class="login-attempts" (click)="DLoadData('Deleted')">
+                                                    <img src="assets/img/icons/dashboard/Group_803.png" />
+                                                    <div class="last-week-login">
+                                                        <p class="label">Last Week</p>
+                                                        <p class="count cursor-pointer" (click)="downloadData('delete last week')">{{DeleteLastWeek}}</p>
+                                                    </div>
+                                                </div>
+                                                <div class="login-attempts" (click)="DLoadData('Deleted')">
+                                                    <img src="assets/img/icons/dashboard/Group_805.png" />
+                                                    <div class="last-week-login">
+                                                        <p class="label">Till Date</p>
+                                                        <p class="count cursor-pointer" (click)="downloadData('delete till date')">{{DeleteTillDate}}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card license_card">
+                                        <h4>License <span>15 March 2023</span></h4>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <div class="text_dropdown">
+                                            <h3>File Type </h3>
+                                            <div class="dropdown">
+                                                <button class="dropdown-toggle" type="button" data-toggle="dropdown">
+                                                  <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a href="#">HTML</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <p>From Last Week</p>
+                                        <div class="total-count">
+                                            <div class="linear-gradient"></div>
+                                            <img src="assets/img/icons/dashboard/Union.png" />
+                                            <span class="label">Total Files</span><br />
+                                            <span class="count cursor-pointer" (click)="downloadData('total files')">{{TotalFiles}}</span>
+                                        </div>
+                                        <div id="filesChart"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="documentControl">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="card card_box task">
+                                        <img src="assets/img/task1.png">
+                                        <div class="card_box_txt">
+                                            <h3 class="cursor-pointer" (click)="downloadData('Checker Pending')">{{Maker}}</h3>
+                                            <p>Task Overdue</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card card_box task_dur">
+                                        <img src="assets/img/task2.png">
+                                        <div class="card_box_txt">
+                                            <h3 class="cursor-pointer" (click)="downloadData('Checker Pending')">{{Maker}} </h3>
+                                            <p>Tasks Due This Week</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card card_box tasks_blue">
+                                        <img src="assets/img/task3.png">
+                                        <div class="card_box_txt">
+                                            <h3  class="cursor-pointer" (click)="downloadData('Checker Pending')">{{Maker}}</h3>
+                                            <p>Tasks Due Today</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="card">
+                                                <h3>Document With / Without Metadata</h3>
+                                                <div id="docMetadataChart"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="card">
+                                                <h3>Maker/Checker - Pipeline </h3>
+                                                <div id="makerCheckedChart"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="card missing_documents">
+                                        <img src="assets/img/missing_document.png">
+                                        <h3>Missing Documents</h3>
+                                        <h1>0</h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal"  tabindex="-1" role="dialog"  [ngStyle]="{'display':displayStyle}">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">{{type}}</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closePopup()">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <div class="card-body">
+                    <div class="row">
+                      <!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> -->
+                      
+                        <div class="dataTables_wrapper checklist-table w-100">
+                            <p-table #dt [columns]="headerList" [paginator]="true" [rows]="10" [value]="formattedData" [autoLayout]="true" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50,100]" [(first)]="first" (onPage)="paginate($event)" [loading]="loading" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                              <ng-template pTemplate="caption">
+                                  <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
+                                  <input type="text" pInputText size="50" placeholder="Search records" (input)="searchTable($event)" class="global-search">
+                                  <button (click)="dt.exportCSV()" class="btn btn-sm btn-primary download-data">Download</button>
+                                </ng-template>
+                              <ng-template pTemplate="header">
+                                  <tr>
+                                      <!-- <th [style.width]="'35px'">
+                                        <p-checkbox (onChange)="selectAllRow($event, doc)" #e></p-checkbox>
+                                      </th>
+                                       -->
+                                      <th *ngFor="let col of headerList; let i = index;"  [ngStyle]="i==0 && {'width': '7%'}">
+                                          {{col.header}}
+                                          <p-sortIcon *ngIf="i==10" [field]="col.field"></p-sortIcon>
+                                      </th>
+                                      <!-- <th style="width: 10%;">
+                                        ACTION
+                                      </th> -->
+                                  </tr>
+                              </ng-template>
+                              <ng-template pTemplate="body" let-car let-rowIndex="rowIndex">
+                                  <tr>
+                                      <!-- <td [style.width]="'35px'">
+                                     
+                                     
+                                      <p-checkbox [(ngModel)]="car.selected" [binary]="true" [ngModelOptions]="{standalone: true}" (onChange)="selectRow($event, car)" #e></p-checkbox>
+                                   
+                                      </td>
+                                       -->
+                                      <td *ngFor="let col of headerList">
+                                        <ng-container *ngIf="isUserTable && col.field === 'Status'">
+                                            <ng-container *ngIf="car[col.field] === 'Y'">
+                                                <img height="40" width="50" src="assets/img/icons/dashboard/online.png" />
+                                            </ng-container>
+                                            <ng-container *ngIf="car[col.field] === 'N'">
+                                                <img style="margin-left: 6px;" height="40" width="40" src="assets/img/icons/dashboard/offline.jpg" />
+                                            </ng-container>
+                                        </ng-container>
+                                        <!-- <ng-container *ngIf="col.field === 'FileNo'">
+                                            <a href="javascript:void(0)" (click)="MetaData(ImageViewFormPopup, car)">{{car[col.field]}}</a>
+                                        </ng-container> -->
+                                        <ng-container *ngIf="!isUserTable || col.field !== 'Status'">
+                                            {{car[col.field]}} 
+                                        </ng-container>
+                                      </td>
+
+                                     
+                                        <!-- <button type="button" style="padding:0 0 5px 4px" class="btn btn-icon btn-success btn-icon-only rounded-circle" (click)="Editinward(InwardFormPopup,car)">
+                                          <span class="btn-inner--icon"><i class="fa fa-plus"></i></span>
+                                        </button>  -->
+                    
+
+                                  
+                                  </tr>
+                              </ng-template>
+                          </p-table>
+                                           
+                  
+                          </div>
+   
+                    </div>
+                  </div>
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" 
+                      (click)="closePopup()">
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+<ng-template #ImageViewFormPopup let-c="close" let-d="dismiss" let-modal>
+    <div class="modal-content" id="fileStorageDocView">
+        <div class="modal-body p-0">
+        <div class="card w-100">              
+            <div class=" card-header"><h3 class=" mb-0" >Document View
+            <span style="float: right;cursor: pointer;" (click)="hidepopup()" class="btn-inner--icon"><img src="assets/img/icons/delete.svg"></span>
+            </h3>
+            </div>
+            <div class="card-body">
+
+            <div>
+            <div class="card-body" style="padding:0">
+                <div class="row">
+                <div class="col-lg-4 metadata-table">
+                
+                    <table class="table-hover table">                
+                    <tr *ngFor="let Ilst of _IndexList">                   
+                        <td><b>{{Ilst.DisplayName}}</b></td>
+                        <td>{{Ilst.ColValues}}</td>                    
+                        </tr>                
+                    </table>
+
+                </div>
+
+                <div class="col-lg-8" *ngIf="FilePath">
+                    <ng-container *ngIf="fileExt != '.pdf'">
+                    <ngx-doc-viewer
+                        [url]="FilePath"
+                        viewer="google"
+                        style="width:100%;height:90vh;"
+                    ></ngx-doc-viewer>
+                    </ng-container>
+                    <ng-container *ngIf="fileExt == '.pdf'">
+                    <ngx-extended-pdf-viewer  id="Viewer"
+                    [page] ="_PageNo"
+                    [useBrowserLocale]="true"
+                    [textLayer]="true"
+                    [showHandToolButton]="true"
+                    [height]="'90vh'"
+        
+                    *ngIf="FilePath" [src]="FilePath"
+                    > 
+        
+                    </ngx-extended-pdf-viewer>
+                    </ng-container>
+                </div>
+
+
+                </div>
+            </div>
+            </div>
+            <br>
+            </div>
+        </div>
+        </div>
+    </div>
+</ng-template>  

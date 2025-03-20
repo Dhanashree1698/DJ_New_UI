@@ -1,0 +1,212 @@
+<div class=" header pb-6">
+    <div class=" container-fluid">
+      <div class=" header-body">
+        <div class=" row align-items-center py-4">
+          <div class=" col-lg-6 col-7">
+            <nav
+              aria-label="breadcrumb"
+              class=" d-none d-md-inline-block ml-md-4"
+            >
+              <ol class=" breadcrumb breadcrumb-links breadcrumb-dark" >
+                <li class=" breadcrumb-item">
+                  <a href="javascript:void(0)" class="text-gray"> <i class=" fas fa-home" routerLink="/search/quick-search"> </i> </a>
+                </li>
+  
+                 <li class=" breadcrumb-item">
+                  <a href="javascript:void(0)" class="text-gray"> Master </a>
+                </li>
+  
+                <li aria-current="page" class=" breadcrumb-item active text-dark">
+                  Client Master
+                </li>
+              </ol>
+            </nav>
+          </div> 
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class=" container-fluid mt--6">
+    <div class=" row">
+      <div class=" col">
+
+        <div class=" card">
+          <div class="card-header">
+            <div class="row ">
+              <!-- <div class="col">
+                <h3 class="mb-0">All Clients</h3>
+              </div>
+              <div class="col text-right">
+                <button type="button" class="btn btn-primary p-2" (click)="addTemplate(TemplateFormPopup)" style="margin-left: 5px;">
+                  <i class="fa fa-plus"></i> Template
+                </button>
+                <button type="button" class="btn btn-primary p-2" (click)="onDownload('Client Master')">
+                  <i class="fa fa-download"></i> Download
+                </button>
+              </div> -->
+              <div class="col-md-6">
+                <div class="col">
+                  <h3 class="mb-0">All Clients</h3>
+                </div>
+              </div>
+              <div class=" col-md-6">  
+              
+                <button type="button" class="btn success" tooltip="Template"  (click)="addTemplate(TemplateFormPopup)" style="float: right;margin-left: 5px;">
+                  <i class="fa fa-plus fa-lg"> </i> </button>
+                  <button type="button" class="btn success" tooltip="Download" (click)="onDownload('Client Master')" style="float: right;">
+                    <i class="fa fa-download fa-lg"></i> </button>
+                <!-- <button type="button" class="btn success p-2" [disabled]="!isValid()" (click)="onDownload()" style="float: right;">
+                  <i class="fa fa-download"></i> Download</button> -->
+                <!-- <button class="btn float-right"  style="background-color: #F2A123;border: none;color: #fff;opacity: 1;"  [disabled]="!isValid()" (click)="onDownload()"> Download</button>        -->
+            </div> 
+            </div>
+          </div>
+          
+
+          <div class="dataTables_wrapper">
+      
+            <p-table [paginator]="true" [rows]="10" [value]="formattedData" [autoLayout]="true" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50,100]" [(first)]="first" (onPage)="paginate($event)" [loading]="loading" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+              <ng-template pTemplate="caption">
+                  
+                  <input type="text" pInputText size="50" placeholder="Search records" (input)="searchTable($event)" class="global-search">
+                  
+                </ng-template>
+              <ng-template pTemplate="header">
+                  <tr>
+
+                      <th *ngFor="let col of headerList; let i = index;"  [ngStyle]="i==0 && {'width': '6%'}">
+                          {{col.header}}
+                          <p-sortIcon *ngIf="i==10" [field]="col.field"></p-sortIcon>
+                      </th>
+                       <th style="width: 5%;">
+                        ACTION
+                      </th> 
+                  </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-car let-rowIndex="rowIndex">
+                  <tr>
+
+                      <td *ngFor="let col of headerList">
+                        {{car[col.field]}}
+                      </td>
+                      
+                     <td>
+                      <button  type="button" tooltip="Edit" style="
+                      padding: 0 0 6px 4px;
+                     color: #000;
+                     
+                      width: 28px;
+                     height: 28px;" class="btn btn-icon btn-secondary btn-icon-only rounded-circle"
+                      (click)="editClient(TemplateFormPopup,car)">
+                      <span class="btn-inner--icon"><i class="fa fa-pen" style="
+                      color: #000;
+                      margin-right: 3px;
+                       margin-top: 0.32rem;
+                       size: -2px;
+                       font-size: 13px;"></i></span>
+                    </button>
+                      
+                     </td>
+                     
+                  </tr>
+              </ng-template>
+          </p-table>
+  
+          <ng-template #TemplateFormPopup let-c="close" let-d="dismiss" let-modal>
+            <div class="modal-content">
+              <div class="modal-body p-0">
+                <div class=" card">
+                  <div class=" card-headers"> <div class="row">
+                    <div class="col-sm-6"><h3 class="header-title">Client Master</h3></div>
+                    <div class="col-sm-6" style="text-align: end;"><button type="button" class="btn success" >
+                      <i class="fa fa-times fa-lg" (click)="ClosePopup()"></i> 
+                    </button></div>
+                  </div></div>
+                  <div class="card-body">
+                    <form class="needs-validation" novalidate="" [formGroup]="AddTemplateForm" (ngSubmit)="onSubmit()">
+                      <div class="form-row">
+                        <div class="col-md-12 mb-3">
+                          <label class="form-control-label" for="ClientName">
+                          Client  Name
+                          </label>
+                          <input class="form-control" formControlName="ClientName" placeholder="Client Name" type="text"/>
+                          <div class="valid-feedback">Looks good!</div>
+                          <div style="margin-top: .25rem;" class="alert alert-danger"
+                          *ngIf="f.ClientName.touched && f.ClientName.invalid && f.ClientName.errors.required">Client name is required</div>
+                          <div class="alert alert-danger" *ngIf="!!AddTemplateForm.get('ClientName').errors?.pattern">Please enter valid name.</div>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                          <label class="form-control-label" for="TemplateName">
+                            Cabinet
+                          </label>
+                          <select name="Cabinet"  id="Cabinet" class="form-control" formControlName="Cabinet" (change)="getFolderByCabient($event.target.value)"  >
+                            <option value=0>Select Cabinet</option>   
+                            <option *ngFor="let _Cabinet of _CabientList" [value]="_Cabinet.id"  >  
+                            {{_Cabinet.DepartmentName}}  
+                            </option>
+                          </select>
+                          <div class="valid-feedback">Looks good!</div>
+                          <div style="margin-top: .25rem;" class="alert alert-danger"
+                          *ngIf="f.Cabinet.touched && f.Cabinet.invalid && f.Cabinet.errors.required">Cabinet is required</div>
+                          <div class="alert alert-danger" *ngIf="!!AddTemplateForm.get('Cabinet').errors?.pattern">Please enter cabinet.</div>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                          <label class="form-control-label" for="Cordinates">
+                            Folder
+                          </label>
+                          <select name="Folder" id="Folder" class="form-control" formControlName="Folder" (change)="GetSubfolderByBranchID($event.target.value)"  >
+                            <option value='0'>Select Folder</option>   
+                            <option *ngFor="let _Folder of FolderList" [value]="_Folder.id"  >  
+                            {{_Folder.BranchName}}  
+                            </option>
+                          </select>
+                          <div class="valid-feedback">Looks good!</div>
+                          <div style="margin-top: .25rem;" class="alert alert-danger"
+                          *ngIf="f.Folder.touched && f.Folder.invalid && f.Folder.errors.required">Folder is required</div>
+                          <div class="alert alert-danger" *ngIf="!!AddTemplateForm.get('Folder').errors?.pattern">Please enter folder.</div>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                          <label class="form-control-label" for="Cordinates">
+                            Storage Space (GB)
+                          </label>
+                          <input class="form-control" formControlName="StorageSpace" placeholder="Storage Space" type="number"/>
+                          <div class="valid-feedback">Looks good!</div>
+                          <div style="margin-top: .25rem;" class="alert alert-danger"
+                          *ngIf="f.StorageSpace.touched && f.StorageSpace.invalid && f.StorageSpace.errors.required">Storage space is required</div>
+                          <div class="alert alert-danger" *ngIf="!!AddTemplateForm.get('StorageSpace').errors?.pattern">Please enter storage space.</div>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                          <label class="form-control-label" for="Cordinates">
+                            No of Users
+                          </label>
+                          <input class="form-control" formControlName="NoofUsers" placeholder="No Of Users" type="number"/>
+                          <div class="valid-feedback">Looks good!</div>
+                          <div style="margin-top: .25rem;" class="alert alert-danger"
+                          *ngIf="f.NoofUsers.touched && f.NoofUsers.invalid && f.NoofUsers.errors.required">No of users is required</div>
+                          <div class="alert alert-danger" *ngIf="!!AddTemplateForm.get('NoofUsers').errors?.pattern">Please enter no of users.</div>
+                        </div>
+
+                      </div>
+                        <!-- Buttons -->
+            <div class="text-right">
+              <button type="submit" class="btn successbtn p-2">Submit</button>
+              <!-- <button type="button" class="btn dangerbtn p-2" (click)="ClosePopup()">Close</button> -->
+            </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+          </div>
+
+        </div>
+  
+      </div>
+    </div>
+  </div>
+  <p-toast position="top-left" [showTransformOptions]="'translateY(100%)'" 
+                    [showTransitionOptions]="'1000ms'" 
+                    [hideTransitionOptions]="'1000ms'" 
+                    [showTransformOptions]="'translateX(100%)'"></p-toast>

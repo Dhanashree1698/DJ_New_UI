@@ -1,0 +1,168 @@
+<div class=" header pb-6">
+  <div class=" container-fluid">
+    <div class=" header-body">
+      <div class=" row align-items-center py-4">
+        <div class=" col-lg-6 col-7">
+          <!-- <h6 class=" h2 text-white d-inline-block mb-0">Report</h6> -->
+
+          <nav
+            aria-label="breadcrumb"
+            class=" d-none d-md-inline-block ml-md-4"
+          >
+            <ol class=" breadcrumb breadcrumb-links breadcrumb-dark" >
+              <li class=" breadcrumb-item">
+                <a href="javascript:void(0)" class="text-gray"> <i class=" fas fa-home" routerLink="/search/quick-search"> </i> </a>
+              </li>
+              <li class=" breadcrumb-item">
+                <a href="javascript:void(0)" class="text-gray"> Report </a>
+              </li>
+              <li aria-current="page" class=" breadcrumb-item active text-dark">
+                Email Log Report
+              </li>
+            </ol>
+          </nav>
+        </div> 
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class=" container-fluid mt--6">
+  <div class=" row">
+    <div class=" col">
+      <form [formGroup]="StatusReportForm">
+      <div class=" card">
+        <div class="card-header">
+          <div class=" row">
+
+            <!-- <div class="col-lg-3 col-md-3 col-sm-4 col-xs-4">   
+               
+              <select name="BranchID" id="BranchID" class="form-control" formControlName="BranchID" >
+                <option value='0'>Select Folder</option>   
+                <option *ngFor="let _Bracnch of BranchList" [value]="_Bracnch.BranchID"  >  
+                {{_Bracnch.BranchName}}  
+                </option>
+              </select>
+            </div>   -->
+
+            <div class=" col-md-2">  
+              <div class=" form-group">
+                <label class=" form-control-label" for="DATEFROM">
+                  From Date
+                </label>
+                <input
+                  type="text"
+                  formControlName="DATEFROM"
+                  placeholder="Datepicker"
+                  class="form-control"
+                  bsDatepicker
+                  [bsValue]="bsValue"
+                  [bsConfig]="{
+                    isAnimated: true,
+                    containerClass: 'theme-red'
+                  }"
+                  [maxDate]="maxDate"
+                />
+              </div>
+            </div>
+            <div class=" col-md-2">
+              <div class=" form-group">
+                <label class=" form-control-label"  for="DATETO">  To Date </label>                   
+                <input type="text" formControlName="DATETO"  placeholder="Datepicker" class="form-control"  bsDatepicker                   [bsValue]="bsValue"
+                  [bsConfig]="{
+                    isAnimated: true,
+                    containerClass: 'theme-red'
+                  }"
+                  [maxDate]="maxDate"
+                />
+              </div>
+            </div>   
+            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">   
+              <label class=" form-control-label" for="DATEFROM">
+                Mail Send
+               </label>
+              <select name="MailSend" id="MailSend" class="form-control" formControlName="MailSend" >
+                <option value=0 selected disabled>ALL</option>   
+                <option value="Y" >Yes</option>
+                <option value="N">No</option>
+              </select>
+            </div>  
+
+            <div class=" col-md-3" style="padding-top: 35px">  
+              <!-- (click)="onSearch()" -->
+              <button class="btn success" [disabled]="!isValid()" tooltip="Search" (click)="onSearch()" > <i class="fa fa-search fa-lg"></i> </button>
+              <button type="button" class="btn success" tooltip="Download" [disabled]="!isValid()" (click)="onDownload()" >
+                <i class="fa fa-download fa-lg"></i></button>
+          </div>    
+          </div>
+        </div>
+        <div class="dataTables_wrapper py-4">
+    
+          <p-table [paginator]="true" [rows]="10" [value]="formattedData" [autoLayout]="true" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50,100]" [(first)]="first" (onPage)="paginate($event)" [loading]="loading" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+            <ng-template pTemplate="caption">
+                <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
+                <input type="text" pInputText size="50" placeholder="Search records" (input)="searchTable($event)" class="global-search">
+          
+              </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <!-- <th [style.width]="'35px'">
+                      <p-checkbox (onChange)="selectAllRow($event, doc)" #e></p-checkbox>
+                    </th>
+                     -->
+                    <th *ngFor="let col of headerList; let i = index;"  [ngStyle]="i==0 && {'width': '6%'}">
+                        {{col.header}}
+                        <p-sortIcon *ngIf="i==10" [field]="col.field"></p-sortIcon>
+                    </th>
+                    <!-- <th style="width: 5%;">
+                      ACTION
+                    </th> -->
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-car let-rowIndex="rowIndex">
+                <tr>
+                    <!-- <td [style.width]="'35px'">
+                   
+                   
+                    <p-checkbox [(ngModel)]="car.selected" [binary]="true" [ngModelOptions]="{standalone: true}" (onChange)="selectRow($event, car)" #e></p-checkbox>
+                 
+                    </td>
+                     -->
+                    <td *ngFor="let col of headerList">
+                      {{car[col.field]}}
+                    </td>
+                    
+                   
+                      <!-- <button type="button" style="padding:0 0 5px 4px" class="btn btn-icon btn-danger btn-icon-only rounded-circle" (click)="Editinward(InwardFormPopup,car)">
+                        <span class="btn-inner--icon"><i class="fa fa-edit"></i></span>
+                      </button>  -->
+
+                       <!-- <button type="button" style="padding:0 0 5px 4px" (click)="ViewDocument(ImageViewFormPopup,car, MetaDataFormPopup)" *ngIf="_isDocView == 'true'" class="btn btn-icon btn-warning btn-icon-only rounded-circle">
+                        <span class="btn-inner--icon"><i class="fa fa-eye"></i></span>
+                      </button>
+                      <button type="button" style="padding:0 0 5px 4px" (click)="EditRowData(car)" *ngIf="_isEdit == 'true'" class="btn btn-icon btn-warning btn-icon-only rounded-circle" >
+                        <span class="btn-inner--icon"><i class="fa fa-edit"></i></span>
+                      </button>
+  
+                      <button type="button" style="padding:0 0 5px 4px" (click)="DownloadFileAll(car.AccNo,car)" *ngIf="_isDownload == 'true'" class="btn btn-icon btn-warning btn-icon-only rounded-circle">
+                        <span class="btn-inner--icon"><i class="fa fa-download"></i></span>
+                      </button>
+                      <button type="button" style="padding:0 0 5px 4px" (click)="DeleteFile(car)" *ngIf="_isDelete == 'true'" class="btn btn-icon btn-danger btn-icon-only rounded-circle">
+                        <span class="btn-inner--icon"><i class="fa fa-trash"></i></span>
+                      </button> -->
+                   
+
+                   
+                </tr>
+            </ng-template>
+        </p-table>
+
+
+        </div>
+      </div>
+    </form>
+
+    </div>
+  </div>
+</div>

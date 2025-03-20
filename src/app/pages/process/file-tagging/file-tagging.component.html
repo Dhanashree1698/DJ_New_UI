@@ -1,0 +1,330 @@
+
+<div class="header pb-6">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="row align-items-center py-4">
+        <div class="col-lg-6 col-7">
+          <!-- <h6 class="h2 text-white d-inline-block mb-0">Process</h6> -->
+
+          <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+            <ol class="breadcrumb breadcrumb-links breadcrumb-dark" style="margin-left: -16px;">
+              <li class="breadcrumb-item">
+                <a href="javascript:void(0)" class="text-gray"> <i class="fas fa-home"> </i> </a>
+              </li>
+
+              <li class="breadcrumb-item">
+                <a href="javascript:void(0)" class="text-gray"> Process </a>
+              </li>
+
+              <li aria-current="page" class="breadcrumb-item active text-dark">
+                File Tagging
+              </li>
+            </ol>
+          </nav>
+        </div>
+        <div class=" col-lg-6 col-5 text-right">
+          <a class=" btn btn-sm btn-neutral" (click)="ReTagging(BranchFormPopup)">Re-Tagging</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class=" container-fluid mt--6">
+  <div class=" row">
+    <div class=" col">
+      <div class=" card">
+        <div class=" card-header">
+          <h3 class=" mb-0">Tagging</h3>
+          <p class=" text-sm mb-0"></p>
+        </div>
+        <div class="dataTables_wrapper py-4">
+          <div class="row">
+            <div class="col-sm-12 col-md-6">
+              <div class="dataTables_length" id="datatable_length">
+                <label>
+                  Show
+                  <select
+                    name="datatable_length"
+                    aria-controls="datatable"
+                    class="form-control form-control-sm"
+                    (change)="entriesChange($event)"
+                  >
+                    <option value="10" [selected]="entries == 10">10</option>
+                    <option value="25" [selected]="entries == 25">25</option>
+                    <option value="50" [selected]="entries == 50">50</option>
+                    <option value="-1" [selected]="entries == -1">All</option>
+                  </select>
+                  entries
+                </label>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-6">
+              <div id="datatable_filter" class="dataTables_filter">
+                <label>
+                  <input
+                    type="search"
+                    class="form-control form-control-sm"
+                    placeholder="Search records"
+                    aria-controls="datatable"
+                    (keyup)="filterTable($event)"
+                  />
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <ngx-datatable
+            class="material"
+            [columnMode]="'force'"
+            [headerHeight]="50"
+            [footerHeight]="50"
+            [rowHeight]="'auto'"
+            [limit]="Tentries != -1 ? Tentries : undefined"
+            [rows]="_FilteredTaggingList"
+            (activate)="TonActivate($event)" >
+
+            <ngx-datatable-column name="SrNo">
+              <ng-template let-rowIndex="rowIndex" ngx-datatable-cell-template>{{rowIndex+1}}</ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="FileNo">
+            
+              <ng-template let-row="row" ngx-datatable-cell-template>{{row.FileNo}}</ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Branch">
+              <ng-template let-row="row" ngx-datatable-cell-template>{{row.BranchName}}</ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Template">
+              <ng-template let-row="row" ngx-datatable-cell-template>{{row.TemplateName}}</ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Page Count">
+              <ng-template let-row="row" ngx-datatable-cell-template>{{row.PageCount}}</ng-template>
+            </ngx-datatable-column>
+
+            
+
+            <ngx-datatable-column name="Is Idexing">
+              <ng-template let-row="row" ngx-datatable-cell-template>N</ng-template>
+            </ngx-datatable-column>
+            
+            <ngx-datatable-column name="Action" sortable="false" prop="id">
+              <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                <button type="button" style="padding:0 0 5px 4px" class="btn btn-icon btn-warning btn-icon-only rounded-circle" (click)="AddIndexing(BranchFormPopup,row)">
+                  <span class="btn-inner--icon"><i class="fa fa-plus"></i></span>
+                </button>
+                <!-- <button type="button" style="padding:0 0 5px 1px" class="btn btn-icon btn-danger btn-icon-only rounded-circle" (click)="deleteIndexing(value)">
+                  <span class="btn-inner--icon"><img src="assets/img/icons/delete.svg"></span>
+                </button> -->
+          </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<ng-template #BranchFormPopup let-c="close" let-d="dismiss" let-modal>
+
+  <div class="modal-content">
+    <div class="modal-body p-0">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="card" style="width: 100%;">
+        <form [formGroup]="FileTaggingForm">              
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                  <div class="position-relative row form-group">
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 paddingclass p-0">
+                      <div class="card-header">
+                        <h3 class="mb-0">File Tagging</h3>
+                        <p class="text-sm mb-0"></p>
+                      </div>
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="form-group">
+                             
+                              <div class="input-group input-group-merge serchInput">
+                                <label class="form-control-label pt-2" for="FileNo">
+                                  {{TempField}} :
+                                </label>
+                                <input style="border-left:1px solid #ccc;border: 1px solid #ccc; padding-left: 5px;margin-left: 20px;"
+                                type="text" class="form-control" name="FileNo" id="FileNo" placeholder={{TempField}} formControlName="FileNo"
+                                    
+                                  />
+                                <div class="input-group-append btndiv" id="search-addon">
+                                    <button
+                                    class="btn btn-outline-primary"
+                                    (click)="GetNextFile()"
+                                    type="button"
+                                  > <i class="fa fa-search" aria-hidden="true"></i>                                
+                                  </button>
+                                </div>
+                                
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label class="float-left form-control-label pt-2" for="TemplateID">
+                                Doc Type :
+                              </label>
+                              <select style="width: 78%;
+                              margin-left: 20px;
+                              float: left;
+                              margin-bottom: 20px;"
+                                name="DocID" id="DocID" class="form-control" formControlName="DocID"
+                                
+                              >
+                              <option value=0>Select Document Type</option>   
+                              <option *ngFor="let DeptL of _DeptList" [value]="DeptL.DocTypeID"  >  
+                              {{DeptL.DocName}}  
+                              </option>
+                              </select>
+                            </div>
+                          </div>
+
+
+                          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            
+                            <div class="text-left d-flex mb-3"> 
+                              <input style="border: 1px solid #ccc;"
+                                type="number" class="form-control" name="goto" formControlName="goto"
+                                   />
+                                  
+                              <button class='btn btn-warning' (click)="Goto()">
+                                Goto</button>
+                              </div>
+                              <div class="d-flex" style="justify-content: space-between;">
+                                <div>                                
+                                  <button class='btn btn-success' (click)="Previous()">
+                                  <i class="fa fa-arrow-left" aria-hidden="true"></i></button>
+                                <button class='btn btn-success' (click)="Next()">
+                                  <i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+                                </div>
+                            
+
+                            <div class="">
+ 
+                              <button class='btn btn-success' (click)="onSubmit()" [disabled]="submitted">
+                                Save
+                              </button>
+                              <button class='btn btn-warning' (click)="hidepopup()">
+                                Close</button>
+                            </div>
+                          </div>
+
+                          </div>
+
+
+                          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">                 
+                            <div class="dataTables_wrapper py-4">
+                              <div class="row">
+                                <div class="col-sm-12 col-md-6">
+                                  <div class="dataTables_length" id="datatable_length">
+                                    <label>
+                                      Show
+                                      <select
+                                        name="datatable_length"
+                                        aria-controls="datatable"
+                                        class="form-control-sm"
+                                        (change)="entriesChange($event)"                                      >
+                                        <option value="10" [selected]="entries == 10">10</option>
+                                        <option value="25" [selected]="entries == 25">25</option>
+                                        <option value="50" [selected]="entries == 50">50</option>
+                                        <option value="-1" [selected]="entries == -1">All</option>
+                                      </select>
+                                      entries
+                                    </label>
+                                  </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                  <div id="datatable_filter" class="dataTables_filter">
+                                    <label>
+                                      <input
+                                        type="search"
+                                        class="form-control form-control-sm"
+                                        placeholder="Search records"
+                                        aria-controls="datatable"
+                                        (keyup)="filterTable($event)"
+                                      />
+                                    </label>
+                                  </div>
+                                </div>
+                              </div>
+                              <ngx-datatable
+                              class="material"
+                              [columnMode]="'force'"
+                              [headerHeight]="50"
+                              [footerHeight]="50"
+                              [rowHeight]="'auto'"
+                              [limit]="entries != -1 ? entries : undefined"
+                              [rows]="_FilteredList"
+                            >
+                              <ngx-datatable-column name="SrNo">
+                                <ng-template let-rowIndex="rowIndex" ngx-datatable-cell-template>{{rowIndex+1}}</ng-template>
+                              </ngx-datatable-column>
+                              <ngx-datatable-column name="Doc Name">
+                                <ng-template let-row="row" ngx-datatable-cell-template>{{row.DocName}}</ng-template>
+                              </ngx-datatable-column>
+                              <ngx-datatable-column name="Page No">
+                                <ng-template let-row="row" ngx-datatable-cell-template>{{row.PageIndex}}</ng-template>
+                              </ngx-datatable-column>
+                            </ngx-datatable>
+                            </div>
+                          </div> 
+
+
+                         
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-5 paddingclass">
+
+                      <!-- <div class="card-header">
+                        <h3 class="mb-0">Document View</h3>
+                        <p class="text-sm mb-0"></p>
+                      </div> -->
+                      <div class="card-body" style="padding:0">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <ngx-extended-pdf-viewer  id="Viewer"                         
+                            [page] ="_PageNo"           
+                            [useBrowserLocale]="true" 
+                            [textLayer]="true"
+                            [showHandToolButton]="true" 
+                            [height]="'90vh'"
+                            
+                            *ngIf="FilePath" [src]="FilePath" 
+                                          
+                            > <!-- by default, most CSS framework set the height to 0 -->
+                          
+                        </ngx-extended-pdf-viewer>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                    
+                  </div>
+                  
+                </div>
+             
+                 
+                     
+        </form>
+    </div>
+  </div>
+
+  </div>
+</div>
+</div>
+
+</ng-template>
+<p-toast position="top-left" [showTransformOptions]="'translateY(100%)'" 
+                    [showTransitionOptions]="'1000ms'" 
+                    [hideTransitionOptions]="'1000ms'" 
+                    [showTransformOptions]="'translateX(100%)'"></p-toast>

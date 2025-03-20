@@ -1,0 +1,779 @@
+<div class="header pb-6">
+  <div class=" container-fluid">
+    <div class=" header-body">
+      <div class=" row align-items-center py-4">
+        <div class=" col-lg-6 col-7">
+          <!-- <h6 class=" h2 text-dark d-inline-block mb-0">Users</h6> -->
+
+          <nav aria-label="breadcrumb" class=" d-none d-md-inline-block ml-md-4">
+            <ol class=" breadcrumb breadcrumb-links breadcrumb-dark">
+              <li class=" breadcrumb-item">
+                <a href="javascript:void(0)" class="text-gray"> <i class=" fas fa-home"
+                    routerLink="/search/quick-search"> </i> </a>
+              </li>
+
+              <li class=" breadcrumb-item">
+                <a href="javascript:void(0)" class="text-gray"> User Management </a>
+              </li>
+
+              <li aria-current="page" class=" breadcrumb-item active text-dark">
+                User
+              </li>
+            </ol>
+          </nav>
+        </div>
+
+        <div class=" col-lg-6 col-5 text-right">
+          <!-- <a class=" btn btn-sm btn-default" (click)="addUser(userFormPopup)" style="color: white;"> Create New User</a> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class=" container-fluid mt--6">
+  <div class=" row">
+    <div class=" col">
+      <div class=" card">
+        <div class=" card-header">
+          <div class="row">
+          
+            <div class="col-sm-6">
+              <h3 class=" mb-0">All Users</h3>
+              <p class=" text-sm mb-0"></p>
+          </div>
+          <div class="col-sm-6 text-right">
+            <div class="btn-group">
+              <button type="button" class="btn success" (click)="addUser(userFormPopup)" tooltip="Add"><i class="fa fa-plus fa-lg" aria-hidden="true"></i></button>
+              <button type="button" class="btn success" routerLink="/upload/bulkuser" tooltip="Bulk User">
+                <i class="fa fa-upload fa-lg"></i>
+              </button>
+              <button type="button" class="btn success" tooltip="template-mapping" routerLink="/master/template-mapping">
+                <i class="fa fa-user fa-lg"></i>
+              </button>
+              <button type="button" class="btn success" tooltip="subfolder-mapping" routerLink="/master/subfolder-mapping">
+                <i class="fa fa-info-circle fa-lg"></i> 
+              </button>
+              <button type="button" class="btn success" tooltip="Download" (click)="onDownloadExcelFile('User List')">
+                <i class="fa fa-download fa-lg"></i>
+              </button>
+                <button type="button" class="btn btn success" tooltip="Reset Password" (click)="UserReset(resetPassword)">
+                  <i class="fa fa-lock fa-lg"></i>
+                </button>
+            </div>
+        </div>
+        
+          </div>
+         
+        
+        </div>
+        <div class="dataTables_wrapper">
+             
+          <p-table [paginator]="true" [rows]="10" [value]="formattedData" [autoLayout]="true" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50,100]" [(first)]="first" (onPage)="paginate($event)" [loading]="loading" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+            <ng-template pTemplate="caption">
+                
+                <input type="text" pInputText size="50" placeholder="Search records" (input)="searchTable($event)" class="global-search">
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                   
+                    <th *ngFor="let col of headerList; let i = index;"  [ngStyle]="i==0 && {'width': '5%'}">
+                        {{col.header}}
+                        <p-sortIcon *ngIf="i==10" [field]="col.field"></p-sortIcon>
+                    </th>
+                    <th>
+                      STATUS
+                    </th>
+                    <th style="width: 8%;text-align: center;">
+                      ACTION
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-car let-rowIndex="rowIndex">
+                <tr>                  
+                    <td *ngFor="let col of headerList">
+                      {{car[col.field]}}
+                    </td>
+                    <td>
+                      <button type="button" [ngClass]="car['isActive'] == 'Active' ? 'btn btn-sm success' : 'btn btn-sm dangerbtn'"
+                      (click)="deleteEmployee(car)">
+                      {{car['isActive']}}
+                    </button>
+                    </td>
+                      <td>
+      
+                  <div style="display: flex; align-items: center;">
+                    <!-- Edit User -->
+                    <button type="button" tooltip="Edit" style="
+                    padding: 0 0 6px 4px;
+                   color: #000;
+                   
+                    width: 28px;
+                   height: 28px;" class="btn btn-icon btn-secondary btn-icon-only rounded-circle"
+                    (click)="editEmployee(userFormPopup, car)">
+                    <span class="btn-inner--icon"><i class="fa fa-pen" style="
+                    color: #000;
+                    margin-right: 3px;
+                     margin-top: 0.32rem;
+                     size: -2px;
+                     font-size: 13px;"></i></span>
+                  </button>
+                    <!-- Folder Access -->
+                    <button type="button" tooltip="Folder Details" style="
+                   margin-left: 10px;
+                   color:#000;
+   
+                    width: 28px;
+                   height: 28px;" class="btn btn-icon btn-secondary btn-icon-only rounded-circle"
+                    (click)="ShowFolderDetails(FolderDetails, car)">
+                    <span class="btn-inner--icon"><i class="fa fa-folder-open" style="
+                    color: #000;
+                  margin-bottom: 6px;
+                     font-size: 13px;"></i></span>
+                  </button>
+                   
+
+                    <!-- Change Password -->
+                    <!-- <button type="button" style="
+                    padding: 0 0 6px 4px;
+                   color: #d9534f;
+                   box-shadow: 0px 0px 3px 0px #d9534f;
+                    width: 28px;
+                   height: 28px;" class="btn btn-icon btn-secondary btn-icon-only rounded-circle"
+                    (click)="ShowFolderDetails(FolderDetails, car)">
+                    <span class="btn-inner--icon"><i class="fa fa-key" style="
+                    color: #d9534f;
+                    margin-right: 3px;
+                     margin-top: 0.32rem;
+                     size: -2px;
+                     font-size: 13px;"></i></span>
+                  </button> -->
+                   
+                  </div>
+
+                    
+                    
+                    
+                  
+                   
+                        <!-- <button type="button" class="btn btn-icon btn-icon-only">
+                          <span class="btn-inner--icon">  <i  title="Folder Details"><img src="assets/img/history2.png" style="margin-bottom: 5px;" alt=""></i></span>
+                        </button> -->
+                      </td> 
+                </tr>
+            </ng-template>
+        </p-table>
+                         
+
+        </div>
+
+        <!-- <div class="dataTables_wrapper py-4">
+          <div class="row">
+            <div class="col-sm-12 col-md-6">
+              <div class="dataTables_length" id="datatable_length">
+                <label>
+                  Show
+                  <select
+                    name="datatable_length"
+                    aria-controls="datatable"
+                    class="form-control form-control-sm"
+                    (change)="entriesChange($event)"
+                  >
+                    <option value="10" [selected]="entries == 10">10</option>
+                    <option value="25" [selected]="entries == 25">25</option>
+                    <option value="50" [selected]="entries == 50">50</option>
+                    <option value="-1" [selected]="entries == -1">All</option>
+                  </select>
+                  entries
+                </label>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-6">
+              <div id="datatable_filter" class="dataTables_filter">
+                <label>
+                  <input
+                    type="search"
+                    class="form-control form-control-sm"
+                    placeholder="Search records"
+                    aria-controls="datatable"
+                    (keyup)="filterTable($event)"
+                  />
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <ngx-datatable
+            class="material"
+            [columnMode]="'force'"
+            [headerHeight]="50"
+            [footerHeight]="50"
+            [rowHeight]="'auto'"
+            [limit]="entries != -1 ? entries : undefined"
+            [rows]="_FilteredList"
+            (activate)="onActivate($event)"
+          >
+            <ngx-datatable-column name="SrNo">
+              <ng-template let-rowIndex="rowIndex" ngx-datatable-cell-template>{{rowIndex+1}}</ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="ś">Name</ngx-datatable-column>
+            <ngx-datatable-column name="userid">User ID</ngx-datatable-column>
+            <ngx-datatable-column name="email">Email</ngx-datatable-column>
+            <ngx-datatable-column name="mobile">Mobile</ngx-datatable-column>
+            <ngx-datatable-column name="roleName">Role</ngx-datatable-column>
+            <ngx-datatable-column name="Action" sortable="false" prop="id">
+              <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                <button type="button" style="padding:0 0 5px 4px" class="btn btn-icon btn-warning btn-icon-only rounded-circle" (click)="editEmployee(userFormPopup,value)">
+                  <span class="btn-inner--icon"><i class="fa fa-edit"></i></span>
+                </button>
+                <button type="button" style="padding:0 0 5px 1px" class="btn btn-icon btn-icon-only rounded-circle" (click)="deleteEmployee(value)">
+                  <span class="btn-inner--icon"><img src="assets/img/icons/delete.svg"></span>
+                </button>
+          </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
+        </div> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<ng-template #userFormPopup let-c="close" let-d="dismiss" let-modal>
+  <div class="modal-content">
+    <div class="modal-body p-0">
+      <div class="card">
+         <div class="card-header d-flex justify-content-between align-items-center">
+              <h3 class="mb-0">{{User}}</h3>
+              <div>
+                <button type="button" class="btn success" aria-label="Close" (click)="OnClose()">
+                  <i class="fa fa-times fa-lg" ></i>
+                </button>
+                <!-- <button type="button" aria-label="Download" (click)="onDownloadExcelFile()" class="btn btn-link">
+                  <i class="pi pi-download"></i>
+                </button> -->
+              </div>
+            </div>
+
+        <div class="card-body mr-4">
+          <div *ngIf="showAlert" class="alert alert-danger">
+            You have reached the maximum number of users allowed for this account. Please upgrade your plan to create additional users.
+          </div>
+          <form class="needs-validation" novalidate="" [formGroup]="AddUserForm" (ngSubmit)="onSubmit()">
+            <div class="form-row">
+              <div class="col-md-6 mb-3">
+                <label class="form-control-label" for="name">
+                  Name
+                </label>
+                <input class="form-control" name="name" ng-pattern="/^[a-zA-Z]*$/" 
+                       id="name" formControlName="name" placeholder="Name" type="text"/>
+                <div class="errorMsg-feedback" 
+                     *ngIf="f.name.touched && f.name.invalid && f.name.errors.required">Required</div>
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label class="form-control-label" for="ClientID">
+                  Client Name
+                </label>
+                <select class="form-control" (change)="onClientChange($event)" formControlName="ClientID" data-toggle="select" id="ClientID">
+                  <option value="0">Select Client Name</option>
+                  <option *ngFor="let _Client of _ClientList" [value]="_Client.id">
+                    {{ _Client.ClientName }}
+                  </option>
+                </select>
+                <div class="errorMsg-feedback" *ngIf="f.ClientID.touched && f.ClientID.hasError('required')">Client Name Required</div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="col-md-6 mb-3">
+                <label class="form-control-label" for="userid">
+                  User Id
+                </label>
+                <input name="userid" id="userid" formControlName="userid" placeholder="User Id" type="text" 
+                       class="form-control" autocomplete="off"/>
+                <div class="errorMsg-feedback" *ngIf="f.userid.touched && f.userid.hasError('required')">Required</div>
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label class="form-control-label" for="email">
+                  Email
+                </label>
+                <input id="email" formControlName="email" placeholder="Email" type="email" class="form-control"/>
+                <div class="errorMsg-feedback" *ngIf="f.email.touched && f.email.hasError('required')">Email Id Required</div>
+                <div class="errorMsg-feedback" *ngIf="f.email.touched && f.email.errors?.pattern">Please Enter Valid Email Id</div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="col-md-6 mb-3">
+                <label class="form-control-label" for="mobile">
+                  Mobile
+                </label>
+                <input name="mobile" maxlength="10" formControlName="mobile" placeholder="Mobile" type="number" 
+                       class="form-control"/>
+                <div class="errorMsg-feedback" *ngIf="f.mobile.touched && f.mobile.hasError('required')">Mobile No Required</div>
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label class="form-control-label" for="sysRoleID">
+                  Role
+                </label>
+                <select class="form-control" formControlName="sysRoleID" data-toggle="select" id="sysRoleID">
+                  <option value="0">Select Role Name</option>
+                  <option *ngFor="let _Role of _RoleList" [value]="_Role.id">
+                    {{ _Role.roleName }}
+                  </option>
+                </select>
+                <div class="errorMsg-feedback" *ngIf="f.sysRoleID.touched && f.sysRoleID.hasError('required')">Role Required</div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="col-md-6 mb-3">
+                <label class="form-control-label" for="loginPass">
+                  Password
+                </label>
+                <div class="input-group">
+                  <input  name="pwd"  id="loginPass" formControlName="pwd" required minlength="12" placeholder="Password" 
+                  [type]="isPasswordVisible ? 'text' : 'password'" class="form-control" autocomplete="new-password">                 
+                  <!-- Eye Icon Button to toggle visibility (placed on the right side) -->
+                  <div class="input-group-append">
+                    <button type="button" class="btn btn-outline-secondary" (click)="togglePasswordVisibility()">
+                      <i [ngClass]="isPasswordVisible ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+                    </button>
+                  </div>
+                </div>
+               
+                <div class="errorMsg-feedback" *ngIf="f.pwd.touched && f.pwd.hasError('required')">Password Required</div>
+                <div class="errorMsg-feedback" *ngIf="f.pwd.touched && f.pwd.errors">
+                  Password should meet the following criteria:
+                  <ul>
+                    <li>Contain at least 12 characters</li>
+                    <li>Contain at least 1 special character</li>
+                    <li>Contain at least 1 number</li>
+                    <li>Contain at least 1 lowercase character (a-z)</li>
+                    <li>Contain at least 1 uppercase character (A-Z)</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label class="form-control-label" for="confirmPass">
+                  Confirm Password
+                </label>
+                <div class="input-group">
+                  <input  name="confirmPass"  id="confirmPass" formControlName="confirmPass"  placeholder="Confirm Password"  class="form-control"  type="password"
+                  class="form-control" [type]="isConfirmPasswordVisible ? 'text' : 'password'">                 
+                  <!-- Eye Icon Button to toggle visibility (placed on the right side) -->
+                  <div class="input-group-append">
+                    <button type="button" class="btn btn-outline-secondary" (click)="toggleConfirmPasswordVisibility()">
+                      <i [ngClass]="isConfirmPasswordVisible ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="errorMsg-feedback" *ngIf="f.confirmPass.touched && f.confirmPass.hasError('required')">Confirm Password Required</div>
+                <div class="errorMsg-feedback" *ngIf="f.confirmPass.touched && f.confirmPass.invalid && f.confirmPass.errors.confirmedValidator">
+                  Password and Confirm Password must match.
+                </div>
+              </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="button" class="btn successbtn" [disabled]="forusercheking" (click)="onSubmit()" >
+             Submit
+            </button>
+
+            <!-- Close Button -->
+            <!-- <button type="button" class="btn dangerbtn" (click)="OnClose()">
+              <i class="fa fa-times"></i> Close
+            </button>  -->
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<ng-template #resetPassword let-c="close" let-d="dismiss" let-modal>
+  <div class="modal-content">
+    <div class="modal-body p-0">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h3 class="mb-0">Reset Password</h3>
+          <div>
+            <button type="button" class="btn success" aria-label="Close" (click)="OnClose()">
+              <i class="fa fa-times fa-lg" ></i>
+            </button>
+            <!-- <button type="button" aria-label="Download" (click)="onDownloadExcelFile()" class="btn btn-link">
+              <i class="pi pi-download"></i>
+            </button> -->
+          </div>
+        </div>
+
+        <div class="card-body mr-4">
+          <form class="needs-validation" novalidate="" [formGroup]="AddpasswordReset" (ngSubmit)="ResetPwd()">
+            <div class="form-row">
+              <div class="col-md-12 mb-4">
+                <label class="form-control-label" for="Users">
+                 User
+                 </label>
+            <select class="form-control" formControlName="Users" data-toggle="select" id="Users"
+            (change)="geEntityListByUserID($event.target.value)">
+              <option value=0> Select User</option>
+              <option *ngFor="let _User of _UserL" [value]="_User.id">
+                {{_User.userid}}
+                </option>
+            </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="col-md-12 mb-4">
+                <label class="form-control-label" for="Rpwd">
+                 New Password
+                </label>
+                <div class="input-group">
+                  <input
+                    name="Rpwd"
+                    formControlName="Rpwd"
+                    required  
+                    minlength="12"
+                    placeholder="New Password"
+                    [ngClass]="{'is-invalid': submitted && AddpasswordReset.controls['Rpwd'].errors}"
+                    [type]="isNewPasswordVisible ? 'text' : 'password'"
+                    class="form-control"
+                    autocomplete="new-password" />
+                  <div class="input-group-append">
+                    <button
+                      type="button"
+                      class="btn btn-outline-secondary"
+                      (click)="toggleNewPasswordVisibility()"  >
+                      <i [ngClass]="isNewPasswordVisible ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+                    </button>
+                  </div>
+                </div>
+                <div *ngIf="submitted && AddpasswordReset.controls['Rpwd'].errors" class="text-danger">
+                  <div *ngIf="submitted && AddpasswordReset.controls['Rpwd'].errors['required']">
+                    Password is Required with Special character,Number, Uppercase and Lowercase Letters.
+                  </div>
+                </div>
+                <!-- <div class="errorMsg-feedback" *ngIf="f.Rpwd.touched && f.Rpwd.hasError('required')">Password Required</div>
+                <div class="errorMsg-feedback" *ngIf="f.Rpwd.touched && f.Rpwd.errors">
+                  Password should meet the following criteria:
+                  <ul>
+                    <li>Contain at least 12 characters</li>
+                    <li>Contain at least 1 special character</li>
+                    <li>Contain at least 1 number</li>
+                    <li>Contain at least 1 lowercase character (a-z)</li>
+                    <li>Contain at least 1 uppercase character (A-Z)</li>
+                  </ul>
+                </div> -->
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="col-md-12 mb-4">
+                <label class="form-control-label" for="RconfirmPass">
+                  Confirm New Password
+                </label>
+                <div class="input-group">
+                  <input name="RconfirmPass" id="RconfirmPass" formControlName="RconfirmPass" placeholder="Confirm New Password"
+                         [type]="isConfirmNewPasswordVisible ? 'text' : 'password'"
+                         class="form-control"
+                         [ngClass]="{'is-invalid': submitted && AddpasswordReset.controls['RconfirmPass'].errors}">
+                  <div class="input-group-append">
+                    <button type="button" class="btn btn-outline-secondary" (click)="toggleConfirmNewPasswordVisibility()">
+                      <i [ngClass]="isConfirmNewPasswordVisible ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+                    </button>
+                  </div>
+                </div>
+                
+                       <div *ngIf="submitted && AddpasswordReset.controls['RconfirmPass'].errors" class="text-danger">
+                        <div *ngIf="submitted && AddpasswordReset.controls['RconfirmPass'].errors['required']">
+                          Confirm Password is Required
+                        </div>
+                        <div *ngIf="submitted && AddpasswordReset.controls['RconfirmPass'].getError('Mustmatch')!=null">
+                          Confirm Password mustmatch
+                        </div>
+                        
+                      </div>
+                <!-- <div class="errorMsg-feedback" *ngIf="f.RconfirmPass.touched && f.RconfirmPass.hasError('required')">Confirm New Password Required</div>
+                <div class="errorMsg-feedback" *ngIf="f.RconfirmPass.touched && f.RconfirmPass.invalid && f.RconfirmPass.errors.confirmedValidator">
+                  Password and Confirm Password must match.
+                </div> -->
+            <!-- Submit Button -->
+           </div>
+            </div>
+            <button type="button" class="btn successbtn" [disabled]="AddpasswordReset.invalid" (click)="ResetPwd()" >
+              Reset Password
+            </button>
+
+            <!-- Close Button -->
+            <!-- <button type="button" class="btn btn-secondary" (click)="OnClose()">
+              <i class="fa fa-times"></i> Close
+            </button> -->
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- <ng-template #resetPassword let-c="close" let-d="dismiss" let-modal>
+  <div class="modal-content">
+    <div class="modal-body p-0">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h3 class="mb-0">Reset Password</h3>
+          <div>
+            <button type="button" class="btn success" aria-label="Close" (click)="OnClose()">
+              <i class="fa fa-times fa-lg" ></i>
+            </button>
+          
+          </div>
+        </div>
+
+        <div class="card-body mr-4">
+          <form class="needs-validation" novalidate="" [formGroup]="AddpasswordReset" (ngSubmit)="ResetPwd()">
+              <div class="form-row">
+                <div class="col-md-6 mb-4">
+                  <label class="form-control-label" for="Users">
+                  User
+                  </label>
+                  <select class="form-control" formControlName="Users" data-toggle="select" id="Users"
+                  (change)="geEntityListByUserID($event.target.value)">
+                    <option value=0> Select User</option>
+                    <option *ngFor="let _User of _UserL" [value]="_User.id">
+                      {{_User.userid}}
+                      </option>
+                  </select>
+                </div>
+              </div>
+            <div class="form-row">
+              <div class="col-md-6 mb-4">
+                <label class="form-control-label" for="Rpwd">
+                 New Password
+                </label>
+                <input name="Rpwd" formControlName="Rpwd" required minlength="12" placeholder="New Password" 
+                type="password" class="form-control" autocomplete="new-password">
+                <div class="errorMsg-feedback" *ngIf="f.Rpwd.touched && f.Rpwd.hasError('required')">Password Required</div>
+                <div class="errorMsg-feedback" *ngIf="f.Rpwd.touched && f.Rpwd.errors">
+                  Password should meet the following criteria:
+                  <ul>
+                    <li>Contain at least 12 characters</li>
+                    <li>Contain at least 1 special character</li>
+                    <li>Contain at least 1 number</li>
+                    <li>Contain at least 1 lowercase character (a-z)</li>
+                    <li>Contain at least 1 uppercase character (A-Z)</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="col-md-6 mb-4">
+                <label class="form-control-label" for="RconfirmPass">
+                  Confirm New Password
+                </label>
+                <input name="RconfirmPass" id="RconfirmPass" formControlName="RconfirmPass" placeholder="Confirm New Password" 
+                       type="password" class="form-control">
+                <div class="errorMsg-feedback" *ngIf="f.RconfirmPass.touched && f.RconfirmPass.hasError('required')">Confirm New Password Required</div>
+                <div class="errorMsg-feedback" *ngIf="f.RconfirmPass.touched && f.RconfirmPass.invalid && f.RconfirmPass.errors.confirmedValidator">
+                  Password and Confirm Password must match.
+                </div>
+              </div>
+            </div>
+
+          
+            <button type="button" class="btn successbtn" (click)="ResetPwd()" >
+              Reset Password
+            </button>
+
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template> -->
+
+
+<ng-template #FolderDetails let-c="close" let-d="dismiss" let-modal>
+  <div class="modal-content">
+    <div class="modal-body p-0">
+      <div class="card w-100" style="min-width: max-content;">
+        <div class="position-relative row form-group">
+          <div class="col-lg-12 col-xs-12">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <h3 class="mb-0">Folder Details</h3>
+              <div>
+                <button type="button" aria-label="Download" (click)="onDownloadExcelFile()" class="btn success">
+                  <i class="fa fa-download"></i>
+                </button> 
+                <button type="button" class="btn success" aria-label="Close" (click)="OnClose()">
+                  <i class="fa fa-times fa-lg" ></i>
+                </button>
+              
+              </div>
+            </div>
+
+            <div class="card-body">
+              <div class="dataTables_wrapper">
+                <p-table [paginator]="true" [rows]="10" [value]="formattedDataFolder" [autoLayout]="true"
+                  [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50,100]" [(firstFolder)]="first"
+                  (onPage)="paginateFolder($event)" [loading]="loading"
+                  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+
+                  <ng-template pTemplate="caption">
+                   
+                    <!-- <input type="text" pInputText size="50" placeholder="Search records"
+                      (input)="searchTable($event)" class="global-search"> -->
+                  </ng-template>
+
+                  <ng-template pTemplate="header">
+                    <tr>
+                      <th *ngFor="let col of headerListFolder; let i = index;" [ngStyle]="i == 0 && {'width': '10%'}">
+                        {{col.header}}
+                      </th>
+                    </tr>
+                  </ng-template>
+
+                  <ng-template pTemplate="body" let-car let-rowIndex="rowIndex">
+                    <tr>
+                      <td *ngFor="let col of headerListFolder">
+                        {{car[col.field]}}
+                      </td>
+                    </tr>
+                  </ng-template>
+
+                </p-table>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #LogHistory let-c="close" let-d="dismiss" let-modal>
+
+  <div class="modal-content">
+    <div class="modal-body p-0">
+
+      <div>
+
+        <div class="">
+          <div class="card w-70">
+
+            <div>
+              <div class="position-relative row form-group">
+
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                  <div class="card-header">
+                    <h3 class="mb-0">Login History</h3>
+                    <p class="text-sm mb-0"></p>
+                  </div>
+                  <!-- <div class="card-body">
+                  <div class="row"> -->
+                  <!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"> -->
+
+                  <div class="card-body">
+                    <div>
+
+                      <div class="dataTables_wrapper py-4 checklist-table">
+                        <p-table [paginator]="true" [rows]="10" [value]="formattedFileData" [autoLayout]="true"
+                          [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50,100]" [(first)]="first"
+                          (onPage)="paginate($event)" [loading]="loading"
+                          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                          <ng-template pTemplate="caption">
+                            <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
+                            <input type="text" pInputText size="50" placeholder="Search records"
+                              (input)="searchTable($event)" class="global-search">
+                          </ng-template>
+                          <ng-template pTemplate="header">
+                            <tr>
+                              <th *ngFor="let col of headerListFile; let i = index;"
+                                [ngStyle]="i==0 && {'width': '10%'}">
+                                {{col.header}}
+
+                              </th>
+
+                            </tr>
+                          </ng-template>
+                          <ng-template pTemplate="body" let-car let-rowIndex="rowIndex">
+                            <tr>
+                              <td *ngFor="let col of headerListFile">
+                                {{car[col.field]}}
+                              </td>
+
+                            </tr>
+                          </ng-template>
+                        </p-table>
+
+                      </div>
+
+                    </div>
+                  </div>
+
+                  <!--                     
+ 
+                  </div>
+                </div> -->
+                </div>
+
+
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #UploadCSVFormPopup let-c="close" let-d="dismiss" let-modal>
+  <div class="modal-content">
+    <div class="modal-body p-0">
+      <div class=" card">
+        <div class=" card-header"><h3 class=" mb-0">Bulk User Upload
+          <button type="button" style="padding:0 0 5px 4px" class="btn btn-icon btn-icon-only float-right" (click)="downloadFile()">
+            <span class="btn-inner--icon"><i class="fa fa-download"></i></span>
+          </button>
+        </h3></div>
+        <div class="card-body">
+          <form  class="needs-validation" novalidate="" [formGroup]="UploadCSVForm">
+            <div class="row pb-3">
+
+              <div class=" col-md-12 mb-1" >
+                <div class="custom-file">
+                  <input type="file" name="csvReader" id="csvReader" (change)="uploadListener($event)" accept=".csv" />                
+                  <label style="width: 97%;"
+                    class=" custom-file-label"
+                    for="csvReader"
+                  >
+                  <span class="selected-file-name"></span>    
+                  </label>
+                </div>
+              </div>
+              
+            </div>
+            <button  class="btn btn-secondary" type="submit" (click)="onUplaodCSV()"  >
+              <i class="fa fa-save"></i> Submit 
+            </button>
+            <button type="button" class="btn btn-secondary" (click)="OnClose()">
+              <i class="fa fa-times"></i>
+              Close</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<p-toast position="top-left" [showTransformOptions]="'translateY(100%)'" 
+                    [showTransitionOptions]="'1000ms'" 
+                    [hideTransitionOptions]="'1000ms'" 
+                    [showTransformOptions]="'translateX(100%)'"></p-toast>

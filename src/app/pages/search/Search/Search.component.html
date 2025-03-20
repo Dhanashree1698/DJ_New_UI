@@ -1,0 +1,491 @@
+<div class="AdvancedSearchMainContainer">
+  <div class=" header pb-6">
+    <div class=" container-fluid">
+      <div class=" header-body">
+        <div class=" row align-items-center py-4">
+          <div class=" col-lg-6 col-7">
+            <!-- <h6 class=" h2 text-white d-inline-block mb-0">Advanced Search</h6> -->
+
+            <nav aria-label="breadcrumb" class=" d-none d-md-inline-block ml-md-4">
+              <ol class=" breadcrumb breadcrumb-links breadcrumb-dark" style="margin-left: -32px;">
+                <li class=" breadcrumb-item">
+                  <a href="javascript:void(0)" class="text-gray"> <i class=" fas fa-home"
+                      routerLink="/search/content-search"> </i> </a>
+                </li>
+
+                <li class=" breadcrumb-item">
+                  <a href="javascript:void(0)" class="text-gray"> Search </a>
+                </li>
+
+                <li aria-current="page" class=" breadcrumb-item active text-dark">
+                  Advanced Search
+                </li>
+              </ol>
+            </nav>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class=" container-fluid mt--6">
+    <div class=" row">
+      <div class="card" id="ContentSearchPage">
+        <form [formGroup]="SearchForm">
+
+
+          <div class="card-body">
+            <div class="position-relative row form-group mb-3">
+              <div class="col-lg-3 col-md-3 col-sm-4 col-xs-4">
+                <label class="form-control-label" for="TemplateID">Customer :</label>
+                <select name="BranchID" id="BranchID" class="form-control" formControlName="BranchID">
+                  <option value='0'>Select Customer</option>
+                  <option *ngFor="let _Bracnch of BranchList" [value]="_Bracnch.BranchID">
+                    {{_Bracnch.BranchName}}
+                  </option>
+                </select>
+              </div>
+              <div class="col-md-8 float-right text-right">
+                <button type="button" class="btn btn-success" (click)="onAddFilterRow()">Add</button>
+                <button type="button" class="btn btn-success" (click)="onFilterSubmited()">Search</button>
+                <button type="button" class="btn reset_btn" (click)="OnLoad()">Refresh
+                  <i class="fa fa-refresh" aria-hidden="true"></i>
+
+                </button>
+              </div>
+              <div class="col-md-3">
+              </div>
+
+            </div>
+            <div class="position-relative row form-group">
+              <ng-container formArrayName="filters">
+                <ng-container *ngFor="let filter of filters.controls,let i=index" [formGroupName]="i">
+                  <div class="row"></div>
+
+                  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 margin-bottomcls">
+                    <label class="form-control-label" for="TemplateID">Condition :</label>
+                    <select name="Condition" class="form-control" formControlName="Condition">
+                      <option value="0">Select Condition</option>
+                      <option value="AND">AND</option>
+                      <option value="OR">OR</option>
+                    </select>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                    <label class="form-control-label" for="TemplateID">Search By :</label>
+                    <select name="SearchByID" id="SearchByID" class="form-control" formControlName="SearchByID"
+                      (change)="onSearchBySelected(i)">
+                      <option value="0">Select Search By </option>
+                      <option *ngFor="let _SerchBy of _SearchByList" [value]="_SerchBy.SID">
+                        {{_SerchBy.SearchBy}}
+                      </option>
+                    </select>
+
+                  </div>
+                  <div *ngIf="filter.get('FieldType').value !== '3'"
+                    class="col-lg-3 col-md-3 col-sm-3 col-xs-3 margin-bottomcls">
+                    <label class="form-control-label" for="TemplateID">Operation :</label>
+                    <select name="Operation" class="form-control" formControlName="Operation">
+                      <option value="0">Select Operation</option>
+                      <option value="EQUALS">EQUALS</option>
+                      <option value="LIKE">LIKE</option>
+                      <option value="MULTIPLE">MULTIPLE</option>
+                    </select>
+                  </div>
+
+                  <div *ngIf="filter.get('FieldType').value === '3'"
+                    class="col-lg-3 col-md-3 col-sm-3 col-xs-3 margin-bottomcls">
+                    <label class="form-control-label" for="TemplateID">Select Operation :</label>
+                    <select (change)="onDateOperationChange(i)" name="Operation" class="form-control"
+                      formControlName="Operation">
+                      <option value="0">Select Operation</option>
+                      <option value="LIKE">LIKE</option>
+                      <option value="BETWEEN">BETWEEN</option>
+                    </select>
+                  </div>
+
+                  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                    <ng-container *ngIf="filter.get('FieldType').value == 3">
+                      <ng-container *ngIf="filter.get('DateRange').value != 'BETWEEN'">
+                        <label style="width: 25%;" class="form-control-label" for="DATEFROM">
+                          Date
+                        </label>
+                        <input style="float: none;width: 215px; display: inline-block;" type="text"
+                          formControlName="FileNo" placeholder="PickDate" class="form-control" bsDatepicker
+                          [bsValue]="bsValue" [bsConfig]="{
+                            isAnimated: true,
+                            containerClass: 'theme-red'
+                          }" />
+                      </ng-container>
+                      <ng-container *ngIf="filter.get('DateRange').value == 'BETWEEN'">
+                        <label style="width: 25%;" class="form-control-label" for="DATERANGE">
+                          Date range :
+                        </label>
+                        <input style="float: none;width: 215px; display: inline-block;" type="text"
+                          formControlName="DateRangePicker" placeholder="Daterangepicker" class="form-control"
+                          bsDaterangepicker [bsConfig]="{ isAnimated: true }">
+                      </ng-container>
+                    </ng-container>
+                    <ng-container *ngIf="filter.get('FieldType').value == 1">
+                      <input style="float: left;width: 215px;" type="text" class="form-control" name="FileNo"
+                        placeholder="Enter values to search" formControlName="FileNo" aria-descri
+                        bedby="search-addon" />
+                    </ng-container>
+                    <button type="button" class="btn btn-danger" (click)="onRemoveRow(i)"
+                      style="float: right;text-align: right;    padding: 5px 15px;">
+                      <img src="assets/img/icons/delete.svg">
+                    </button>
+                  </div>
+                </ng-container>
+              </ng-container>
+            </div>
+          </div>
+
+
+
+          <div class="card-body">
+            <button *ngIf="_isDownload == 'true'" type="button" tooltip="Download Files" style="padding:1px 1px 1px 1px;float: left; position: relative;
+            bottom: 15px;" class="btn btn-icon btn-secondary btn-icon-only rounded-circle"
+              (click)="dowloadSelectedTagging()">
+              <span class="btn-inner--icon">
+                <img src="assets/img/file-download.png" class="actionIcon" id="actionIcon">
+                <!-- <i id="actionIcon" class="fa fa-download actionIcon"></i> -->
+              </span>
+            </button>
+            <button type="button" tooltip="Download Metadata" style="padding:1px 1px 1px 1px;float: left; position: relative;
+            bottom: 15px;left: 8px;" class="btn btn-icon btn-secondary btn-icon-only rounded-circle"
+              (click)="DownloadMetadata()">
+              <span class="btn-inner--icon"><i id="actionIcon" class="fas fa-file-download actionIcon"></i></span>
+            </button>
+
+            <button *ngIf="_ShareLink == 'true'" type="button" tooltip="Share link"
+              class="btn btn-icon btn-icon-only rounded-circle" (click)="ShareLink(ShareLinkFormPopup)">
+              <span class="btn-inner--icon">
+                <img src="assets/img/share_links.png" class="actionIcon" id="actionIcon">
+                <!-- <i id="actionIcon" class="fa fa-share-alt actionIcon"></i> -->
+              </span>
+            </button>
+
+            <button *ngIf="_isEmail == 'true'" type="button" tooltip="Send E-Mail"
+              class="btn btn-icon btn-secondary btn-icon-only rounded-circle" (click)="SendBulkEmail(EmailFormPopup)">
+              <span class="btn-inner--icon"><i id="actionIcon" class="fa fa-envelope actionIcon"></i></span>
+            </button>
+
+            <div style="position: relative;bottom: 15px;">
+              <select name="TemplateID" id="TemplateID" style="width: 20%;" class="form-control"
+                formControlName="TemplateID" (change)="geTemplateNameListByTempID($event.target.value)">
+                <option value=0>Select Template</option>
+                <option *ngFor="let _Temp of TemplateList" [value]="_Temp.TemplateID">
+                  {{_Temp.TemplateName}}
+                </option>
+              </select>
+              <label for="TemplateID" style="width: auto; float: right; position: relative;
+          top: 7px;
+          right: 8px;" class="form-control-label"> Select Template </label>
+            </div>
+          </div>
+          <p-table [paginator]="true" [rows]="10" [value]="formattedData" [showCurrentPageReport]="true"
+            [rowsPerPageOptions]="[10,25,50,100]" [loading]="loading"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+            <ng-template pTemplate="caption">
+              <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
+              <input type="text" pInputText size="50" placeholder="Search records" (input)="searchTable($event)"
+                class="global-search">
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr>
+                <th [style.width]="'35px'">
+                  <p-checkbox (onChange)="selectAllRow($event, doc)" #e></p-checkbox>
+                </th>
+                <th *ngFor="let col of headerList; let i = index;" [pSortableColumn]="col.field"
+                  [ngStyle]="i==0 && {'width': '4%'}">
+                  {{col.header}}
+                  <p-sortIcon *ngIf="i==9" [field]="col.field"></p-sortIcon>
+                </th>
+                <th style="width: 5%;">
+                  ACTION
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-car let-rowIndex="rowIndex">
+              <tr>
+                <td [style.width]="'35px'">
+                  <!-- <p-tableCheckbox [value]="doc"></p-tableCheckbox> -->
+                  <p-checkbox [(ngModel)]="selectAllRows" [binary]="true" [ngModelOptions]="{standalone: true}"
+                    (onChange)="selectRow($event, car)" #e></p-checkbox>
+                </td>
+                <td *ngFor="let col of headerList">
+                  {{car[col.field]}}
+                </td>
+                <td class="mat-action-items">
+                  <button mat-icon-button [matMenuTriggerFor]="menu" class="b_cl"
+                    aria-label="Example icon-button with a menu">
+                    <mat-icon>more_vert</mat-icon>
+                  </button>
+                  <mat-menu #menu="matMenu">
+                    <button mat-menu-item (click)="ViewDocument(ImageViewFormPopup,car, MetaDataFormPopup)">
+                      <i class="material-icons">preview</i>
+                      <span>Document View</span>
+                    </button>
+          
+                    <button mat-menu-item (click)="EditRowData(car)">
+                      <i class="material-icons">edit</i>
+                      <span>Edit Index Data</span>
+                    </button>
+                  
+                    <button mat-menu-item (click)="DownloadFileAll(car.AccNo)">
+                      <i class="material-icons">cloud_download</i>
+                      <span>Download All Files</span>
+                    </button>
+                  
+                    <button mat-menu-item (click)="DeleteFile(car)">
+                      <i class="material-icons">delete</i>
+                      <span>Delete File</span>
+                    </button>
+                  </mat-menu>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+
+
+          <ng-template #AdvancedFormPopup let-c="close" let-d="dismiss" let-modal>
+            <div class="modal-content">
+              <div class="modal-body p-0">
+                <div class=" card">
+                  <div class=" card-header">
+                    <h3 class=" mb-0">File Uplaod</h3>
+                  </div>
+                  <div class="card-body">
+
+                    <div class="form-row">
+                      <div class="col-md-12 mb-3">
+                        <label class="form-control-label" for="MFileNo">
+                          {{TempField}}
+                        </label>
+                        <input class="form-control" id="MFileNo" formControlName="MFileNo" placeholder="File No"
+                          type="text" />
+                        <div class="valid-feedback">Looks good!</div>
+                      </div>
+                      <div class="col-md-12 mb-3">
+                        <label class="form-control-label" for="DocuemntType">
+                          Docuemnt Type
+                        </label>
+                        <input class="form-control" id="DocuemntType" formControlName="DocuemntType"
+                          placeholder="Docuemnt Type" type="text" />
+                        <div class="valid-feedback">Looks good!</div>
+                      </div>
+
+
+                      <div class="col-md-12 mb-3">
+                        <div class="custom-file">
+                          <input type="file" id="customFileUploadMultiple" class="custom-file-input"
+                            (change)="getFileDetails($event)">
+                          <span class="selected-file-name"></span>
+                          <label class=" custom-file-label" for="customFileUploadMultiple">
+                            Choose files
+                          </label>
+                        </div>
+                      </div>
+
+                    </div>
+                    <div class="row">
+                      <div class="col-md-2">
+                        <div class="">
+                          <button type="button" class="btn btn-success pd-al" (click)="uploadFiles()"
+                            [disabled]="myFiles.length>0?'':'disabled'">
+                            <i class=" fas fa-file-upload fa-2x ic_s"></i>
+                          </button>
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="btn-aln">
+                          <button type="button" class="btn btn-cl" (click)="hidepopup()">Close</button>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+
+
+          <ng-template #MetaDataFormPopup let-c="close" let-d="dismiss" let-modal>
+            <div class="modal-content">
+              <div class="modal-body p-0">
+                <div class=" card">
+                  <div class=" card-header">
+                    <h3 class=" mb-0">Index Data</h3>
+                  </div>
+                  <div class="card-body">
+
+                    <table class="table-hover table-striped table">
+
+                      <tr *ngFor="let Ilst of _IndexList">
+                        <td><b>{{Ilst.DisplayName}}</b></td>
+
+                        <td>{{Ilst.ColValues}}</td>
+                      </tr>
+                    </table>
+                    <br>
+                    <div class="sec1">
+                      <button type="button" class="btn btn-warning" (click)="hidepopup()">Close</button>
+                    </div>
+
+
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </ng-template>
+
+          <ng-template #ImageViewFormPopup let-c="close" let-d="dismiss" let-modal>
+            <div class="modal-content">
+              <div class="modal-body p-0">
+                <div class="card w-100">
+                  <div class=" card-header">
+                    <h3 class=" mb-0">Document View
+                      <span style="float: right;cursor: pointer;" (click)="hidepopup()" class="btn-inner--icon"><img
+                          src="assets/img/icons/delete.svg"></span>
+
+
+                    </h3>
+                  </div>
+                  <div class="card-body">
+
+                    <div id="contentSearchDocView">
+                      <div class="card-body" style="padding:0">
+                        <div class="row">
+                          <div class="col-lg-4 metadata-table">
+
+                            <!-- <img [src]="profileImg ? profileImg : '../../../../assets/img/theme/download.jpg'" style="width:200px;height:165px;" />
+                         -->
+
+                            <table class="table-hover table" style="width: 300px;">
+                              <tr *ngFor="let Ilst of _IndexList">
+                                <td><b>{{Ilst.DisplayName}}</b></td>
+                                <td>{{Ilst.ColValues}}</td>
+                              </tr>
+                            </table>
+                            <hr />
+                            <h4 *ngIf="documentDetails">Document Details
+                              <button type="button" style="padding-left: 4px;" data-toggle="tooltip"
+                                data-original-title="Click View File" tooltip="View Tagged File"
+                                class="btn btn-icon btn-pink btn-icon-only rounded-circle"
+                                (click)="viewFullFile(_TempFilePath)">
+                                <span class="btn-inner--icon"><i class="fa fa-eye"></i></span>
+                              </button>
+                            </h4>
+
+                          </div>
+                          <div class="col-lg-8">
+                            <ngx-extended-pdf-viewer id="Viewer" [page]="_PageNo" [useBrowserLocale]="true"
+                              [textLayer]="true" [showHandToolButton]="true" [showOpenFileButton]="false"
+                              [height]="'135vh'" [width]="100" *ngIf="FilePath" [src]="FilePath">
+                              <!-- by default, most CSS framework set the height to 0 -->
+
+                            </ngx-extended-pdf-viewer>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <br>
+                    <!-- <div class="sec1">
+                <button type="button" class="btn btn-warning" (click)="hidepopup()">Close</button>
+              </div> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+
+
+          <ng-template #ShareLinkFormPopup let-c="close" let-d="dismiss" let-modal>
+            <div class="modal-content">
+              <div class="modal-body p-0">
+                <div class=" card">
+                  <div class=" card-header">
+                    <h3 class=" mb-0">Share Link</h3>
+                  </div>
+                  <div class="card-body">
+                    <div class="form-row">
+
+                      <div class="col-md-12 mb-3">
+                        <label class="form-control-label" for="ToEmailID">
+                          To
+                        </label>
+                        <input formControlName="ToEmailID" placeholder="Email" type="email" class="form-control" />
+
+                      </div>
+                      <div class="col-md-12 mb-3">
+                        <label class="form-control-label" for="ValidDate">
+                          Expire On
+                        </label>
+                        <input type="text" formControlName="ValidDate" placeholder="Valid Date" class="form-control"
+                          bsDatepicker [bsValue]="bsValue" [bsConfig]="{
+                            isAnimated: true,
+                            containerClass: 'theme-red'
+                          }" />
+
+                      </div>
+
+
+                    </div>
+                    <div class=" col-md-8" style="padding-top: 32px">
+                      <button class="btn btn-primary" (click)="onSendEmailByShare()"> Send</button>
+                      <button class="btn btn-primary" (click)="hidepopup()"> Close</button>
+
+                    </div>
+                    <!-- <button type="button" class="btn btn-warning" (click)="OnReset()">Clear</button> -->
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+
+
+          <ng-template #EmailFormPopup let-c="close" let-d="dismiss" let-modal>
+            <div class="modal-content">
+              <div class="modal-body p-0">
+                <div class=" card">
+                  <div class=" card-header">
+                    <h3 class=" mb-0">Send Email</h3>
+                  </div>
+                  <div class="card-body">
+                    <div class="form-row">
+
+                      <div class="col-md-12 mb-3">
+                        <label class="form-control-label" for="ToEmailID">
+                          To
+                        </label>
+                        <input formControlName="ToEmailID" placeholder="Email" type="email" class="form-control" />
+
+
+                      </div>
+
+
+                    </div>
+                    <div class=" col-md-8" style="padding-top: 32px">
+                      <button class="btn btn-primary" (click)="onSendEmail()"> Send</button>
+                      <button class="btn btn-primary" (click)="hidepopup()"> Close</button>
+
+                    </div>
+                    <!-- <button type="button" class="btn btn-warning" (click)="OnReset()">Clear</button> -->
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+</div>

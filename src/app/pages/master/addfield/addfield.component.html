@@ -1,0 +1,150 @@
+<div class=" header pb-6">
+  <div class=" container-fluid">
+    <div class=" header-body">
+      <div class=" row align-items-center py-4">
+        <div class=" col-lg-6 col-7">
+          <!-- <h6 class=" h2 text-dark d-inline-block mb-0">Add Custom Field </h6> -->
+
+          <nav
+            aria-label="breadcrumb"
+            class=" d-none d-md-inline-block ml-md-4"
+          >
+            <ol class=" breadcrumb breadcrumb-links breadcrumb-dark">
+              <li class=" breadcrumb-item">
+                <a href="javascript:void(0)"class="text-gray"> <i class=" fas fa-home" routerLink="/search/quick-search"> </i> </a>
+              </li>
+
+              <li class=" breadcrumb-item">
+                <a href="javascript:void(0)" class="text-gray"> Master </a>
+              </li>
+
+              <li aria-current="page" class=" breadcrumb-item text-dark">
+                Field
+              </li>
+            </ol>
+          </nav>
+        </div>
+
+        <div class=" col-lg-6 col-5 text-right">
+          <a type="button" class="btn success" tooltip="Back" (click)="RedirectToView()"> <i class="fas fa-arrow-left fa-2x"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class=" container-fluid mt--6">
+  <div class=" row">
+    <div class=" col">
+      <div class="card">
+        
+        <div class="card-body">
+        
+          <form class="needs-validation" novalidate=""  [formGroup]="AddCustomForm">
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <div class="form-group">
+                  <label class="form-control-label" for="IndexField">Template</label>
+                  <select name="TemplateID" id="TemplateID" class="form-control" formControlName="TemplateID">
+                    <option value=0>Select Template</option>   
+                    <option *ngFor="let _Temp of TemplateList" [value]="_Temp.id"  >  
+                    {{_Temp.TemplateName}}  
+                    </option>   
+                </select>
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <div class="form-group">
+                  <label class="form-control-label" for="IndexField">Index Field</label>
+                  <input type="text" class="form-control" id="IndexField" formControlName="IndexField" placeholder="Index Field" value="Mark" required />
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <div class="form-group">
+                  <label class="form-control-label" for="DisplayName">Display Name</label>
+                  <input type="text" class="form-control" id="DisplayName" formControlName="DisplayName" placeholder="Display Name" value="Mark" required />
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <div class="form-group">
+                  <label class="form-control-label" for="MinLenght" readonly="!isDisable">Min Length</label>
+                  <input type="text" class="form-control" id="MinLenght" formControlName="MinLenght" placeholder="Min Length" value="Mark" required />
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <div class="form-group">
+                  <label class="form-control-label" for="MaxLenght" readOnly="!isDisable">Max Length</label>
+                  <input type="text" class="form-control" id="MaxLenght" formControlName="MaxLenght" placeholder="Max Length" value="Mark" required />
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <div class="form-group">
+                  <label class="form-control-label" for="MaxLenght">Field Type</label>
+                  <select class=" form-control" data-toggle="select"    (change)="changeMinMaxDisable()"   formControlName="FieldType" id="FieldType" required>
+                    <option value=0 >Select Field Type</option>   
+                    <option value=1>Text</option>   
+                    <option value=2>Number</option>   
+                    <option value=3>Date</option>   
+                    <option value=4>Drop Down</option> 
+                    <option value=5>Alpha Numeric</option> 
+                </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-8 mb-3">
+                <div class="form-group">
+                  <label class="form-control-label" for="MaxLenght">Master Data</label>
+                  <textarea class=" form-control" id="ListData" rows="3" formControlName="ListData" placeholder="Master Data Seperator by ,"  ></textarea>
+              
+                </div>
+              </div>
+              <div class="col-md-2 mb-3">
+                <div class="form-group" style="padding-top: 30px;">
+                  Mandatory
+                  <label class=" custom-toggle custom-toggle-success mr-1" style="padding-top: 25px;margin-bottom: -8px;">
+                    <input checked="checked" type="checkbox" formControlName="IsMandatory"/>
+                    <span
+                      class=" custom-toggle-slider rounded-circle"
+                      data-label-off="NO"
+                      data-label-on="YES"              >
+                    </span>
+                  </label>       
+                </div>
+              </div>
+
+              <!-- <div class="col-md-2 mb-3">
+                <div class="form-group">
+                  Auto Number 
+                  <label class=" custom-toggle custom-toggle-success mr-1"> 
+                    <input checked="checked" type="checkbox" formControlName="IsAuto"/>
+                    <span
+                      class=" custom-toggle-slider rounded-circle"
+                      data-label-off="NO"
+                      data-label-on="YES"              >
+                    </span>
+                  </label>       
+                </div>
+              </div> -->
+
+            </div>
+
+              <div >
+              
+                <button type="button" class="btn successbtn p-2" (click)="onSubmit()">Save</button>
+                <!-- <button type="button" class="btn dangerbtn p-2"  (click)="OnReset()">Reset</button> -->
+            </div> 
+
+          </form>
+        </div>
+      
+
+      </div>
+    </div>
+  </div>
+</div>
+<p-toast position="top-left" [showTransformOptions]="'translateY(100%)'" 
+                    [showTransitionOptions]="'1000ms'" 
+                    [hideTransitionOptions]="'1000ms'" 
+                    [showTransformOptions]="'translateX(100%)'"></p-toast>

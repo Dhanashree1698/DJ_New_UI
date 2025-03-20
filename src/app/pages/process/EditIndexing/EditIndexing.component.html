@@ -1,0 +1,270 @@
+
+
+  <div class="header pb-6">
+    <div class="container-fluid">
+      <div class="header-body">
+        <div class="row align-items-center py-4">
+          <div class="col-lg-6 col-7">
+            <!-- <h6 class="h2 text-white d-inline-block mb-0">Indexing</h6> -->
+
+            <!-- <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+              <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                <li class="breadcrumb-item">
+                  <a href="javascript:void(0)"> <i class="fas fa-home"> </i> </a>
+                </li>
+Indexing
+                <li class="breadcrumb-item">
+                  <a href="javascript:void(0)"> Process </a>
+                </li>
+
+                <li aria-current="page" class="breadcrumb-item active">
+                  Indexing
+                </li>
+              </ol>
+            </nav> -->
+          </div>
+
+          <div class="col-lg-6 col-5 text-right">
+            <!-- <a
+              class="btn btn-sm btn-neutral"
+              (click)="addDepartment(DepartmentFormPopup)"
+            >
+              Create New Department</a
+            > -->
+            <button
+              class="btn dangerbtn p-2"
+              (click)="backToPrevious()"
+              type="button">Back</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div class="container-fluid mt--6">
+  <form [formGroup]="EditIndexingForm">
+    <div class="row">    
+        <div class="card">
+        
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="position-relative row form-group">
+
+              <div class="col-lg-5 col-md-4 col-sm-4 col-xs-4 paddingclass">
+              <div class="card-header">
+                <h3 class="mb-0">Data Indexing</h3>
+                <p class="text-sm mb-0"></p>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                      <label class="form-control-label" for="TemplateID">
+                       Template :
+                      </label>
+                      <select
+                        name="TemplateID"
+                        id="TemplateID"
+                        class="form-control"
+                        formControlName="TemplateID"
+                        (change)="onChangeTemplate()"
+                      >
+                        <option value="0">Template Type</option>
+                        <option
+                          *ngFor="let TempL of _TemplateList"
+                          [value]="TempL.TemplateID"
+                        >
+                          {{ TempL.TemplateName }}
+                        </option>
+                      </select>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="form-control-label" for="BranchID">
+                        Folder :
+                      </label>
+                      <select
+                        name="BranchID"
+                        id="BranchID"
+                        class="form-control"
+                        formControlName="BranchID"
+                      >
+                        <option value="0">Select Folder</option>
+                        <option
+                          *ngFor="let _Branch of _BranchList"
+                          [value]="_Branch.BranchID"
+                        >
+                          {{ _Branch.BranchName }}
+                        </option>
+                      </select>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="form-control-label" for="FileNo">
+                        {{TempField}} :
+                      </label>
+                      <div class="input-group input-group-merge serchInput">
+                        <input
+                            type="text"
+                            class="form-control"
+                            name="FileNo"
+                            id="FileNo"
+                            placeholder="Search by File No"
+                            formControlName="FileNo"
+                            [readonly]="isReadonly"
+                           
+                          />                      
+                        
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" formGroupName="_ColNameList">
+                    <div
+                    class="form-group"
+                    *ngFor="let form_elem of _ColNameList; let i = index">
+                      <ng-container *ngIf="i > 0">
+                        <ng-container [ngSwitch]="form_elem.FieldType">
+                          <ng-container *ngSwitchCase="'1'">
+                            <label class="form-control-label" for="{{ form_elem.DisplayName }}">
+                              {{ form_elem.DisplayName }}:
+                            </label>
+                            <input
+                            [placeholder]="form_elem.DisplayName"
+                            [name]="form_elem.DisplayName"
+                            [formControlName]="form_elem.IndexField"
+                            [id]="form_elem.IndexField"
+                            type="text"
+                            class="form-control"
+                            minlength="{{ form_elem.MinLenght }}"
+                            maxlength="{{ form_elem.MaxLenght }}"
+                            />
+                          </ng-container>
+                          <ng-container *ngSwitchCase="'2'">
+                            <label class="form-control-label" for="{{ form_elem.DisplayName }}">
+                              {{ form_elem.DisplayName }}:
+                            </label>
+                            <input
+                            [placeholder]="form_elem.DisplayName"
+                            [name]="form_elem.DisplayName"
+                            [formControlName]="form_elem.IndexField"
+                            [id]="form_elem.IndexField"
+                            type="number"
+                            class="form-control"
+                            minlength="{{ form_elem.MinLenght }}"
+                            maxlength="{{ form_elem.MaxLenght }}"
+                            />
+                          </ng-container>
+                          <ng-container *ngSwitchCase="'3'">
+                            <label class="form-control-label" for="{{ form_elem.DisplayName }}">
+                              {{ form_elem.DisplayName }}:
+                            </label>
+                            <input
+                                [name]="form_elem.DisplayName"
+                                [formControlName]="form_elem.IndexField"
+                                [id]="form_elem.IndexField"
+                                [placeholder]="form_elem.DisplayName"
+                                class="form-control"
+                                bsDatepicker
+                                [bsValue]="bsValue"
+                                [bsConfig]="{
+                                  isAnimated: true,
+                                  containerClass: 'theme-red',
+                                  dateInputFormat: 'DD-MMM-YYYY'
+                                }"
+                              />
+                          </ng-container>
+                          <ng-container *ngSwitchCase="'4'">
+                            <label class="form-control-label" for="{{ form_elem.DisplayName }}">
+                              {{ form_elem.DisplayName }}:
+                            </label>
+                            <select
+                            [name]="form_elem.DisplayName"
+                            [formControlName]="form_elem.IndexField"
+                            [id]="form_elem.IndexField"
+                            class="form-control"
+                            >
+                            <option [value]="0">Select A Value</option>
+                            <option
+                              [value]="opt"
+                              *ngFor="
+                                let opt of form_elem.selectValues;
+                                let i = index
+                              "
+                              >{{ opt }}</option>
+                            </select>
+                          </ng-container>
+                          <ng-container *ngSwitchCase="'5'">
+                            <label class="form-control-label" for="{{ form_elem.DisplayName }}">
+                              {{ form_elem.DisplayName }}:
+                            </label>
+                            <input
+                            [placeholder]="form_elem.DisplayName"
+                            [name]="form_elem.DisplayName"
+                            [formControlName]="form_elem.IndexField"
+                            [id]="form_elem.IndexField"
+                            type="text"
+                            class="form-control"
+                            minlength="{{ form_elem.MinLenght }}"
+                            maxlength="{{ form_elem.MaxLenght }}"
+                            />
+                          </ng-container>
+
+
+                        </ng-container>
+                      </ng-container>
+                    </div>
+                  </div>
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="resetsave">
+                      <div class="resetsavebts">
+                      <button class='btn dangerbtn p-2' (click)="OnReset()">
+                        Reset</button
+                      >
+                      <button class='btn successbtn p-2' (click)="onSubmit()">
+                        Update
+                      </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              </div>
+
+              <div class="col-lg-7 col-md-8 col-sm-8 col-xs-8 paddingclass">
+                <!-- <div class="card-header">
+                  <h3 class="mb-0">Document View</h3>
+                  <p class="text-sm mb-0"></p>
+                </div> -->
+                <div class="card-body" style="padding:0">
+
+                  <div class="row">
+                    <div class="col-md-12">
+                      <ngx-extended-pdf-viewer  id="Viewer"
+                      [page] ="_PageNo"
+                      [useBrowserLocale]="true"
+                      [textLayer]="true"
+                      [showHandToolButton]="true"
+                      [height]="'90vh'"
+        
+                      *ngIf="FilePath" [src]="FilePath"
+                      > <!-- by default, most CSS framework set the height to 0 -->
+        
+                      </ngx-extended-pdf-viewer>
+                    </div>
+                  </div>
+                
+                </div>
+              </div>
+
+            </div>
+          </div>
+        
+        
+      </div>
+    </div>
+  </form>
+</div>
+<p-toast position="top-left" [showTransformOptions]="'translateY(100%)'" 
+                    [showTransitionOptions]="'1000ms'" 
+                    [hideTransitionOptions]="'1000ms'" 
+                    [showTransformOptions]="'translateX(100%)'"></p-toast>
+

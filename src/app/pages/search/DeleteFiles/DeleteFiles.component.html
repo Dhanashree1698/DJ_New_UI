@@ -1,0 +1,99 @@
+
+<div class="AdvancedSearchMainContainer">
+<div class=" header pb-6">
+  <div class=" container-fluid">
+    <div class=" header-body" style="width: 102% !important;
+    margin-left: -13px !important;">
+      <div class=" row align-items-center py-4" style="margin-left: 10px !important;">
+        <div class=" col-lg-6 col-7">
+          <!-- <h6 class=" h2 text-white d-inline-block mb-0">Search</h6> -->
+
+          <nav
+            aria-label="breadcrumb"
+            class=" d-none d-md-inline-block ml-md-4"
+          >
+            <ol class=" breadcrumb breadcrumb-links breadcrumb-dark" style="margin-left: -15px;">
+              <li class=" breadcrumb-item">
+                <a href="javascript:void(0)" class="text-gray"> <i class=" fas fa-home" routerLink="/search/quick-search"> </i> </a>
+              </li>
+              <li class=" breadcrumb-item">
+                <a href="javascript:void(0)" class="text-gray"> Search </a>
+              </li>
+
+              <li aria-current="page" class=" breadcrumb-item active text-dark">
+                Delete Files
+              </li>
+            </ol>
+          </nav>
+        </div>
+
+      
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class=" container-fluid mt--6">
+  <div class=" row">
+    <div class="card">
+      <form [formGroup]="DeleteFilesForm">
+         
+        <div class="card-body">
+            <div class="position-relative row form-group">                       
+                
+             <div class="col-lg-3 col-md-4 col-sm-4 col-xs-4" style="margin-top: 10px;">    
+              <label class="form-control-label" for="TemplateID">Template :</label>           
+                <select name="TemplateID" id="TemplateID" class="form-control" formControlName="TemplateID" >
+                  <option value=0>Select Template</option>   
+                  <option *ngFor="let _Temp of _TemplateList" [value]="_Temp.TemplateID"  >  
+                  {{_Temp.TemplateName}}  
+                  </option>   
+                  </select>
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="margin-top: 10px;">   
+                <label class="form-control-label" for="TemplateID">Delete :</label>            
+                <select name="Condition" class="form-control" formControlName="DeleteID" >
+                      <option value=0>Select Delete</option>   
+                      <option value=1>Image</option>   
+                      <option value=2>Both (Image and Metadata)</option>   
+                </select>
+              </div>
+           
+              <div class="col-lg-6 col-md-4 col-sm-4 col-xs-4">  
+                <div class="d-flex">
+                <div class="custom-file" style="width:56%;border: 0.5px solid #000; height: 48px; border-radius: 5px;">
+                  <input type="file" name="csvReader" id="csvReader" (change)="uploadListener($event)" accept=".csv" />                
+                  <label
+                    class=" custom-file-label"
+                    for="csvReader">
+                    Choose CSV file
+                  </label>
+                </div>
+                <button type="button" class="btn success" style="margin-top: 5px; margin-left: 5px;" tooltip="Delete" (click)="DeleteFiles()">
+                   <i class=" fas fa-trash fa-lg"></i> 
+                </button>
+                
+                <button type="button" class="btn success" style="margin-top: 5px;" tooltip="CSV Format" (click)="downloadFile()">
+                   <i class=" fas fa-file-download fa-lg"></i> 
+                </button>    
+              </div>             
+              </div>
+
+              </div>   
+                    
+
+        </div>        
+
+
+    </form>
+    </div>
+  </div>
+</div>
+
+
+</div>
+<p-toast position="top-left" [showTransformOptions]="'translateY(100%)'" 
+                    [showTransitionOptions]="'1000ms'" 
+                    [hideTransitionOptions]="'1000ms'" 
+                    [showTransformOptions]="'translateX(100%)'"></p-toast>
+ 
