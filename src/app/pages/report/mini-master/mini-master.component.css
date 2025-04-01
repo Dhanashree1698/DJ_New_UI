@@ -8,3 +8,23 @@
     color:white;
     border-color:#007ad9;;
   } */
+  .btn {
+    border-radius: 5px !important; 
+  }
+  
+  .btn:hover,
+  .btn:focus {
+    border-radius: 5px !important; 
+    box-shadow: none !important;
+  }
+
+  .btn-primary {
+    background-color: #003366;
+    border-color: #003366;
+    color: white;
+    font-weight: 500;
+    text-transform: uppercase;
+    border-radius: 4px;
+    /* padding: 8px 16px; */
+    transition: background-color 0.3s, border-color 0.3s;
+  }

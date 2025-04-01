@@ -21,6 +21,7 @@ export enum SelectionType {
 @Component({
   selector: "app-BulkDownlaod",
   templateUrl: "BulkDownlaod.component.html",
+  
   styleUrls: ["BulkDownlaod.component.css"]
 })
 export class BulkDownlaodComponent implements OnInit {
@@ -32,6 +33,7 @@ export class BulkDownlaodComponent implements OnInit {
   modalRef: BsModalRef;  
   _FilteredList :any; 
   _TemplateList :any;  
+ 
   AdvancedSearchForm: FormGroup;
   submitted = false;
   Reset = false;     
@@ -81,7 +83,7 @@ export class BulkDownlaodComponent implements OnInit {
         FileNo: [''],
         ACC: [''],
         CSVData: [''],
-        TemplateID: 1, 
+        TemplateID:  [0], 
         _ColNameList: this._ColNameList,      
         CreatedBy: localStorage.getItem('UserID'),
         User_Token: localStorage.getItem('User_Token'),       
@@ -95,6 +97,7 @@ export class BulkDownlaodComponent implements OnInit {
   
   //    this.getSearchParameterList();
      this.getTemplate();
+    //  this.geTTempList()
       // this._isDownload =localStorage.getItem('Download');
       // this._isDelete =localStorage.getItem('Delete');  
       // this.TempField = localStorage.getItem('Fname');
@@ -121,6 +124,10 @@ export class BulkDownlaodComponent implements OnInit {
         });
       }
    
+
+
+
+
     
       getSearchResult() {
 
@@ -161,7 +168,9 @@ export class BulkDownlaodComponent implements OnInit {
         //const apiUrl = this._global.baseAPIUrl + 'TemplateMapping/GetTemplateMappingListByUserID?user_Token='+this.AdvancedSearchForm.get('User_Token').value
         this._onlineExamService.getAllData(apiUrl).subscribe((data: {}) => {
           this._TemplateList = data;
-          this.AdvancedSearchForm.controls['TemplateID'].setValue(0);
+
+          console.log('_TemplateList',this._TemplateList)
+          //this.AdvancedSearchForm.controls['TemplateID'].setValue(0);
           //this.AddEditBranchMappingForm.controls['UserIDM'].setValue(0);
           //this.itemRows = Array.from(Array(Math.ceil(this.adresseList.length/2)).keys())
         });

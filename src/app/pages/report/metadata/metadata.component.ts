@@ -43,14 +43,16 @@ export class MetadataComponent implements OnInit {
   _HeaderList:any;
   TemplateList:any;
   BranchList:any;
-
-  bsValue = new Date();
   bsRangeValue: Date[];
-  maxDate = new Date();
+  bsValueFrom: Date = new Date(); // Default From Date
+  bsValueTo: Date = new Date();   // Default To Date
+  minToDate: Date = new Date();   // Ensures To Date is always >= From Date
+  maxDate: Date = new Date(); 
   first = 0;
   rows = 10;
 
   constructor(
+    
     private modalService: BsModalService,
     public toastr: ToastrService,
     private formBuilder: FormBuilder,
@@ -60,7 +62,9 @@ export class MetadataComponent implements OnInit {
     private httpService: HttpClient,
     private route: ActivatedRoute,
     private router: Router,
-    private messageService: MessageService
+    private messageService: MessageService,
+    
+    
 
   ) {}
   ngOnInit() {
@@ -69,13 +73,23 @@ export class MetadataComponent implements OnInit {
       TemplateID: ["", Validators.required],
       BranchID: ["", Validators.required],
       User_Token: localStorage.getItem('User_Token') , 
+      DATEFROM: [null],
+      DATETO: [null]   
     });
     this.getTemplate();
     this.geBranchList();
-
-    //this.Getpagerights();
+ 
+    this.bsValueFrom = null;
+    this.bsValueTo = null;
+  }
+  onFromDateChange(selectedDate: Date) {
+    this.bsValueFrom = selectedDate;
+    this.bsValueTo = this.bsValueTo < selectedDate ? selectedDate : this.bsValueTo;
   }
 
+  onToDateChange(selectedDate: Date) {
+    this.bsValueTo = selectedDate;
+  }
 
   Getpagerights() {
 
@@ -185,7 +199,7 @@ export class MetadataComponent implements OnInit {
 
   getMetdataList() {  
 
-    const apiUrl = this._global.baseAPIUrl + 'Status/GetMetaDataReportByCustomer';          
+    const apiUrl = this._global.baseAPIUrl + 'Status/GetMetaDataReportBytemplate';          
     this._onlineExamService.postData(this.MetaDataForm.value,apiUrl)
     // .pipe(first())
     .subscribe( data => {
@@ -266,49 +280,137 @@ export class MetadataComponent implements OnInit {
 formattedData: any = [];
 loading: boolean = false;
 immutableFormattedData: any;
+// GetHeaderNames() {
+//   let formattedData = [];
+//   this._HeaderList = "";
+
+//   // Construct header list
+//   debugger
+//   for (let j = 0; j < this._ColNameList.length; j++) {
+//     this._HeaderList += this._ColNameList[j].DisplayName + (j <= this._ColNameList.length - 2 ? ',' : '');
+//   }
+//   this._HeaderList += ',' + "PageCount";
+//   this._HeaderList += ',' + "SubfolderName";
+//   this._HeaderList += '\n';
+
+//   // Populate data rows
+//   this._StatusList.forEach((stat, index) => {
+//     let rowData = {};
+//     for (let j = 0; j < this._ColNameList.length; j++) {
+//       let columnName = this._ColNameList[j].DisplayName;
+//       let value = j == 0 ? stat['FileNo'] : stat['Ref' + (j + 1)];
+//       rowData[columnName] = value;
+//       this._HeaderList += value + (j <= this._ColNameList.length - 2 ? ',' : '');
+//     }
+
+//     // Add PageCount and SubfolderName to both the header list and rowData
+//     this._HeaderList += ',' + stat.PageCount;
+//     this._HeaderList += ',' + stat.SubfolderName;
+//     this._HeaderList += '\n';
+
+//     // rowData['PageCount'] = stat.PageCount;
+//     // rowData['SubfolderName'] = stat.SubfolderName;
+
+//     // Add rowData to formattedData
+//     formattedData.push(rowData);
+//   });
+
+//   // Save formattedData to class-level variables if needed
+//   this.formattedData = formattedData;
+//   this.immutableFormattedData = JSON.parse(JSON.stringify(formattedData));
+//   // console.log(this._HeaderList);
+//   // console.log(this._StatusList);
+//   // console.log(this._ColNameList);
+//   // console.log(this.formattedData);
+// }
+// GetHeaderNames() {
+//   let formattedData = [];
+//   this._HeaderList = "";
+
+//   // Construct header list
+//   debugger
+//   for (let j = 0; j < this._ColNameList.length; j++) {
+//     this._HeaderList += this._ColNameList[j].DisplayName + (j <= this._ColNameList.length - 2 ? ',' : '');
+//   }
+//   this._HeaderList += ',' + "PageCount";
+//   this._HeaderList += ',' + "SubfolderName";
+//   this._HeaderList += '\n';
+
+//   // Populate data rows
+//   this._StatusList.forEach((stat, index) => {
+//     let rowData = {};
+//     for (let j = 0; j < this._ColNameList.length; j++) {
+//       let columnName = this._ColNameList[j].DisplayName;
+//       let value = j == 0 ? stat['FileNo'] : stat['Ref' + (j + 1)];
+//       rowData[columnName] = value;
+//       this._HeaderList += value + (j <= this._ColNameList.length - 2 ? ',' : '');
+//     }
+
+//     // Add PageCount and SubfolderName to both the header list and rowData
+//     this._HeaderList += ',' + stat.PageCount;
+//     this._HeaderList += ',' + stat.SubfolderName;
+//     this._HeaderList += '\n';
+
+//     // rowData['PageCount'] = stat.PageCount;
+//     // rowData['SubfolderName'] = stat.SubfolderName;
+
+//     // Add rowData to formattedData
+//     formattedData.push(rowData);
+//   });
+
+//   // Save formattedData to class-level variables if needed
+//   this.formattedData = formattedData;
+//   this.immutableFormattedData = JSON.parse(JSON.stringify(formattedData));
+//   // console.log(this._HeaderList);
+//   // console.log(this._StatusList);
+//   // console.log(this._ColNameList);
+//   // console.log(this.formattedData);
+// }
 GetHeaderNames() {
   let formattedData = [];
   this._HeaderList = "";
 
-  // Construct header list
-  debugger
-  for (let j = 0; j < this._ColNameList.length; j++) {
-    this._HeaderList += this._ColNameList[j].DisplayName + (j <= this._ColNameList.length - 2 ? ',' : '');
-  }
-  this._HeaderList += ',' + "PageCount";
-  this._HeaderList += ',' + "SubfolderName";
-  this._HeaderList += '\n';
+  if (!this._ColNameList || !this._StatusList) return;
 
-  // Populate data rows
-  this._StatusList.forEach((stat, index) => {
-    let rowData = {};
-    for (let j = 0; j < this._ColNameList.length; j++) {
-      let columnName = this._ColNameList[j].DisplayName;
-      let value = j == 0 ? stat['FileNo'] : stat['Ref' + (j + 1)];
-      rowData[columnName] = value;
-      this._HeaderList += value + (j <= this._ColNameList.length - 2 ? ',' : '');
-    }
+  // Extract headers dynamically
+  let headers = this._ColNameList.map(col => col.DisplayName);
+  headers.push("PageCount", "SubfolderName"); // Add additional headers
+  this._HeaderList = headers.join(',') + '\n';
 
-    // Add PageCount and SubfolderName to both the header list and rowData
-    this._HeaderList += ',' + stat.PageCount;
-    this._HeaderList += ',' + stat.SubfolderName;
-    this._HeaderList += '\n';
+  this._StatusList.forEach(stat => {
+    // Normalize keys in `stat` to lowercase for case-insensitive matching
+    let normalizedStat = Object.keys(stat).reduce((acc, key) => {
+      acc[key.toLowerCase()] = stat[key]; // Store lowercase key with original value
+      return acc;
+    }, {} as Record<string, any>);
 
-    // rowData['PageCount'] = stat.PageCount;
-    // rowData['SubfolderName'] = stat.SubfolderName;
+    let row = this._ColNameList.map((col, index) => {
+      let colKey = col.DisplayName.toLowerCase(); // Normalize column name
+      return index === 0 ? stat["FileNo"] : normalizedStat[colKey] || ""; // Case-insensitive lookup
+    });
 
-    // Add rowData to formattedData
+    row.push(stat.PageCount || "", stat.SubfolderName || "");
+    this._HeaderList += row.join(',') + '\n';
+
+    // Construct rowData object dynamically
+    let rowData = this._ColNameList.reduce((acc, col, index) => {
+      let colKey = col.DisplayName.toLowerCase();
+      acc[col.DisplayName] = index === 0 ? stat["FileNo"] : normalizedStat[colKey] || "";
+      return acc;
+    }, {} as Record<string, any>);
+
+    rowData["PageCount"] = stat.PageCount || "";
+    rowData["SubfolderName"] = stat.SubfolderName || "";
+
     formattedData.push(rowData);
   });
 
-  // Save formattedData to class-level variables if needed
+  // Save formattedData to class-level variables
   this.formattedData = formattedData;
   this.immutableFormattedData = JSON.parse(JSON.stringify(formattedData));
-  // console.log(this._HeaderList);
-  // console.log(this._StatusList);
-  // console.log(this._ColNameList);
-  // console.log(this.formattedData);
 }
+
+
 paginate(e) {
   this.first = e.first;
   this.rows = e.rows;

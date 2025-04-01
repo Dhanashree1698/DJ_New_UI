@@ -50,7 +50,7 @@ export class DepartmentComponent implements OnInit {
   ) {}
   ngOnInit() {
     this.AddDepartmentForm = this.formBuilder.group({
-      DepartmentName: ['',[Validators.required,Validators.pattern(/^(?!\s+$)[a-zA-Z\s]*$/)]],
+      DepartmentName: ['',[Validators.required, Validators.pattern(/^[a-zA-Z0-9\-_\s]+$/)]],
       CabientSize:['',Validators.required],
       Description:[''],
       User_Token: localStorage.getItem('User_Token') ,
@@ -101,7 +101,6 @@ export class DepartmentComponent implements OnInit {
   }
 
   formattedData: any = [];
-  DownloadformattedData: any = [];
   headerList: any;
   immutableFormattedData: any;
   loading: boolean = true;
@@ -128,9 +127,9 @@ export class DepartmentComponent implements OnInit {
         'srNo': parseInt(index + 1),
         'DepartmentName': el.DepartmentName,
         'Cabient': el.Cabient,
-        'id': el.id,
+         'id': el.id,
          'DID': el.DID,
-         'CabientSize': el.CabientSize,
+         'CabientSize': el.CabientSize +  ' GB',
          'FolderCount': el.FolderCount,
          'SubFolderCount': el.SubFolderCount,
          'Description': el.Description,
@@ -140,24 +139,6 @@ export class DepartmentComponent implements OnInit {
       });
    
     });
-    tableData.forEach((el, index) => {
-      this.DownloadformattedData.push({
-        'srNo': parseInt(index + 1),
-        'DepartmentName': el.DepartmentName,
-        'Cabient': el.Cabient,
-       // 'id': el.id,
-       //  'DID': el.DID,
-         'CabientSize': el.CabientSize,
-         'FolderCount': el.FolderCount,
-         'SubFolderCount': el.SubFolderCount,
-         'Description': el.Description,
-         'CreatedDate': el.CreatedDate,
-         'CreatedBy': el.CreatedBy,
-    
-      });
-   
-    });
-
     this.headerList = tableHeader;
   //}
   
@@ -198,6 +179,7 @@ export class DepartmentComponent implements OnInit {
   }
 
   onSubmit() {
+    debugger
     this.submitted = true;
     console.log(this.AddDepartmentForm);
     if (this.AddDepartmentForm.invalid) {
@@ -232,12 +214,45 @@ export class DepartmentComponent implements OnInit {
 
   }
   
-  ShowErrormessage(data){
-    this.messageService.add({ severity: 'warn', summary: 'Warnning', detail: data });
+  // ShowErrormessage(data){
+  //   this.messageService.add({ severity: 'warn', summary: 'Warnning', detail: data });
+  // }
+  ShowErrormessage(data: any) {
+    this.toastr.show(
+      '<div class="alert-text"</div> <span class="alert-title" data-notify="title">Error ! </span> <span data-notify="message"> ' + data + ' </span></div>',
+      "",
+      {
+        timeOut: 3000,
+        closeButton: true,
+        enableHtml: true,
+        tapToDismiss: false,
+        titleClass: "alert-title",
+        positionClass: "toast-top-center",
+        toastClass:
+          "ngx-toastr alert alert-dismissible alert-danger alert-notify"
+      }
+    );
+  
   }
   ShowSuccessMessage(data){
     this.messageService.add({ severity: 'success', summary: 'Success', detail: data });
   }
+  // ShowSuccessMessage(data: any) {
+  //   this.toastr.show(
+  //     '<div class="alert-text"</div> <span class="alert-title" data-notify="title">Success! </span> <span data-notify="message"> ' + data + ' </span></div>',
+  //     "",
+  //     {
+  //       timeOut: 3000,
+  //       closeButton: true,
+  //       enableHtml: true,
+  //       tapToDismiss: false,
+  //       titleClass: "alert-title",
+  //       positionClass: "toast-top-center",
+  //       toastClass:
+  //         "ngx-toastr alert alert-dismissible alert-success alert-notify"
+  //     }
+  //   );
+  // }
     
   deleteDepartment(id: any) {
     swal
@@ -272,11 +287,9 @@ export class DepartmentComponent implements OnInit {
       });
   }
   editDepartment(template: TemplateRef<any>, row: any) {
-    this.AddDepartmentForm.get('DepartmentName')?.reset();
       var that = this;
       that._SingleDepartment = row;
-    //  console.log('data', row);
-    this.AddDepartmentForm.controls['DepartmentName'].value;
+     console.log('data', row);
       this.AddDepartmentForm.patchValue({
         id: that._SingleDepartment.DID,
         DepartmentName: that._SingleDepartment.DepartmentName,
@@ -288,13 +301,11 @@ export class DepartmentComponent implements OnInit {
   }
   addDepartment(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
-    this.AddDepartmentForm.get('DepartmentName')?.reset();
-    this.AddDepartmentForm.get('CabientSize')?.reset();
-    this.AddDepartmentForm.get('Description')?.reset();
+    this.AddDepartmentForm.reset();
   }
 
-   //Changes Added By Dhanashree
-   onSizeInput(event: any) {
+  //Changes Added By Dhanashree
+  onSizeInput(event: any) {
     const value = event.target.value;
     const validValue = value.replace(/[^0-9]/g, ''); 
     event.target.value = validValue;  
@@ -302,7 +313,7 @@ export class DepartmentComponent implements OnInit {
   onDownloadExcelFile(_filename:string)
   {
    // _filename = 'Users_Data';
-    this.exportToExcel(this.DownloadformattedData,_filename);
+    this.exportToExcel(this.formattedData,_filename);
     // this.downloadFile();
   }
 

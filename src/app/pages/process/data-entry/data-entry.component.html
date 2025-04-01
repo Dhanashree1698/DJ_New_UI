@@ -216,7 +216,25 @@
                           </option>
                         </select>
                       </div>
-  
+                      <div class="form-group col-lg-6 col-md-6">
+                        <label class="form-control-label" for="SubfolderName">
+                          Sub Folder:
+                        </label>
+                        <div class="input-group input-group-merge serchInput">
+                          <input
+                              type="text"
+                              class="form-control"
+                              name="SubfolderName"
+                              id="SubfolderName"
+                              placeholder="Sub Folder"
+                              formControlName="SubfolderName"
+                              [readonly]="isReadonly"
+                              
+                            />
+                         
+                          
+                        </div>
+                      </div>
                       <!-- <div class="form-group col-lg-6 col-md-6">
                         <label class="form-control-label" for="DeptID">
                         Department :
@@ -431,7 +449,8 @@
                         [showHandToolButton]="false"
                         [height]="'90vh'"
                         [showOpenFileButton]="false"
-                        [customizeToolbar]="hideTextSelectionTool"
+                       
+                       
                         *ngIf="FilePath" [src]="FilePath"
                         > <!-- by default, most CSS framework set the height to 0 -->
           

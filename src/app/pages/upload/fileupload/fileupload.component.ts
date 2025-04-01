@@ -49,6 +49,7 @@ export class FileUploadComponent implements OnInit {
   first = 0;
   rows = 10;
   @Output() public onUploadFinished = new EventEmitter();
+  isUploadDisabled: boolean = true;
 
 
   constructor(
@@ -439,7 +440,7 @@ export class FileUploadComponent implements OnInit {
       formattedData.push({
         'srNo': parseInt(index + 1),
         'name': el.name,
-        'size': el.size,
+        'size': el.size + ' KB',
         'type': el.type,
       });
 
@@ -511,5 +512,22 @@ export class FileUploadComponent implements OnInit {
     this.first = e.first;
     this.rows = e.rows;
   }
-
+  //dhanashree
+  checkUploadDisabled() {
+    debugger
+    const deptID = this.FileUPloadForm.get('DeptID')?.value;
+    const branchID = this.FileUPloadForm.get('BranchID')?.value;
+    const subfolderID = this.FileUPloadForm.get('SubfolderID')?.value;
+    const templateID = this.FileUPloadForm.get('TemplateID')?.value;
+ 
+    // Check if all required fields are selected
+    if (deptID && deptID !== '0' &&
+        branchID && branchID !== '0' &&
+        subfolderID && subfolderID !== '0' &&
+        templateID && templateID !== '0') {
+      this.isUploadDisabled = false;
+    } else {
+      this.isUploadDisabled = true;
+    }
+  }
 }

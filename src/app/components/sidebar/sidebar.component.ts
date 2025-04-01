@@ -516,6 +516,11 @@ export class SidebarComponent implements OnInit {
         route = { path: "Checker", title: "Checker", type: "link" }
         break;
       }
+      case "Reject":{
+        route = { path: "Reject", title: "Reject", type: "link" }
+        break;
+      }
+ 
 
       case "Search":{
         route = {
@@ -571,7 +576,7 @@ export class SidebarComponent implements OnInit {
       }
   
        case "BulkDownlaod":{
-        route = { path: "bulk-downlaod", title: "Bulk Download", type: "link" }
+        route = { path: "bulk-download", title: "Bulk Download", type: "link" }
         break;
       }
       //Delete Files
@@ -595,15 +600,15 @@ export class SidebarComponent implements OnInit {
         break;
       }
       case "Meta Data Report":{
-        route = { path: "meta-data", title: "Meta Data", type: "link" }
+        route = { path: "meta-data", title: "Master Report", type: "link" }
         break;
       }
       case "Space":{
-        route = { path: "space", title: "Space Utilized", type: "link" }
+        route = { path: "space", title: "Space Status Report", type: "link" }
         break;
       }
       case "DocumentStatus":{
-        route = { path: "DocumentStatus", title: "Document Status", type: "link" }
+        route = { path: "DocumentStatus", title: "Document Missing Report", type: "link" }
         break;
       }
       case "EmailLog":{
@@ -616,7 +621,7 @@ export class SidebarComponent implements OnInit {
       }
  
       case "Log Report":{
-        route = { path: "logs", title: "Logs", type: "link" }
+        route = { path: "logs", title: "User Logs", type: "link" }
         break;
       }
       case "Minimaster":{

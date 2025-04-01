@@ -45,9 +45,12 @@ export class LogsComponent implements OnInit {
   _ColNameList = ["UserName","FileNo", "Activity", "LogDate"];
 
 
-  bsValue = new Date();
+  
   bsRangeValue: Date[];
-  maxDate = new Date();
+  bsValueFrom: Date = new Date(); // Default From Date
+  bsValueTo: Date = new Date();   // Default To Date
+  minToDate: Date = new Date();   // Ensures To Date is always >= From Date
+  maxDate: Date = new Date();   
   first = 0;
   rows = 10;
 
@@ -77,6 +80,8 @@ export class LogsComponent implements OnInit {
    // this.Getpagerights();
     this.getLogList();
     this.BindHeader(this._StatusList,this._StatusList);
+    this.bsValueFrom = null;
+    this.bsValueTo = null;
   }
  
   // Getpagerights() {
@@ -120,7 +125,14 @@ export class LogsComponent implements OnInit {
   {
     this.getLogList();
   }
+  onFromDateChange(selectedDate: Date) {
+    this.bsValueFrom = selectedDate;
+    this.bsValueTo = this.bsValueTo < selectedDate ? selectedDate : this.bsValueTo;
+  }
 
+  onToDateChange(selectedDate: Date) {
+    this.bsValueTo = selectedDate;
+  }
   // getStatusList() {  
   //   const apiUrl = this._global.baseAPIUrl + 'Status/GetStatusReport';          
   //   this._onlineExamService.postData(this.StatusReportForm.value,apiUrl)

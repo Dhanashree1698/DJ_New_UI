@@ -95,8 +95,8 @@ toggleConfirmNewPasswordVisibility() {
         // this.utility.isValidNameField,
       ]],
       userid: ["", Validators.required],
-      UserIDS: ['', Validators.required],
-      UserID: ['', Validators.required],
+      // UserIDS: ['', Validators.required],
+      // UserID: ['', Validators.required],
       pwd: ["", [Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,}$/)]],
       confirmPass: ["", Validators.required],
       //Cpwd: ['', Validators.required],
@@ -106,7 +106,7 @@ toggleConfirmNewPasswordVisibility() {
       sysRoleID: ["", Validators.required],
       ClientID: ["", Validators.required],
       User_Token: localStorage.getItem('User_Token'),
-      CreatedBy: localStorage.getItem('UserID')
+      CreatedBy: localStorage.getItem('userid')
     }, {
       validator: this.ConfirmedValidator('pwd', 'confirmPass')
     });
@@ -115,7 +115,7 @@ toggleConfirmNewPasswordVisibility() {
       Rpwd: ['',[Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,}$/)]],
       RconfirmPass: ["", Validators.required],   
        User_Token: localStorage.getItem('User_Token'),
-      CreatedBy: localStorage.getItem('UserID') 
+      CreatedBy: localStorage.getItem('userid') 
      }, {
       validator: this.ConfirmedValidator('Rpwd', 'RconfirmPass')
     }); 
@@ -173,7 +173,7 @@ toggleConfirmNewPasswordVisibility() {
   Getpagerights() {
 
     var pagename = "Add User";
-    const apiUrl = this._global.baseAPIUrl + 'Admin/Getpagerights?userid=' + localStorage.getItem('UserID') + ' &pagename=' + pagename + '&user_Token=' + localStorage.getItem('User_Token');
+    const apiUrl = this._global.baseAPIUrl + 'Admin/Getpagerights?userid=' + localStorage.getItem('userid') + ' &pagename=' + pagename + '&user_Token=' + localStorage.getItem('User_Token');
 
     // const apiUrl = this._global.baseAPIUrl + 'Template/GetTemplate?user_Token=' + this.FileStorageForm.get('User_Token').value
     this._onlineExamService.getAllData(apiUrl).subscribe((data) => {
@@ -273,10 +273,10 @@ toggleConfirmNewPasswordVisibility() {
       debugger;
       this.UserList = data;
       this._UserL = data;
-      console.log("UserL",this._UserL)
-      console.log("FormData",this.AddUserForm);
-      this.AddUserForm.controls["UserID"].setValue(0);
-      this.AddUserForm.controls["UserIDS"].setValue(0);
+//      console.log("UserL",this._UserL)
+  //    console.log("FormData",this.AddUserForm);
+      // this.AddUserForm.controls["UserID"].setValue(0);
+      // this.AddUserForm.controls["UserIDS"].setValue(0);
       this._FilteredList = data;
       this.prepareTableData(this.UserList, this._FilteredList);
       
@@ -303,6 +303,7 @@ toggleConfirmNewPasswordVisibility() {
   prepareTableData(tableData, headerList) {
     let formattedData = [];
     // alert(this.type);
+    console.log('tbldata',tableData);
 
     // if (this.type=="Checker" )
     //{
@@ -333,13 +334,16 @@ toggleConfirmNewPasswordVisibility() {
         'roleName': el.roleName,
         'CreatedAt': el.CreatedAt,
         'PasswodExpiryDate': el.PasswodExpiryDate,
-        'isActive': el.isActive == 'Y' ? 'Active' : 'In-Active'
+        // 'isActive': el.isActive == 1 ? 'Active' : 'In-Active',
+        'ClientID': el.ClientID,
+        'status':el.status,
+        'ClientName': el.ClientName   //changes added by dhanashree for edit user
       });
 
     });
     this.headerList = tableHeader;
     //}
-
+console.log(formattedData)
     this.immutableFormattedData = JSON.parse(JSON.stringify(formattedData));
     this.formattedData = formattedData;
     this.loading = false;
@@ -450,6 +454,7 @@ toggleConfirmNewPasswordVisibility() {
   }
 
   OnReset() {
+    debugger
     this.Reset = true;
     this.AddUserForm.reset();
     this.User = "Create User";
@@ -492,6 +497,8 @@ toggleConfirmNewPasswordVisibility() {
     if (this.AddUserForm.value.User_Token == null) {
       this.AddUserForm.value.User_Token = localStorage.getItem('User_Token');
     }
+    console.log("Final Payload:", this.AddUserForm.value); 
+
     if (this.AddUserForm.get('id').value) {
     
       const apiUrl = this._global.baseAPIUrl + "Admin/Update";
@@ -508,34 +515,32 @@ toggleConfirmNewPasswordVisibility() {
           }
         });
     } else {
+      debugger
       const apiUrl = this._global.baseAPIUrl + "Admin/Create";
-      this._onlineExamService
-        .postData(this.AddUserForm.value, apiUrl)
-        // .pipe(first())
-        .subscribe((data) => {
-          if (data == 1) {
-            this.ShowMessage("Record Saved Successfully..");
-
-            this.OnReset();
-            //this.router.navigate(['/student']);
-            this.geUserList();
-            this.modalService.hide(1);
-          } else {
-            this.ShowErrormessage("User already exists.");
-            // alert("User already exists.");
-          }
-        });
+      console.log("thiis the console",this.AddUserForm.value)
+      this._onlineExamService.postData(this.AddUserForm.value, apiUrl).subscribe((data) => {
+        debugger;
+        console.log("API Response:", data); 
+  
+        if (data == 1) {
+          this.ShowMessage("Record Saved Successfully..");
+          this.OnReset();
+          this.geUserList();
+          this.modalService.hide(1);
+        } else {
+          this.ShowErrormessage("User already exists.");
+        }
+      });
     }
-
     //this.studentForm.patchValue({File: formData});
   }
 
   editEmployee(template: TemplateRef<any>, value: any) {
-
+debugger
     this.User = "Edit user details";
     const apiUrl =
       this._global.baseAPIUrl +
-      "Admin/GetDetails?ID=" +
+      "Admin/GetDetails?id=" +
       value.id + "&user_Token=" + localStorage.getItem('User_Token');
     this._onlineExamService.getAllData(apiUrl).subscribe((data: any) => {
       var that = this;
@@ -551,6 +556,7 @@ toggleConfirmNewPasswordVisibility() {
         mobile: that._SingleUser.mobile,
         sysRoleID: that._SingleUser.sysRoleID,
         ClientID: that._SingleUser.ClientID,
+        ClientName: that._SingleUser.ClientName,
         Remarks: that._SingleUser.remarks
       })
       //  console.log('form', this.AddUserForm);
@@ -566,7 +572,7 @@ toggleConfirmNewPasswordVisibility() {
 
 //alert('Hi');
 
-    const apiUrl = this._global.baseAPIUrl + 'Admin/GetFolderDetails?user_Token='+localStorage.getItem('User_Token')+'&UserID='+ localStorage.getItem('UserID');
+    const apiUrl = this._global.baseAPIUrl + 'Admin/GetFolderDetails?user_Token='+localStorage.getItem('User_Token')+'&id='+ value.id;
     this._onlineExamService.getAllData(apiUrl).subscribe((data: {}) => {
       debugger;
       this._FilteredListFolder = data;
@@ -581,7 +587,7 @@ toggleConfirmNewPasswordVisibility() {
     this.modalRef = this.modalService.show(template);
     const userToken = this.AddUserForm.get('User_Token').value || localStorage.getItem('User_Token');
   //  const apiUrl = this._global.baseAPIUrl + "Admin/LoginHistory?user_Token=" + userToken + localStorage.getItem('UserID');
-    const apiUrl = this._global.baseAPIUrl + 'Admin/LoginHistory?user_Token=' + localStorage.getItem('User_Token') +'&UserID='+ localStorage.getItem('UserID');
+    const apiUrl = this._global.baseAPIUrl + 'Admin/LoginHistory?user_Token=' + localStorage.getItem('User_Token') +'&userid='+ localStorage.getItem('userid');
     this._onlineExamService.getAllData(apiUrl).subscribe((data: {}) => {
       this.UserList = data;
       this._FilteredList = data;
@@ -591,16 +597,17 @@ toggleConfirmNewPasswordVisibility() {
     });
     
   }
+
   deleteEmployee(id: any) {
 
-
+debugger
     if (id.roleName == "Admin") {
       this.ShowErrormessage("You can not delete admin role account");
       //console.log("DEL User ID",id);
       return;
     }
 
-    if (id != localStorage.getItem('UserID')) {
+    if (id != localStorage.getItem('userid')) {
       swal
         .fire({
           title: "Are you sure?",
@@ -653,7 +660,7 @@ toggleConfirmNewPasswordVisibility() {
       sysRoleID: 0,
       ClientID: 0,
       Remarks: '',
-      id: ''
+      id: '',
     })
     this.User = "Create user";
   }
@@ -663,44 +670,95 @@ toggleConfirmNewPasswordVisibility() {
     this.AddpasswordReset.reset();
     this.modalRef = this.modalService.show(template);
   }
+  //Inactive user Changes by Dhanashree
+  InactiveEmployee(id: any) {
 
+debugger
+    if (id.roleName == "Admin") {
+      this.ShowErrormessage("You can not Inactive admin role account");
+      //console.log("DEL User ID",id);
+      return;
+    }
+
+    if (id != localStorage.getItem('userid')) {
+      swal
+        .fire({
+          title: "Are you sure?",
+          text: "You won't be able to revert this!",
+          type: "warning",
+          showCancelButton: true,
+          buttonsStyling: false,
+          confirmButtonClass: "btn dangerbtn",
+          confirmButtonText: "Yes, Inactive it!",
+          cancelButtonClass: "btn successbtn",
+        })
+        .then((result) => {
+          if (result.value) {
+            this.AddUserForm.patchValue({
+              id: id.id,
+              User_Token: localStorage.getItem('User_Token'),
+            });
+
+            const apiUrl = this._global.baseAPIUrl + "Admin/ActiveInactive";
+            this._onlineExamService
+              .postData(this.AddUserForm.value, apiUrl)
+              .subscribe((data) => {
+                swal.fire({
+                  title: "InActivated!",
+                  text: "User has been InActive.",
+                  type: "success",
+                  buttonsStyling: false,
+                  confirmButtonClass: "btn successbtn",
+                });
+                id.ISACTIVE = !id.ISACTIVE; // Toggle value
+                console.log(`Status changed: ${id.ISACTIVE ? 'Active' : 'Inactive'}`);
+                this.geUserList();
+              });
+          }
+        });
+    }
+    else {
+
+      this.ShowErrormessage("Your already log in so you can not InActive!");
+    }
+  }
 
   ShowErrormessage(data: any) {
-    // this.toastr.show(
-    //   '<div class="alert-text"</div> <span class="alert-title" data-notify="title">Error ! </span> <span data-notify="message"> ' + data + ' </span></div>',
-    //   "",
-    //   {
-    //     timeOut: 3000,
-    //     closeButton: true,
-    //     enableHtml: true,
-    //     tapToDismiss: false,
-    //     titleClass: "alert-title",
-    //     positionClass: "toast-top-center",
-    //     toastClass:
-    //       "ngx-toastr alert alert-dismissible alert-danger alert-notify"
-    //   }
-    // );
+    this.toastr.show(
+      '<div class="alert-text"</div> <span class="alert-title" data-notify="title">Error ! </span> <span data-notify="message"> ' + data + ' </span></div>',
+      "",
+      {
+        timeOut: 3000,
+        closeButton: true,
+        enableHtml: true,
+        tapToDismiss: false,
+        titleClass: "alert-title",
+        positionClass: "toast-top-center",
+        toastClass:
+          "ngx-toastr alert alert-dismissible alert-danger alert-notify"
+      }
+    );
 
-    this.messageService.add({ severity: 'error', summary: 'Error', detail:data });
+    // this.messageService.add({ severity: 'error', summary: 'Error', detail:data });
   }
 
   ShowMessage(data: any) {
-    // this.toastr.show(
-    //   '<div class="alert-text"</div> <span class="alert-title" data-notify="title">Success ! </span> <span data-notify="message"> ' + data + ' </span></div>',
-    //   "",
-    //   {
-    //     timeOut: 3000,
-    //     closeButton: true,
-    //     enableHtml: true,
-    //     tapToDismiss: false,
-    //     titleClass: "alert-title",
-    //     positionClass: "toast-top-center",
-    //     toastClass:
-    //       "ngx-toastr alert alert-dismissible alert-success alert-notify"
-    //   }
-    // );
+    this.toastr.show(
+      '<div class="alert-text"</div> <span class="alert-title" data-notify="title">Success ! </span> <span data-notify="message"> ' + data + ' </span></div>',
+      "",
+      {
+        timeOut: 3000,
+        closeButton: true,
+        enableHtml: true,
+        tapToDismiss: false,
+        titleClass: "alert-title",
+        positionClass: "toast-top-center",
+        toastClass:
+          "ngx-toastr alert alert-dismissible alert-success alert-notify"
+      }
+    );
 
-    this.messageService.add({ severity: 'success', summary: 'Success', detail:data });
+    // this.messageService.add({ severity: 'success', summary: 'Success', detail:data });
   }
   onDownloadExcelFile(_filename: string) {
     // _filename = 'Users_Data';
@@ -893,7 +951,7 @@ if(this._CSVData != null && this._CSVData != undefined)
 {
 
 this.UploadCSVForm.patchValue({
-  id: localStorage.getItem('UserID'),
+  id: localStorage.getItem('userid'),
   CSVData: this._CSVData,     
   User_Token: localStorage.getItem('User_Token')   
 

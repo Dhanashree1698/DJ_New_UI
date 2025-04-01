@@ -45,9 +45,10 @@ export class FilestatusComponent implements OnInit {
   _ColNameList = ["FileNo", "UploadDate","ISFileUpload"];
 
 
-  bsValue = new Date();
-  bsRangeValue: Date[];
-  maxDate = new Date();
+  bsValueFrom: Date = new Date(); // Default From Date
+  bsValueTo: Date = new Date();   // Default To Date
+  minToDate: Date = new Date();   // Ensures To Date is always >= From Date
+  maxDate: Date = new Date();  
   first = 0;
   rows = 10;
 
@@ -77,10 +78,18 @@ export class FilestatusComponent implements OnInit {
     this.Getpagerights();
     this.BindHeader(this._FilteredList,this._FilteredList);
   
-    
+    this.bsValueFrom = null;
+    this.bsValueTo = null;
   }
 
+  onFromDateChange(selectedDate: Date) {
+    this.bsValueFrom = selectedDate;
+    this.bsValueTo = this.bsValueTo < selectedDate ? selectedDate : this.bsValueTo;
+  }
 
+  onToDateChange(selectedDate: Date) {
+    this.bsValueTo = selectedDate;
+  }
   Getpagerights() {
 
     var pagename ="Filestatus";

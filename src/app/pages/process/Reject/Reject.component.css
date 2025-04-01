@@ -50,7 +50,7 @@
 }
 .modal-content-full-width  {
     height: auto !important;
-    min-height: 70% !important;
+    min-height: 100% !important;
     border-radius: 0 !important;
     background-color: #ececec !important 
 }
@@ -63,7 +63,7 @@
     border-top: 1px solid #9ea2a2 !important;
 }
 ::ng-deep .data-entry .modal-dialog {
-    max-width: 1100px !important;
+    max-width: 500px !important;
 }
 
 ::ng-deep .data-entry .modal .modal-content .card {
@@ -89,4 +89,8 @@
   .btn-primary:hover {
     background-color: #0056b3;
     border-color: #004085;
+  }
+
+  .header-title {
+    text-decoration: underline;
   }

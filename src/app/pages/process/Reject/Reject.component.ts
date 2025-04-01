@@ -5,29 +5,25 @@ import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 import { FormGroup, FormBuilder, Validators, FormControl, FormArray } from "@angular/forms";
 import { ToastrService } from "ngx-toastr";
 import { Router, ActivatedRoute } from '@angular/router';
-import swal from "sweetalert2";
-import * as XLSX from 'xlsx';
 import { MessageService } from 'primeng/api'; 
+import swal from "sweetalert2";
+
+import * as XLSX from 'xlsx';
 // import { Listboxclass } from '../../../Helper/Listboxclass';
-export enum SelectionType {
-  single = "single",
-  multi = "multi",
-  multiClick = "multiClick",
-  cell = "cell",
-  checkbox = "checkbox",
-}
+
+
 @Component({
-  selector: "app-data-entry",
-  templateUrl: "data-entry.component.html",
-  styleUrls: ["data-entry.component.css"]
+  selector: "app-Reject",
+  templateUrl: "Reject.component.html",
+  styleUrls: ["Reject.component.css"]
 })
-export class DataEntryComponent implements OnInit {
+
+export class RejectComponent implements OnInit {
 
   entries: number = 10;
   selected: any[] = [];
   temp = [];
   activeRow: any;
-  SelectionType = SelectionType;
   modalRef: BsModalRef;
   isReadonly = true;
   _TemplateList: any;
@@ -48,16 +44,16 @@ export class DataEntryComponent implements OnInit {
   _MDList: any;
   first = 0;
   rows = 10;
+
   _PageNo: number = 1;
   FilePath: any = "../assets/1.pdf";
-
-  // _Replacestr:any="D:/WW/14-Jully-2020/UI/src/assets";
-
+  _Replacestr: any = "C:/Inetpub/vhosts/dms.conceptlab.in/httpdocs/DMSInfo";
   _TotalPages: any = 0;
   _FileList: any;
   _FilteredList: any;
   _IndexPendingList: any;
   bsValue = new Date();
+  TemplateID=0;
   constructor(
     private modalService: BsModalService,
     public toastr: ToastrService,
@@ -73,8 +69,8 @@ export class DataEntryComponent implements OnInit {
     this.DataEntryForm = this.formBuilder.group({
       FileNo: ['', Validators.required],
       TemplateID: [0, Validators.required],
-      DeptID: [1],
       Cabinet:['',Validators.required],
+      DeptID: [1],
       BranchID: [0, Validators.required],
       _ColNameList: this.formBuilder.group({}),
       Viewer: 1,
@@ -86,24 +82,20 @@ export class DataEntryComponent implements OnInit {
       di: [''],
       FVals: [''],
       RejectReason: [''],
-      FileList: [''],
       TemplateName: [''],
+      FileList: [''],
       BranchName: [''],
-      SubfolderName:[''],
-      Status: ['Maker Pending'],
+      Status: [''],
+      RejectBy:[''],
+      ResolvedRemarks: ['', Validators.required]
 
     });
-
-    this.Getpagerights();
     this.TempField = localStorage.getItem('Fname');
     this._PageNo = 1;
-    //console.log("IndexListPending");
+    this.Getpagerights();
     this.GetIndexListPending();
-    //console.log("IndexListPending11");
     this.geTempList();
     this.getBranchList();
-    this.onChangeTemplate();
-    // this.getDepartmnet();
     this.isReadonly = false;
   }
 
@@ -111,130 +103,45 @@ export class DataEntryComponent implements OnInit {
   get f() { return this.DataEntryForm.controls; }
   get t() { return this.f.tickets as FormArray; }
 
-  onChangeTickets(e) {
-    const numberOfTickets = e.target.value || 0;
-    if (this.t.length < numberOfTickets) {
-      for (let i = this.t.length; i < numberOfTickets; i++) {
-        this.t.push(this.formBuilder.group({
-          name: ['', Validators.required],
-          email: ['', [Validators.required, Validators.email]]
-        }));
-      }
-    } else {
-      for (let i = this.t.length; i >= numberOfTickets; i--) {
-        this.t.removeAt(i);
-      }
-    }
-  }
-
-  Getpagerights() {
-
-    var pagename = "Maker";
-    const apiUrl = this._global.baseAPIUrl + 'Admin/Getpagerights?userid=' + localStorage.getItem('UserID') + ' &pagename=' + pagename + '&user_Token=' + localStorage.getItem('User_Token');
-
-    // const apiUrl = this._global.baseAPIUrl + 'Template/GetTemplate?user_Token=' + this.FileStorageForm.get('User_Token').value
+ 
+Getpagerights() {
+debugger
+    var pagename = "Reject";
+    const apiUrl = this._global.baseAPIUrl + 'Admin/Getpagerights?userid=' + localStorage.getItem('userid') + ' &pagename=' + pagename + '&user_Token=' + localStorage.getItem('User_Token');
     this._onlineExamService.getAllData(apiUrl).subscribe((data) => {
-      //  this.TemplateList = data;    
-
       if (data <= 0) {
         localStorage.clear();
         this.router.navigate(["/Login"]);
-
       }
-
     });
   }
-
-
   GetIndexListPending() {
 debugger
-    const apiUrl = this._global.baseAPIUrl + 'DataEntry/GetPendingData?UserID=' + localStorage.getItem('UserID') + '&user_Token=' + localStorage.getItem('User_Token');
-    this._onlineExamService.getAllData(apiUrl).subscribe((data: {}) => {
+    const apiUrl = this._global.baseAPIUrl + 'DataEntry/GetRejectedData?UserID=' + localStorage.getItem('UserID') + '&user_Token=' + localStorage.getItem('User_Token');
+    this._onlineExamService.getAllData(apiUrl).subscribe((data) => {
       this._IndexPendingList = data;
-      this._FilteredList = data;
-
+      this._FilteredList = data
+      console.log(data)
       this.prepareTableData(this._FilteredList, this._IndexPendingList);
     });
   }
 
   getBranchList() {
-
-
     const apiUrl = this._global.baseAPIUrl + 'BranchMapping/GetBranchDetailsUserWise?ID=' + localStorage.getItem('UserID') + '&user_Token=' + localStorage.getItem('User_Token');
     this._onlineExamService.getAllData(apiUrl).subscribe((data: {}) => {
-
       this._BranchList = data;
       this.DataEntryForm.controls['BranchID'].setValue(0);
-
     });
   }
-
   geTempList() {
-
-
     const apiUrl = this._global.baseAPIUrl + 'TemplateMapping/GetTemplateMappingListByUserID?UserID=' + localStorage.getItem('UserID') + '&user_Token=' + localStorage.getItem('User_Token')
     this._onlineExamService.getAllData(apiUrl).subscribe((data: {}) => {
       this._TemplateList = data;
       this.DataEntryForm.controls['TemplateID'].setValue(0);
     });
-
   }
 
-  GetNextFile() {
-    let __FileNo = this.DataEntryForm.controls['FileNo'].value;
-    let __TempID = this.DataEntryForm.controls['TemplateID'].value;
-    const apiUrl = this._global.baseAPIUrl + 'DataEntry/GetNextFile?id=' + __TempID + '&FileNo=' + __FileNo + '&user_Token=' + localStorage.getItem('User_Token');
-    this._onlineExamService.getAllData(apiUrl).subscribe((data: {}) => {
-      if (data != "") {
-        this.onEdit(data);
-      }
-      else {
-        // this.toastr.show(
-        //   '<div class="alert-text"</div> <span class="alert-title" data-notify="title">Success!</span> <span data-notify="message"> No record Found </span></div>',
-        //   "",
-        //   {
-        //     timeOut: 3000,
-        //     closeButton: true,
-        //     enableHtml: true,
-        //     tapToDismiss: false,
-        //     titleClass: "alert-title",
-        //     positionClass: "toast-top-center",
-        //     toastClass:
-        //       "ngx-toastr alert alert-dismissible alert-success alert-notify"
-        //   }
-        // );
-        this.messageService.add({ severity: 'warn', summary: 'Warn', detail:'No Record Found' });
-      }
-    });
-  }
-
-  GetFieldList() {
-    debugger;
-    let __TempID = this.DataEntryForm.controls['TemplateID'].value;
-    let __FileNo = this.DataEntryForm.controls['FileNo'].value;
-    const apiUrl = this._global.baseAPIUrl + 'DataEntry/GetFieldsName?id=' + __TempID + '&FileNo=' + __FileNo + '&user_Token=' + localStorage.getItem('User_Token');
-    this._onlineExamService.getAllData(apiUrl).subscribe((data: any) => {
-      this._ColNameList = data;
-      let dynamic_form = {}
-      data.forEach(ele => {
-        let validation_array = [Validators.minLength(dynamic_form[ele.MinLenght]), Validators.maxLength(ele.MaxLenght)]
-        if (ele.IsMandatory == '1') validation_array.push(Validators.required)
-        var select_val = []
-        if (ele.FieldType == '4') {
-          select_val = ele.MasterValues.split(',')
-          dynamic_form[ele.IndexField] = new FormControl('0', validation_array)
-        } else {
-          dynamic_form[ele.IndexField] = new FormControl('', validation_array)
-        }
-        ele.selectValues = select_val
-      });
-      let group = this.formBuilder.group(dynamic_form)
-      this.DataEntryForm.controls['_ColNameList'] = group
-      this.onEdit(data);
-    });
-
-  }
-
+ 
   OnReset() {
     this.Reset = true;
     this.DataEntryForm.reset();
@@ -246,6 +153,7 @@ debugger
     let NumericFieldValidation = true;
     let textFieldLetterValidation = true;
     let alphaNumericValidation = true;
+
     this._ColNameList.forEach((el, index) => {
       if (el.FieldType === '3') { // Date Format check
         if (!this.checkDateFormat(this.DataEntryForm.get('_ColNameList').value[el.DisplayName])) {
@@ -263,6 +171,7 @@ debugger
               toastClass: "ngx-toastr alert alert-dismissible alert-danger alert-notify"
             }
           );
+          // this.messageService.add({ severity: 'error', summary: 'Error', detail:  el.DisplayName `: Please select date in dd-mm-yyyy format'Message Content`});
         }
       }
       if (el.FieldType === '1' && el.IsMandatory === '1') { // Text field required validation check
@@ -281,6 +190,7 @@ debugger
               toastClass: "ngx-toastr alert alert-dismissible alert-danger alert-notify"
             }
           );
+          // this.messageService.add({ severity: 'error', summary: 'Error', detail:el.DisplayName`: This field is required` });
         }
       }
 
@@ -301,6 +211,7 @@ debugger
                 "ngx-toastr alert alert-dismissible alert-danger alert-notify"
             }
           );
+          // this.messageService.add({ severity: 'error', summary: 'Error', detail:el.DisplayName`:Only letters are allowed` });
         }
       }
 
@@ -321,12 +232,14 @@ debugger
                 "ngx-toastr alert alert-dismissible alert-danger alert-notify"
             }
           );
+          // this.messageService.add({ severity: 'error', summary: 'Error', detail:el.DisplayName`:Please enter numbers only` });
         }
       }
 
       if (el.FieldType === '5') { // Alpha-numeric validation check
         const fieldVal = this.DataEntryForm.get('_ColNameList').value[el.DisplayName];
-        if (index > 0 && fieldVal !== '' && !(/^[\w\-\s]+$/.test(fieldVal))) {
+        //   console.log(el);
+        if (fieldVal !== '' && !(/^[\w\-\s]+$/.test(fieldVal))) {
           alphaNumericValidation = false;
           this.toastr.show(
             '<div class="alert-text"</div> <span class="alert-title" data-notify="title">Error!</span> <span data-notify="message"><b>' + el.DisplayName + '</b> : Only letters and digits are allowed</span></div>',
@@ -341,6 +254,7 @@ debugger
               toastClass: "ngx-toastr alert alert-dismissible alert-danger alert-notify"
             }
           );
+          // this.messageService.add({ severity: 'success', summary: 'Success', detail:el.DisplayName`:Only letters and digits are allowed` });
         }
       }
 
@@ -358,13 +272,13 @@ debugger
     }
     return true;
   }
-
+//dhanashreee
   onSubmit() {
     this.submitted = true;
 
-    if (!this.validateFields()) {
-      return;
-    }
+    // if (!this.validateFields()) {
+    //   return;
+    // }
     var submit_data = this.DataEntryForm.value
     submit_data.FieldValues = []
     var obj = {}
@@ -383,7 +297,6 @@ debugger
     submit_data.FieldValues.push(obj)
     this.DataEntryForm.patchValue({
       currentPage: this._PageNo,
-
       PageCount: this._TotalPages,
       User_Token: localStorage.getItem('User_Token'),
       CreatedBy: localStorage.getItem('UserID'),
@@ -391,28 +304,30 @@ debugger
       FVals: submit_data.FieldValues,
     });
     const that = this;
-    const apiUrl = this._global.baseAPIUrl + 'DataEntry/Create';
+    const apiUrl = this._global.baseAPIUrl + 'DataEntry/ReslovedRemarksComplete'; //changes added by Dhanashree
+debugger
     this._onlineExamService.postData(this.DataEntryForm.value, apiUrl)
       .subscribe(data => {
 
-        // this.toastr.show(
-        //   '<div class="alert-text"</div> <span class="alert-title" data-notify="title">Success!</span> <span data-notify="message"> ' + data + ' </span></div>',
-        //   "",
-        //   {
-        //     timeOut: 3000,
-        //     closeButton: true,
-        //     enableHtml: true,
-        //     tapToDismiss: false,
-        //     titleClass: "alert-title",
-        //     positionClass: "toast-top-center",
-        //     toastClass:
-        //       "ngx-toastr alert alert-dismissible alert-success alert-notify"
-        //   }
-        // );
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: data });
+        this.toastr.show(
+          '<div class="alert-text"</div> <span class="alert-title" data-notify="title">Success!</span> <span data-notify="message"> ' + data + ' </span></div>',
+          "",
+          {
+            timeOut: 3000,
+            closeButton: true,
+            enableHtml: true,
+            tapToDismiss: false,
+            titleClass: "alert-title",
+            positionClass: "toast-top-center",
+            toastClass:
+              "ngx-toastr alert alert-dismissible alert-success alert-notify"
+          }
+        );
+        // this.messageService.add({ severity: 'success', summary: 'Success', detail:data });
         this.modalRef.hide();
         that.GetIndexListPending();
-      });// }
+      });
+    // }
 
   }
 
@@ -421,8 +336,6 @@ debugger
   }
 
   onEdit(formData) {
-    var _TempFilePath = formData[0].FilePath
-    _TempFilePath = _TempFilePath.replace(new RegExp(/\\/g), "/");
     let dynamic_form = {}
     formData.forEach(ele => {
       dynamic_form[ele.IndexField] = ele.ColValues
@@ -433,46 +346,15 @@ debugger
     })
   }
 
-  onChangeTemplate() {
-    this.GetFieldList();
-  }
+  // onChangeTemplate(TemplateID:any) {
+  //   this.GetFieldList(TemplateID);
+  // }
 
-  onChekpageLoad() {
-    this.onChangeTemplate();
-  }
+  // onChekpageLoad(TemplateID:any) {
+  //   this.onChangeTemplate(TemplateID);
+  // }
 
-  AddIndexing(template: TemplateRef<any>, row: any) {
-    debugger;
-    var that = this;
-    this.DataEntryForm.patchValue({
-      FileNo: row.FileNo,
-      TemplateID: row.TemplateID,
-      BranchID: row.BranchID,
-      SubfolderName:row.SubfolderName,
-      Cabinet:row.Cabinet
-    })
-    this._TotalPages = row.PageCount;
-    this._PageNo = 1;
-    this.modalRef = this.modalService.show(template);
-    this.onChekpageLoad();
-    this.onChangeTemplate();
-    this.GetFullFile(row.FileNo);
-  }
-
-  GetFullFile(FileNo: any) {
-    debugger;
-    const apiUrl = this._global.baseAPIUrl + 'SearchFileStatus/GetFullFile?ID=' + localStorage.getItem('UserID') + '&&_fileName=' + FileNo + '&user_Token=' + localStorage.getItem('User_Token');
-    this._onlineExamService.getDataById(apiUrl).subscribe(res => {
-      if (res) {
-        console.log("FilePath", res);
-        this.FilePath = res;
-      }
-    });
-  }
-
-  entriesChange($event) {
-    this.entries = $event.target.value;
-  }
+  
   filterTable($event) {
     let val = $event.target.value;
     this._FilteredList = this._IndexPendingList.filter(function (d) {
@@ -494,13 +376,36 @@ debugger
     this.activeRow = event.row;
   }
 
+
   ngOnDestroy() {
     document.body.classList.remove('data-entry')
   }
+  hideTextSelectionTool(toolbar: string): string {
+    // Hides the "Enable Text Selection" button by removing the button from the toolbar
+    return toolbar.replace('textSelectToolGroupButton', '');
+  }
+  ErrorMessage(msg: any) {
 
+    this.toastr.show(
+      '<div class="alert-text"</div> <span class="alert-title" data-notify="title">Validation !</span> <span data-notify="message"><h4 class="text-white"> ' + msg + ' <h4></span></div>',
+      "",
+      {
+        timeOut: 7000,
+        closeButton: true,
+        enableHtml: true,
+        tapToDismiss: false,
+        titleClass: "alert-title",
+        positionClass: "toast-top-center",
+        toastClass:
+          "ngx-toastr alert alert-dismissible alert-danger alert-notify"
+      }
+    );
+    // this.messageService.add({ severity: 'error', summary: 'error', detail:msg });
+  }
 
   DownloadMetadata() {
     let _CSVData = "";
+
     const apiUrl = this._global.baseAPIUrl + 'Status/GetMetaDataReportByFileNo?FileNo=' + _CSVData + '&user_Token=' + localStorage.getItem('User_Token') + '&UserID=' + localStorage.getItem('UserID')
     this._onlineExamService.getAllData(apiUrl).subscribe((data: {}) => {
       this.GetHeaderNames();
@@ -521,7 +426,10 @@ debugger
       dwldLink.click();
       document.body.removeChild(dwldLink);
     });
+
   }
+
+
   GetHeaderNames() {
     this._HeaderList = "";
     for (let j = 0; j < this._ColNameList.length; j++) {
@@ -533,32 +441,27 @@ debugger
       for (let j = 0; j < this._ColNameList.length; j++) {
         this._HeaderList += (j == 0 ? (stat['Ref' + (j + 1)] + '') : stat['Ref' + (j + 1)]) + ((j <= this._ColNameList.length - 2) ? ',' : '');
       }
+
       this._HeaderList += '\n'
     });
+
+
   }
+
+  selectedEntries = [];
+  allSelected = false;
+
+ 
   OnReject() {
+    debugger
     var that = this;
     if (this.DataEntryForm.get('RejectReason').value == "") {
-     // this.ErrorMessage("Enter rejecet reason");
-      this.toastr.show(
-           '<div class="alert-text"</div> <span class="alert-title" data-notify="title">Validation !</span> <span data-notify="message"><h4 class="text-white"> ' + "Enter rejecet reason" + ' <h4></span></div>',
-           "",
-           {
-             timeOut: 7000,
-            closeButton: true,
-             enableHtml: true,
-            tapToDismiss: false,
-            titleClass: "alert-title",
-            positionClass: "toast-top-center",
-            toastClass:
-              "ngx-toastr alert alert-dismissible alert-danger alert-notify"
-          }
-         );
-      return;
+      this.ErrorMessage("Enter rejecet reason");
     }
     this.DataEntryForm.patchValue({
-      Status: 'Reject'
+      Status: 'Reject by Checker'
     })
+ 
     const apiUrl = this._global.baseAPIUrl + 'DataEntry/RejectFile';
     this._onlineExamService.postData(this.DataEntryForm.value, apiUrl)
       .subscribe(data => {
@@ -567,49 +470,29 @@ debugger
         that.GetIndexListPending();
       });
   }
-  selectedEntries = [];
-  allSelected = false;
+ 
   Message(msg: any) {
-    // this.toastr.show(
-    //   '<div class="alert-text"</div> <span class="alert-title" data-notify="title"></span> <span data-notify="message"><h4 class="text-white"> ' + msg + ' <h4></span></div>',
-    //   "",
-    //   {
-    //     timeOut: 7000,
-    //     closeButton: true,
-    //     enableHtml: true,
-    //     tapToDismiss: false,
-    //     titleClass: "alert-title",
-    //     positionClass: "toast-top-center",
-    //     toastClass:
-    //       "ngx-toastr alert alert-dismissible alert-success alert-notify"
-    //   }
-    // );
-    this.messageService.add({ severity: 'success', summary: 'Success', detail:msg });
-  }
-  hideTextSelectionTool(toolbar: string): string {
-    // Hides the "Enable Text Selection" button by removing the button from the toolbar
-    return toolbar.replace('textSelectToolGroupButton', '');
-  }
-  ErrorMessage(msg: any) {
-    // this.toastr.show(
-    //   '<div class="alert-text"</div> <span class="alert-title" data-notify="title">Validation !</span> <span data-notify="message"><h4 class="text-white"> ' + msg + ' <h4></span></div>',
-    //   "",
-    //   {
-    //     timeOut: 7000,
-    //     closeButton: true,
-    //     enableHtml: true,
-    //     tapToDismiss: false,
-    //     titleClass: "alert-title",
-    //     positionClass: "toast-top-center",
-    //     toastClass:
-    //       "ngx-toastr alert alert-dismissible alert-danger alert-notify"
-    //   }
-    // );
-    this.messageService.add({ severity: 'error', summary: 'Error', detail:msg });
+
+    this.toastr.show(
+      '<div class="alert-text"</div> <span class="alert-title" data-notify="title"></span> <span data-notify="message"><h4 class="text-white"> ' + msg + ' <h4></span></div>',
+      "",
+      {
+        timeOut: 7000,
+        closeButton: true,
+        enableHtml: true,
+        tapToDismiss: false,
+        titleClass: "alert-title",
+        positionClass: "toast-top-center",
+        toastClass:
+          "ngx-toastr alert alert-dismissible alert-success alert-notify"
+      }
+    );
+    // this.messageService.add({ severity: 'success', summary: 'Success', detail: msg });
   }
 
-  AutoMaker() {
+  AutoChecker() {
     if (this._FilteredList.length > 0 && this.selectedRows.length > 0) {
+
       let _CSVData = "";
       for (let j = 0; j < this.selectedRows.length; j++) {
         _CSVData += this.selectedRows[j] + ',';
@@ -617,46 +500,40 @@ debugger
       this.DataEntryForm.patchValue({
         FileList: _CSVData
       })
-
-      const apiUrl = this._global.baseAPIUrl + 'DataEntry/Automaker';
+      const apiUrl = this._global.baseAPIUrl + 'DataEntry/AutoChecker';
       this._onlineExamService.postData(this.DataEntryForm.value, apiUrl)
         .subscribe(data => {
-          this.Message("Auto maker succesfully.");
+          this.Message("Auto Checker done succesfully.");
           this.GetIndexListPending();
-          this.selectedRows = [];
+
         });
-    } else {
+
+    }
+    else {
       this.ErrorMessage('Please Select at least on row!!');
       return;
     }
-
   }
 
   selectedRows = [];
-
   selectRow(e, row) {
     this.selectAllRows = false;
     e.originalEvent.stopPropagation();
     if (e.checked) {
       this.selectedRows.push(row.FileNo);
-
     } else {
       this.selectAllRows = false;
       var index = this.selectedRows.indexOf(row.FileNo);
       this.selectedRows.splice(index, 1);
-
     }
   }
 
   selectAllRows = false;
   selectAllRow(e) {
-
-    this.selectedRows = [];
-
+    this.selectedRows = []
     if (e.checked) {
       this.selectAllRows = true;
       this.formattedData.forEach((el, index) => {
-
         if (index >= this.first && index < this.first + this.rows) {
           this.selectedRows.push(el.FileNo);
           el.selected = true;
@@ -676,21 +553,21 @@ debugger
   immutableFormattedData: any;
   loading: boolean = true;
   prepareTableData(tableData, headerList) {
+    debugger
     let formattedData = [];
     let tableHeader: any = [
       { field: 'srNo', header: "SR NO", index: 1 },
       { field: 'FileNo', header: 'FILE NO', index: 2 },
-      {field:'Cabinet',header:'CABINET',index:4},
+      { field: 'Cabinet', header: 'CABINET', index: 2 },
       { field: 'BranchName', header: 'FOLDER', index: 3 },
-      {field:'SubfolderName',header:'SUB FOLDER',index:4},
-      { field: 'TemplateName', header: 'TEMPLATE NAME', index: 5 },
-      { field: 'Status', header: 'STATUS', index: 6 },
-      // { field: 'IsIndexing', header: 'IS INDEXING', index: 7 },
-
+      { field: 'SubfolderName', header: 'SUB FOLDER', index: 4},
+      { field: 'TemplateName', header: 'TEMPLATE NAME', index: 3 },
+      { field: 'Status', header: 'STATUS', index: 3 },
+      { field: 'RejectByName', header: 'REJECTED BY', index: 4 },
+      { field: 'RejectReason', header: 'REJECT REASON', index: 4 },
 
 
     ];
-
     tableData.forEach((el, index) => {
       formattedData.push({
         'srNo': parseInt(index + 1),
@@ -699,24 +576,21 @@ debugger
         'TemplateName': el.TemplateName,
         'Status': el.Status,
         'TemplateID': el.TemplateID,
-         'BranchID': el.BranchID,
-       'PageCount': el.PageCount,
-        'IsIndexing': el.IsIndexing,
-        'Cabinet':el.Cabinet,
-        'SubfolderName':el.SubfolderName
-
+        'BranchID': el.BranchID,
+         'PageCount': el.PageCount,
+         'Cabinet':el.Cabinet,
+         'SubfolderName':el.SubfolderName,
+         'RejectByName':el.RejectByName,
+         'RejectReason':el.RejectReason
       });
-
     });
     this.headerList = tableHeader;
     this.immutableFormattedData = JSON.parse(JSON.stringify(formattedData));
     this.formattedData = formattedData;
     this.loading = false;
-
   }
 
   searchTable($event) {
-
     let val = $event.target.value;
     if (val == '') {
       this.formattedData = this.immutableFormattedData;
@@ -766,4 +640,63 @@ debugger
     window.URL.revokeObjectURL(url);
     a.remove();
   }
+
+
+
+  AddIndexing(template: TemplateRef<any>, row: any) {
+    console.log(row)
+    debugger;
+    var that = this;
+    this.DataEntryForm.patchValue({
+      FileNo: row.FileNo,
+      TemplateID: row.TemplateID,
+      BranchID: row.BranchID,
+      TemplateName:row.TemplateName,
+      BranchName:row.BranchName,
+      Cabinet:row.Cabinet
+    })
+    this._TotalPages = row.PageCount;
+    this._PageNo = 1;
+    this.modalRef = this.modalService.show(template);
+    //this.onChekpageLoad(row.TemplateID);
+    this.GetFieldList(row.TemplateID);
+    this.GetFullFile(row.FileNo);
+  }
+  GetFullFile(FileNo: any) {
+    const apiUrl = this._global.baseAPIUrl + 'SearchFileStatus/GetFullFile?ID=' + localStorage.getItem('UserID') + '&&_fileName=' + FileNo + '&user_Token=' + localStorage.getItem('User_Token');
+    this._onlineExamService.getDataById(apiUrl).subscribe(res => {
+      if (res) {
+        this.FilePath = res;
+      }
+    });
+  }
+
+
+  GetFieldList(TemplateID:any) {
+    debugger;
+   //let __TempID = 0
+    let __TempID = TemplateID
+    let __FileNo = this.DataEntryForm.controls['FileNo'].value;
+    const apiUrl = this._global.baseAPIUrl + 'DataEntry/GetFieldsName?id=' + __TempID + '&FileNo=' + __FileNo + '&user_Token=' + localStorage.getItem('User_Token');
+    this._onlineExamService.getAllData(apiUrl).subscribe((data: any) => {
+      this._ColNameList = data;
+      let dynamic_form = {}
+      data.forEach(ele => {
+        let validation_array = [Validators.minLength(dynamic_form[ele.MinLenght]), Validators.maxLength(ele.MaxLenght)]
+        if (ele.IsMandatory == '1') validation_array.push(Validators.required)
+        var select_val = []
+        if (ele.FieldType == '4') {
+          select_val = ele.MasterValues.split(',')
+          dynamic_form[ele.IndexField] = new FormControl('0', validation_array)
+        } else {
+          dynamic_form[ele.IndexField] = new FormControl('', validation_array)
+        }
+        ele.selectValues = select_val
+      });
+      let group = this.formBuilder.group(dynamic_form)
+      this.DataEntryForm.controls['_ColNameList'] = group
+      this.onEdit(data);
+    });
+  }
+  
 }

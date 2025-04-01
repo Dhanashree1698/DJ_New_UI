@@ -6,7 +6,7 @@
           <!-- <h6 class=" h2 text-dark d-inline-block mb-0">Users</h6> -->
 
           <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
-            <ol class="breadcrumb breadcrumb-links breadcrumb-dark" >
+            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
               <li class="breadcrumb-item">
                 <a href="javascript:void(0)" class="text-gray">
                   <i class="fas fa-home"></i>
@@ -20,7 +20,7 @@
               </li>
             </ol>
           </nav>
-          
+
 
         </div>
 
@@ -31,149 +31,169 @@
     </div>
   </div>
 </div>
-      <div class="tab-pane active in" id="dmsStatistics">
-        <div class=" container-fluid mt--6">
-          <div class=" row">
-            <div class=" col">
-              <div class=" card">
-                <div class=" card-header">
-                  
-                  <div class="row">
-                    <div class="col">
-                      <h3 class=" mb-0">All Folder</h3>
-                      <p class=" text-sm mb-0"></p>
-                    </div>
-                
-                    <div class="col text-right">
-                      <button type="button" class="btn success" tooltip="Folder" (click)="addBranch(BranchFormPopup)">
-                        <i class="fa fa-plus fa-lg"></i> 
-                      </button>
-                      <button type="button" class="btn success" tooltip="Download" (click)="onDownloadExcelFile('Folder List')">
-                        <i class="fa fa-download fa-lg"></i> 
-                      </button>
-                    </div>
-                    
+<div class="tab-pane active in" id="dmsStatistics">
+  <div class=" container-fluid mt--6">
+    <div class=" row">
+      <div class=" col">
+        <div class=" card">
+          <div class=" card-header">
+
+            <div class="row">
+              <div class="col">
+                <h3 class=" mb-0">All Folder</h3>
+                <p class=" text-sm mb-0"></p>
+              </div>
+
+              <div class="col text-right">
+                <button type="button" class="btn success" tooltip="Folder" (click)="addBranch(BranchFormPopup)">
+                  <i class="fa fa-plus fa-lg"></i>
+                </button>
+                <button type="button" class="btn success" tooltip="Download"
+                  (click)="onDownloadExcelFile('Folder List')">
+                  <i class="fa fa-download fa-lg"></i>
+                </button>
+              </div>
 
 
-                  </div>
-                </div>
-        
-                <div class="dataTables_wrapper checklist-table w-100">
-                     
-                  <p-table [paginator]="true" [rows]="10" [value]="formattedData" [autoLayout]="true" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50,100]" [(first)]="first" (onPage)="paginate($event)" [loading]="loading" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
-                    <ng-template pTemplate="caption">
-                        
-                        <input type="text" pInputText size="50" placeholder="Search records" (input)="searchTable($event)" class="global-search">
-                    </ng-template>
-                    <ng-template pTemplate="header">
-                        <tr>
-                           
-                            <th *ngFor="let col of headerList; let i = index;"  [ngStyle]="i==0 && {'width': '5%'}">
-                                {{col.header}}
-                                <p-sortIcon *ngIf="i==10" [field]="col.field"></p-sortIcon>
-                            </th>
-                            <th style="width: 5%;">
-                              ACTION
-                            </th>
-                        </tr>
-                    </ng-template>
-                    <ng-template pTemplate="body" let-car let-rowIndex="rowIndex">
-                        <tr>
-                           
-                            <td *ngFor="let col of headerList">
-                              {{car[col.field]}}
-                            </td>
-                              <td>
-                                <button  type="button" tooltip="Edit" style="
+
+            </div>
+          </div>
+
+          <div class="dataTables_wrapper checklist-table w-100">
+
+            <p-table [paginator]="true" [rows]="10" [value]="formattedData" [autoLayout]="true"
+              [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50,100]" [(first)]="first"
+              (onPage)="paginate($event)" [loading]="loading"
+              currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+              <ng-template pTemplate="caption">
+
+                <input type="text" pInputText size="50" placeholder="Search records" (input)="searchTable($event)"
+                  class="global-search">
+              </ng-template>
+              <ng-template pTemplate="header">
+                <tr>
+
+                  <th *ngFor="let col of headerList; let i = index;" [ngStyle]="i==0 && {'width': '5%'}">
+                    {{col.header}}
+                    <p-sortIcon *ngIf="i==10" [field]="col.field"></p-sortIcon>
+                  </th>
+                  <th style="width: 5%;">
+                    ACTION
+                  </th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-car let-rowIndex="rowIndex">
+                <tr>
+
+                  <td *ngFor="let col of headerList">
+                    {{car[col.field]}}
+                  </td>
+                  <td>
+                    <button  type="button" tooltip="Edit" style="
                                 padding: 0 0 6px 4px;
                                color: #000;
                                
                                 width: 28px;
                                height: 28px;" class="btn btn-icon btn-secondary btn-icon-only rounded-circle"
-                                (click)="editBranch(BranchFormPopup,car)">
-                                <span class="btn-inner--icon"><i class="fa fa-pen" style="
+                      (click)="editBranch(BranchFormPopup,car)">
+                      <span class="btn-inner--icon"><i class="fa fa-pen" style="
                                 color: #000;
                                 margin-right: 3px;
                                  margin-top: 0.32rem;
                                  size: -2px;
                                  font-size: 13px;"></i></span>
-                              </button>
-                              
-                              </td> 
-                        </tr>
-                    </ng-template>
-                </p-table>
-                                 
-        
-                </div> 
-        
-        
-                
+                    </button>
+
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+
+
+          </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #BranchFormPopup let-c="close" let-d="dismiss" let-modal>
+    <div class="modal-content">
+      <div class="modal-body p-0">
+        <div class=" card">
+          <div class=" card-headers">
+            <div class="row">
+              <div class="col-sm-6">
+                <h3 class="header-title">Add Folder</h3>
               </div>
+              <div class="col-sm-6" style="text-align: end;"><button type="button" class="btn success">
+                  <i class="fa fa-times fa-lg" (click)="OnReset()"></i>
+                </button></div>
             </div>
+          </div>
+
+          <div class="card-body">
+            <form class="needs-validation" novalidate="" [formGroup]="AddBranchForm" (ngSubmit)="onSubmit()">
+              <div class="form-row">
+
+                <div class="col-md-12 mb-3">
+                  <label class="form-control-label" for="DepartmentID">
+                    Cabinet Name *
+                    </label>
+                  <select name="DepartmentID"  class="form-control" formControlName="DepartmentID" >
+                    <option value=0>Select Cabinet</option>  
+                    <option *ngFor="let _Department of _DepartmentList" [value]="_Department.id"  >  
+                    {{_Department.DepartmentName}}  
+                    </option>
+                  </select>
+                </div>
+ 
+                <div class="col-md-12 mb-3">
+                  <label class="form-control-label" for="BranchName">
+                    Folder Name:
+                    </label>
+                  <input class="form-control" formControlName="BranchName" placeholder="Name" type="text"/>
+                  <div class="valid-feedback">Looks good!</div>
+                  <div style="color: red; font-size: 14px; margin-top: .25rem;"
+                  *ngIf="f.BranchName.touched && f.BranchName.invalid && f.BranchName.errors.required">Name is required</div>
+                  <div *ngIf="f.BranchName.touched && f.BranchName.invalid && f.BranchName.errors?.pattern"
+                  style="color: red; font-size: 14px; margin-top: .25rem;">
+                  Please enter only alphabets (A-Z, a-z).
+                 </div>
+                </div>
+                <div class="col-md-12 mb-3">
+                  <label class="form-control-label" for="FolderSize">
+                    Folder Size *
+                  </label>
+                  <!-- dJChnages -->
+                  <input class="form-control" formControlName="FolderSize" placeholder="Folder Size" type="number"
+                    oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
+                  <div class="valid-feedback">Looks good!</div>
+                  <div style="color: red; font-size: 14px; margin-top: .25rem;"
+                    *ngIf="f.FolderSize.touched && f.FolderSize.invalid && f.BranchName.errors.required">Folder Size is
+                    required</div>
+                  <div class="alert alert-danger" *ngIf="!!AddBranchForm.get('FolderSize').errors?.pattern">Please enter
+                    valid name.
+                  </div>
+                </div>
+
+              </div>
+              <button type="button" class="btn successbtn p-2" type="submit">
+                Submit
+              </button>
+              <!-- <button type="button" class="btn dangerbtn p-2" (click)="OnReset()">Close</button> -->
+
+            </form>
           </div>
         </div>
-        
-        <ng-template #BranchFormPopup let-c="close" let-d="dismiss" let-modal>
-          <div class="modal-content">
-            <div class="modal-body p-0">
-              <div class=" card">
-                <div class=" card-headers"> <div class="row">
-                  <div class="col-sm-6"><h3 class="header-title">Add Folder</h3></div>
-                  <div class="col-sm-6" style="text-align: end;"><button type="button" class="btn success" >
-                    <i class="fa fa-times fa-lg" (click)="OnReset()"></i> 
-                  </button></div>
-                </div></div>
-        
-                <div class="card-body">
-                  <form class="needs-validation" novalidate="" [formGroup]="AddBranchForm" (ngSubmit)="onSubmit()">
-                    <div class="form-row">
-        
-                      <div class="col-md-12 mb-3">
-                        <select name="DepartmentID"  class="form-control" formControlName="DepartmentID" >
-                          <option value=0>Select Cabinet</option>   
-                          <option *ngFor="let _Department of _DepartmentList" [value]="_Department.id"  >  
-                          {{_Department.DepartmentName}}  
-                          </option>
-                        </select>
-                      </div>
-        
-                      <div class="col-md-12 mb-3">
-                        
-                        <input class="form-control" formControlName="BranchName" placeholder="Name" type="text"/>
-                        <div class="valid-feedback">Looks good!</div>
-                        <div style="color: red; font-size: 14px; margin-top: .25rem;"
-                *ngIf="f.BranchName.touched && f.BranchName.invalid && f.BranchName.errors.required">Name is required</div>
-                <div class="alert alert-danger" *ngIf="!!AddBranchForm.get('BranchName').errors?.pattern">Please enter valid name.
-                </div>
-                      </div>
-
-                      <div class="col-md-12 mb-3">
-                        <input class="form-control" formControlName="FolderSize" placeholder="Folder Size" type="number"/>
-                        <div class="valid-feedback">Looks good!</div>
-                        <div style="color: red; font-size: 14px; margin-top: .25rem;"
-                *ngIf="f.FolderSize.touched && f.FolderSize.invalid && f.BranchName.errors.required">Folder Size is required</div>
-                <div style="color: red; font-size: 14px; margin-top: .25rem;" *ngIf="!!AddBranchForm.get('FolderSize').errors?.pattern">Please enter valid name.
-                </div>
-                      </div>
-
-                    </div>
-                    <button type="button" class="btn successbtn p-2" type="submit">
-                      Submit
-                    </button>
-                    <!-- <button type="button" class="btn dangerbtn p-2" (click)="OnReset()">Close</button> -->
-        
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-        </ng-template>
       </div>
-      <div class="tab-pane fade" id="documentControl">
-         <app-branch-mapping></app-branch-mapping>
-      </div>
-      <p-toast position="top-left" [showTransformOptions]="'translateY(100%)'" 
-      [showTransitionOptions]="'1000ms'" 
-      [hideTransitionOptions]="'1000ms'" 
-      [showTransformOptions]="'translateX(100%)'"></p-toast>
+    </div>
+  </ng-template>
+</div>
+<div class="tab-pane fade" id="documentControl">
+  <app-branch-mapping></app-branch-mapping>
+</div>
+<p-toast position="top-left" [showTransformOptions]="'translateY(100%)'" [showTransitionOptions]="'1000ms'"
+  [hideTransitionOptions]="'1000ms'" [showTransformOptions]="'translateX(100%)'"></p-toast>

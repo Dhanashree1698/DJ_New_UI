@@ -141,7 +141,9 @@
             <div class="form-row">
 
               <div class="col-md-12 mb-3">
-                <!-- <label class="form-control-label" for="TemplateID">Customer :</label>   -->
+                <label class="form-control-label" for="DeptID">
+                  Cabinet Name *
+                  </label>
                 <select name="DeptID" class="form-control" formControlName="DeptID"
                   (change)="GetBranchByDepartment($event.target.value)">
                   <option value=0>Select Cabinet</option>
@@ -150,9 +152,12 @@
                   </option>
                 </select>
               </div>
-
-
+ 
+ 
               <div class="col-md-12 mb-3">
+                <label class="form-control-label" for="BranchID">
+                Folder Name *
+                </label>
                 <select name="BranchID" id="BranchID" class="form-control" formControlName="BranchID">
                   <option value=0>Select Folder</option>
                   <option *ngFor="let _Bracnch of BranchList" [value]="_Bracnch.id">
@@ -160,22 +165,33 @@
                   </option>
                 </select>
               </div>
-
+ 
               <div class="col-md-12 mb-3">
                 <!-- <label class="form-control-label" for="Customer">
                   Name
                 </label> -->
+                <label class="form-control-label" for="SubfolderName">
+                  Sub Folder Name *
+                </label>
                 <input class="form-control" id="SubfolderName" formControlName="SubfolderName"
                   placeholder="Sub Folder Name" type="text" />
                 <div class="valid-feedback">Looks good!</div>
-                
-                <div style="color: red; font-size: 14px; margin-top: .25rem;"
-                  *ngIf="f.SubfolderName.touched && f.SubfolderName.invalid && f.SubfolderName.errors.required">Name is
-                  required</div>
-                <div style="color: red; font-size: 14px; margin-top: .25rem;" *ngIf="!!AddEntityForm.get('SubfolderName').errors?.pattern">Please
-                  enter valid name.
-                </div>
+                    <!-- Changes added by dhanashree -->
+ 
+                    <div style="color: red; font-size: 14px; margin-top: .25rem;" *ngIf="f.SubfolderName.touched && f.SubfolderName.invalid">
+                      <!-- Conditional error message display -->
+                      <div *ngIf="f.SubfolderName.errors?.required">
+                        Name is required.
+                      </div>
+                      <div *ngIf="f.SubfolderName.errors?.pattern">
+                        Please enter a valid name (can't be empty or just spaces).
+                      </div>
+                    </div>                
+                      <!-- Changes added by dhanashree -->
+               
+               
               </div>
+ 
             </div>
             <button type="button" class="btn successbtn p-2" type="submit">
               Submit

@@ -18,7 +18,7 @@
                 </li>
 
                 <li aria-current="page" class=" breadcrumb-item active text-dark">
-                  Basic Search
+                 Bulk Download
                 </li>
               </ol>
             </nav>
@@ -30,38 +30,6 @@
     </div>
   </div>
 
-<!-- <div class=" header bg-danger pb-6">
-  <div class=" container-fluid">
-    <div class=" header-body">
-      <div class=" row align-items-center py-4">
-        <div class=" col-lg-6 col-7">
-          <h6 class=" h2 text-white d-inline-block mb-0">Bulk Downlaod</h6>
-
-          <nav
-            aria-label="breadcrumb"
-            class=" d-none d-md-inline-block ml-md-4"
-          >
-            <ol class=" breadcrumb breadcrumb-links breadcrumb-dark">
-              <li class=" breadcrumb-item">
-                <a href="javascript:void(0)"> <i class=" fas fa-home" routerLink="/search/quick-search"> </i> </a>
-              </li>
-
-              <li class=" breadcrumb-item">
-                <a href="javascript:void(0)"> Search </a>
-              </li>
-
-              <li aria-current="page" class=" breadcrumb-item active">
-                Bulk Downlaod
-              </li>
-            </ol>
-          </nav>
-        </div>
-
-      
-      </div>
-    </div>
-  </div>
-</div> -->
 
 <div class=" container-fluid mt--6">
   <div class=" row">
@@ -78,18 +46,12 @@
                   <option *ngFor="let _Temp of _TemplateList" [value]="_Temp.TemplateID"  >  
                   {{_Temp.TemplateName}}  
                   </option>   
-                  </select>
+                  </select> 
+
+
               </div>
 
-              <!-- <div class="col-lg-3 col-md-4 col-sm-4 col-xs-4">  
-                  <label class="form-control-label" for="TemplateID">Search By :</label>           
-                  <select name="SearchByID" id="SearchByID" class="form-control" formControlName="SearchByID">                      
-                    <option value=0>Select Search By </option>      
-                    <option *ngFor="let _SerchBy of _SearchByList" [value]="_SerchBy.SID"  >  
-                         {{_SerchBy.SearchBy}}  
-                         </option>   
-                   </select>                   
-                </div> -->
+        
 
 
                
@@ -109,14 +71,15 @@
                   </label>
                 </div>
               
-                <button type="button" class="btn btn-primary" style="font-size: 12px;width: 25%;" (click)="downloadBulkFileBYCSV()">
-                  Download Files <i class="fa fa-download"></i>
+                <button type="button" class="btn success"  tooltip="Download " style="font-size: 19px;color: black;" (click)="downloadBulkFileBYCSV()">
+                <i class="fa fa-download"></i>
                 </button>
-                <button type="button" class="btn btn-primary" style="font-size: 12px;width: 25%;" (click)="downloadBulkFileBYCSVOnSFTP()">
-                  Download Files On SFTP <i class="fa fa-download"></i>
+                <button type="button" class="btn success"  tooltip="SFTP Download" (click)="downloadBulkFileBYCSVOnSFTP()">
+                 <!-- <i class="fa fa-download"></i> -->
+                 <img style="width:25px;" src="../../../../assets/img/brand/downloading.png" />
                 </button>
-                <button type="button" class="btn btn-warning" style="font-size: 12px;width: 25%;" (click)="downloadFile()">
-                  Download CSV <i class=" fas fa-file-download"></i> 
+                <button type="button" class="btn success btn-lg" tooltip="Download CSV" style="font-size: 19px;color: black;"  (click)="downloadFile()">
+                <i class=" fas fa-file-download"></i> 
                 </button>    
               </div>             
               </div>
@@ -132,50 +95,26 @@
                         
                       </div>
                       <div class="col-md-6 search-icon">
-                          <div class="input-group-append btndiv" id="search-addon">
+                          <!-- <div class="input-group-append btndiv" id="search-addon"> -->
                             <button
-                            class="btn btn-primary"
+                            class="btn success"
                             (click)="downloadBulkFile()"
+                            tooltip="File Download"
                             type="button"
                             >
-                              Download Files<i class="fa fa-download"></i>
+                            <img style="width:25px;" src="../../../../assets/img/brand/file.png" />
                               </button>
-                          </div>
+                          <!-- </div> -->
                        </div>
                       </div>
                       
-                    <!-- <input
-                        type="text"
-                        class="form-control"
-                        name="FileNo"
-                        id="FileNo"
-                        placeholder="Search by File No"
-                        formControlName="FileNo"
-                        [readonly]="isReadonly"
-                        aria-describedby="search-addon"
-                      /> -->
-                    <!-- <div class="input-group-append btndiv" id="search-addon">
-                        <button
-                        class="btn btn-outline-primary"
-                        (click)="getSearchResult()"
-                        type="button"
-                      >
-                        <i class="fa fa-search"></i>
-                      </button>
-                    </div> -->
+              
                     
                  
                 </div>
 
               </div>   
-                  <!-- <div class="col-md-3">
-        
-                    <input name="FileNo"  formControlName="FileNo" type="text" class="form-control">
-                  </div> -->
-    
-                  <!-- <div class="col-md-3">                
-                    <button type="button" class="btn btn-success" (click)="getSearchResult()">Search</button>
-                  </div> -->             
+                       
 
         </div>        
 

@@ -51,7 +51,7 @@ export class TemplateComponent implements OnInit {
   ngOnInit() {
     this.AddTemplateForm = this.formBuilder.group({
     TemplateName: ["", [Validators.required, Validators.pattern(/^[a-zA-Z0-9\-_\s]+$/)]],
-    TempCode:[''],
+    TempCode:['',[Validators.required, Validators.pattern(/^(?!\s*$).+/)]],
     User_Token: localStorage.getItem('User_Token') ,
     CreatedBy: localStorage.getItem('UserID') ,
     id:[0]

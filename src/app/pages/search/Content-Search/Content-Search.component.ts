@@ -413,19 +413,19 @@ export class ContentSearchComponent implements OnInit {
         });
       }
       
-    GetDisplayField(TID:number) {
-      const apiUrl=this._global.baseAPIUrl+'DataUpload/GetFieldsName?ID='+TID+'&user_Token='+ localStorage.getItem('User_Token') 
-      this._onlineExamService.getAllData(apiUrl).subscribe((data: {}) => {     
-        this._ColNameList = data;
-        this.prepareTableData(this._FilteredList, this._ColNameList);
-      });
-    }
+      GetDisplayField(TID:number) {
+        const apiUrl=this._global.baseAPIUrl+'DataUpload/GetFieldsName?ID='+TID+'&user_Token='+ localStorage.getItem('User_Token')
+        this._onlineExamService.getAllData(apiUrl).subscribe((data: {}) => {    
+          this._ColNameList = data;
+          this.prepareTableData(this._FilteredList, this._ColNameList);
+        });
+      }
     
     formattedData: any;
     headerList: any;
     immutableFormattedData: any;
     loading: boolean = true;
-    prepareTableData(tableData, headerList) {
+    prepareTableData(tableData, headerList)  {
       let formattedData = [];
       let tableHeader: any = [
         { field: 'srNo', header: "SR NO", index: 1 },
@@ -439,7 +439,7 @@ export class ContentSearchComponent implements OnInit {
         { field: 'pageCount', header: 'PAGE COUNT', index: 6 },
         { field: 'entryDate', header: 'UPLOAD ON', index: 3 },
       ];
-       //Changes Added by Dhanshree
+       //Changes Added by Dhanashree
        let nextIndex = Math.max(...tableHeader.map(h => h.index)) + 1;
        headerList.forEach((el, index) => {
  
@@ -453,7 +453,7 @@ export class ContentSearchComponent implements OnInit {
          }
  
      });
-       //Changes Added by Dhanshree
+       //Changes Added by Dhanashree
        
      // console.log("tableData",tableData);
       tableData.forEach((el, index) => {

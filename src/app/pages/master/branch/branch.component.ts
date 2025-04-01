@@ -52,9 +52,8 @@ rows = 10;
   ngOnInit() {
     this.AddBranchForm = this.formBuilder.group({
       // BranchName: ['',[Validators.required, Validators.pattern(/^[a-zA-Z0-9\-_\s]+$/)]],
-           // changes added by dhanashree for space char for BranchName 
-           BranchName: ['',[Validators.required, Validators.pattern(/^(?!\s*$).+/)]],
-
+     // changes added by dhanashree for space char for BranchName 
+      BranchName: ['',[Validators.required, Validators.pattern(/^(?!\s*$).+/)]],
       FolderSize:['',Validators.required],
       DepartmentID: [0, Validators.required],
       User_Token: localStorage.getItem('User_Token') ,
@@ -69,7 +68,6 @@ rows = 10;
   }
 
   get f(){
-    
     return this.AddBranchForm.controls;
   }
 
@@ -239,7 +237,7 @@ ShowSuccessMessage(data: any) {
          'BranchName': el.BranchName,
           'id': el.id,
         //  'DepartmentID': el.DepartmentID,
-         'FolderSize': el.FolderSize,
+         'FolderSize': el.FolderSize + ' GB',
          'CreatedDate': el.CreatedDate,
          'CreatedBy': el.CreatedBy,
         // 'Ref6': el.Ref6
@@ -284,9 +282,7 @@ ShowSuccessMessage(data: any) {
   
   addBranch(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
-this.f.BranchName.valid.valueOf();
-this.AddBranchForm.get('BranchName')?.reset(); //Akash
-this.AddBranchForm.get('FolderSize')?.reset();
+
     this.AddBranchForm.patchValue({
       id:0,
       BranchName:'',
@@ -296,19 +292,30 @@ this.AddBranchForm.get('FolderSize')?.reset();
     })
   }
 
-  onDownloadExcelFile(_filename:string)
-  {
-   // _filename = 'Users_Data';
-    this.exportToExcel(this.formattedData,_filename);
-    // this.downloadFile();
-  }
+ //Dhanashree
+ onDownloadExcelFile(_filename:string)
+ {
+  // _filename = 'Users_Data';
+   this.exportToExcel(this.formattedData,_filename);
+   // this.downloadFile();
+ }
 
-  exportToExcel(data: any[], fileName: string): void {
-    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(data);
-    const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
-    const excelBuffer: any = XLSX.write(workbook, { bookType: 'csv', type: 'array' });
-    this.saveExcelFile(excelBuffer, fileName);
+ exportToExcel(data: any[], fileName: string): void {
+   //Changes done by dhanashree
+   const modifiedData = data.map(item => ({
+     'SR NO': item.srNo,
+     'CABINET NAME': item.DepartmentName, // Renaming for Excel
+     'FOLDER NAME': item.BranchName, // Renaming for Excel
+     'FOLDER SIZE IN GB': item.FolderSize + ' GB',
+     'CREATED DATE': item.CreatedDate,
+     'CREATED BY': item.CreatedBy
+ }));
+   const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(modifiedData);
+   const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+   const excelBuffer: any = XLSX.write(workbook, { bookType: 'csv', type: 'array' });
+   this.saveExcelFile(excelBuffer, fileName);
 }
+
 
 private saveExcelFile(buffer: any, fileName: string): void {
     const data: Blob = new Blob([buffer], { type: 'application/vnd.ms-excel' });
@@ -321,13 +328,15 @@ private saveExcelFile(buffer: any, fileName: string): void {
     window.URL.revokeObjectURL(url);
     a.remove();
 }
-
 // Added Changes By Dhanashree
 onSizeInput(event: any) {
   const value = event.target.value;
   const validValue = value.replace(/[^0-9]/g, ''); 
   event.target.value = validValue;  
 }
+
+
+
   paginate(e) {
     this.first = e.first;
     this.rows = e.rows;

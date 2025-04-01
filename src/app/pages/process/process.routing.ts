@@ -3,6 +3,7 @@ import { DataEntryComponent } from './data-entry/data-entry.component';
 import { FileTaggingComponent } from './file-tagging/file-tagging.component';
 import { EditIndexingComponent } from './EditIndexing/EditIndexing.component';
 import { CheckerComponent } from './checker/checker.component';
+import { RejectComponent } from "./Reject/Reject.component";
 
 
 
@@ -26,6 +27,9 @@ export const DepartmentRoutes: Routes = [
       {
         path: "Checker",
         component: CheckerComponent
+      }, {
+        path: "Reject",
+        component: RejectComponent
       }
     ]
   }

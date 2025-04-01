@@ -14,7 +14,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AdvancedSearchComponent } from './advanced-search/advanced-search.component';
 import { ContentSearchComponent } from './Content-Search/Content-Search.component';
 import { FileStorageComponent } from './file-storage/file-storage.component';
-import { BulkDownlaodComponent } from './BulkDownlaod/BulkDownlaod.component';
+// import { BulkDownlaodComponent } from './BulkDownlaod/BulkDownlaod.component';
 import { DeleteFilesComponent } from './DeleteFiles/DeleteFiles.component';
 import { BasicSearchComponent } from './Basic-Search/Basic-Search.component';
 import { GlobalsearchComponent } from './globalsearch/globalsearch.component';
@@ -34,15 +34,16 @@ import { TagInputModule } from "ngx-chips";
 import { NgxDocViewerModule } from "ngx-doc-viewer";
 import { OcrsearchComponent } from "./ocr-search/ocr-search.component";
 import { FolderStutureComponent } from './folder-stuture/folder-stuture.component';
+import { BulkDownlaodComponent } from "./BulkDownlaod/BulkDownlaod.component";
 // import { IPLSearchComponent } from "./ipl-Search/ipl-Search.component";
 // import { IPLSearchfilterComponent } from "./ipl-search-filter/ipl-search-filter.component";
 
 import { ToastModule } from 'primeng/toast';
 @NgModule({
-  declarations: [OcrsearchComponent,  DeleteFilesComponent,AdvancedSearchComponent,GlobalsearchComponent,BulkDownlaodComponent,BasicSearchComponent,FileStorageComponent,ContentSearchComponent,SearchComponent, FolderStutureComponent],
+  declarations: [OcrsearchComponent,  BulkDownlaodComponent,DeleteFilesComponent,AdvancedSearchComponent,GlobalsearchComponent,BasicSearchComponent,FileStorageComponent,ContentSearchComponent,SearchComponent, FolderStutureComponent],
   imports: [
     CommonModule,
-  
+    
     RouterModule.forChild(searchRoutes),
     FormsModule,
     MDBBootstrapModule,

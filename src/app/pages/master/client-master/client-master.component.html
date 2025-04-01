@@ -124,76 +124,82 @@
                     </button></div>
                   </div></div>
                   <div class="card-body">
-                    <form class="needs-validation" novalidate="" [formGroup]="AddTemplateForm" (ngSubmit)="onSubmit()">
-                      <div class="form-row">
-                        <div class="col-md-12 mb-3">
-                          <label class="form-control-label" for="ClientName">
-                          Client  Name
-                          </label>
-                          <input class="form-control" formControlName="ClientName" placeholder="Client Name" type="text"/>
-                          <div class="valid-feedback">Looks good!</div>
-                          <div style="margin-top: .25rem;" class="alert alert-danger"
-                          *ngIf="f.ClientName.touched && f.ClientName.invalid && f.ClientName.errors.required">Client name is required</div>
-                          <div class="alert alert-danger" *ngIf="!!AddTemplateForm.get('ClientName').errors?.pattern">Please enter valid name.</div>
+                    <!-- added updated form for client master by dhanashree -->
+                    <form class="needs-validation" novalidate [formGroup]="AddTemplateForm" (ngSubmit)="onSubmit()">
+                      <div class="container">
+                                                <div class="row">
+                          <div class="col-md-6 mb-3">
+                            <label class="form-control-label" for="ClientName">Client Name</label>
+                            <input class="form-control" formControlName="ClientName" placeholder="Client Name" type="text"/>
+                            <div *ngIf="f.ClientName.touched && f.ClientName.invalid && f.ClientName.errors?.required"
+                                 style="color: red; font-size: 14px; margin-top: .25rem;">
+                              Client Name is required.
+                            </div>
+                          </div>
+                   
+                          <!-- Storage Space -->
+                          <div class="col-md-6 mb-3">
+                            <label class="form-control-label" for="StorageSpace">Storage Space (GB)</label>
+                            <input class="form-control" formControlName="StorageSpace" placeholder="Storage Space" type="number" oninput="this.value = this.value.replace(/[^0-9]/g, '')"/>
+                            <div *ngIf="f.StorageSpace.touched && f.StorageSpace.invalid && f.StorageSpace.errors?.required"
+                                 style="color: red; font-size: 14px; margin-top: .25rem;">
+                              Storage Space is required.
+                            </div>
+                          </div>
                         </div>
-                        <div class="col-md-12 mb-3">
-                          <label class="form-control-label" for="TemplateName">
-                            Cabinet
-                          </label>
-                          <select name="Cabinet"  id="Cabinet" class="form-control" formControlName="Cabinet" (change)="getFolderByCabient($event.target.value)"  >
-                            <option value=0>Select Cabinet</option>   
-                            <option *ngFor="let _Cabinet of _CabientList" [value]="_Cabinet.id"  >  
-                            {{_Cabinet.DepartmentName}}  
-                            </option>
-                          </select>
-                          <div class="valid-feedback">Looks good!</div>
-                          <div style="margin-top: .25rem;" class="alert alert-danger"
-                          *ngIf="f.Cabinet.touched && f.Cabinet.invalid && f.Cabinet.errors.required">Cabinet is required</div>
-                          <div class="alert alert-danger" *ngIf="!!AddTemplateForm.get('Cabinet').errors?.pattern">Please enter cabinet.</div>
+                   
+                        <!-- No of Users & Project Validity -->
+                        <div class="row">
+                          <div class="col-md-6 mb-3">
+                            <label class="form-control-label" for="NoofUsers">No of Users</label>
+                            <!-- dhanashree -->
+                            <input class="form-control" formControlName="NoofUsers" placeholder="No Of Users" type="number" min="1"/>  
+                            <div *ngIf="f.NoofUsers.touched && f.NoofUsers.invalid && f.NoofUsers.errors?.required"
+                                 style="color: red; font-size: 14px; margin-top: .25rem;">
+                              Number of Users is required.
+                            </div>
+                          </div>
+                   
+                          <div class="col-md-6 mb-3">
+                            <label class="form-control-label" for="Projectvalidity">Project Validity</label>
+                            <input class="form-control" formControlName="Projectvalidity" type="date" id="Projectvalidity" [min]="minDate"/>
+                            <div *ngIf="f.Projectvalidity.touched && f.Projectvalidity.invalid && f.Projectvalidity.errors?.required"
+                                 style="color: red; font-size: 14px; margin-top: .25rem;">
+                              Project Validity is required.
+                            </div>
+                          </div>
                         </div>
-                        <div class="col-md-12 mb-3">
-                          <label class="form-control-label" for="Cordinates">
-                            Folder
-                          </label>
-                          <select name="Folder" id="Folder" class="form-control" formControlName="Folder" (change)="GetSubfolderByBranchID($event.target.value)"  >
-                            <option value='0'>Select Folder</option>   
-                            <option *ngFor="let _Folder of FolderList" [value]="_Folder.id"  >  
-                            {{_Folder.BranchName}}  
-                            </option>
-                          </select>
-                          <div class="valid-feedback">Looks good!</div>
-                          <div style="margin-top: .25rem;" class="alert alert-danger"
-                          *ngIf="f.Folder.touched && f.Folder.invalid && f.Folder.errors.required">Folder is required</div>
-                          <div class="alert alert-danger" *ngIf="!!AddTemplateForm.get('Folder').errors?.pattern">Please enter folder.</div>
+                   
+                        <!-- OCR  -->
+                        <div class="row">
+                          <div class="col-md-6 mb-3">
+                            <label class="form-control-label" for="OCRdump">OCR</label>
+                            <select class="form-control" formControlName="OCRdump">
+                              <option value="">Select</option>
+                              <option value="Yes">Yes</option>
+                              <option value="No">No</option>
+                            </select>
+                            <div *ngIf="f.OCRdump.touched && f.OCRdump.invalid && f.OCRdump.errors?.required"
+                                 style="color: red; font-size: 14px; margin-top: .25rem;">
+                              Please select an option.
+                            </div>
+                          </div>
                         </div>
-                        <div class="col-md-12 mb-3">
-                          <label class="form-control-label" for="Cordinates">
-                            Storage Space (GB)
-                          </label>
-                          <input class="form-control" formControlName="StorageSpace" placeholder="Storage Space" type="number"/>
-                          <div class="valid-feedback">Looks good!</div>
-                          <div style="margin-top: .25rem;" class="alert alert-danger"
-                          *ngIf="f.StorageSpace.touched && f.StorageSpace.invalid && f.StorageSpace.errors.required">Storage space is required</div>
-                          <div class="alert alert-danger" *ngIf="!!AddTemplateForm.get('StorageSpace').errors?.pattern">Please enter storage space.</div>
+                   
+                        <!-- Submit Button -->
+                        <div class="row">
+                          <div class="col-12 text-right mt-3">
+                            <button type="submit" class="btn btn-success p-2">Submit</button>
+                          </div>
                         </div>
-                        <div class="col-md-12 mb-3">
-                          <label class="form-control-label" for="Cordinates">
-                            No of Users
-                          </label>
-                          <input class="form-control" formControlName="NoofUsers" placeholder="No Of Users" type="number"/>
-                          <div class="valid-feedback">Looks good!</div>
-                          <div style="margin-top: .25rem;" class="alert alert-danger"
-                          *ngIf="f.NoofUsers.touched && f.NoofUsers.invalid && f.NoofUsers.errors.required">No of users is required</div>
-                          <div class="alert alert-danger" *ngIf="!!AddTemplateForm.get('NoofUsers').errors?.pattern">Please enter no of users.</div>
-                        </div>
-
+                       
                       </div>
-                        <!-- Buttons -->
-            <div class="text-right">
-              <button type="submit" class="btn successbtn p-2">Submit</button>
-              <!-- <button type="button" class="btn dangerbtn p-2" (click)="ClosePopup()">Close</button> -->
-            </div>
                     </form>
+ 
+                    
+                    
+                    
+                    
                   </div>
                 </div>
               </div>
