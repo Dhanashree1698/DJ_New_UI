@@ -51,10 +51,11 @@ export class EmailLogComponent implements OnInit {
   _IndexPendingList:any;
   _ColNameList = ["FileNo","Folder", "UserName","ToEmailID" ,"IsSend", "SendOn", "Remark"];
 
-
-  bsValue = new Date();
   bsRangeValue: Date[];
-  maxDate = new Date();
+  bsValueFrom: Date = new Date(); // Default From Date
+  bsValueTo: Date = new Date();   // Default To Date
+  minToDate: Date = new Date();   // Ensures To Date is always >= From Date
+  maxDate: Date = new Date();   
 
   constructor(
     private modalService: BsModalService,
@@ -83,12 +84,21 @@ export class EmailLogComponent implements OnInit {
 
    // this.getTemplate();
     this.geBranchList();
-    this.getStatusList();
+    //this.getStatusList();
 
     this.Getpagerights();
+    this.bsValueFrom = null;
+    this.bsValueTo = null;
     
   }
+  onFromDateChange(selectedDate: Date) {
+    this.bsValueFrom = selectedDate;
+    this.bsValueTo = this.bsValueTo < selectedDate ? selectedDate : this.bsValueTo;
+  }
 
+  onToDateChange(selectedDate: Date) {
+    this.bsValueTo = selectedDate;
+  }
   Getpagerights() {
 
     var pagename ="EmailLog";

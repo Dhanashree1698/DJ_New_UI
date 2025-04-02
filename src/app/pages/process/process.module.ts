@@ -21,10 +21,11 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { CheckerComponent } from './checker/checker.component';
 import { TableModule } from 'primeng/table';
 import { CheckboxModule } from 'primeng/checkbox';
+import { RejectComponent } from './Reject/Reject.component';
 //import { DataviewComponent } from './dataview/dataview.component';
 
 @NgModule({
-  declarations: [DataEntryComponent,FileTaggingComponent,EditIndexingComponent,CheckerComponent],
+  declarations: [DataEntryComponent,FileTaggingComponent,EditIndexingComponent,CheckerComponent,RejectComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(DepartmentRoutes),

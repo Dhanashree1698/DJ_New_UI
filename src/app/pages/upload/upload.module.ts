@@ -23,6 +23,7 @@ import { BulkFolderMappingComponent } from "./bulkfoldermapping/bulkfoldermappin
 import { BulkfilenamemappingComponent } from "./bulk-filenamemapping/bulk-filenamemapping.component";
 import { BulkFileUploadComponent } from "./bulk-file-upload/bulk-file-upload.component";
 import { BulkFileRenamingComponent } from "./bulk-file-renaming/bulk-file-renaming.component";
+
 import { ToastModule } from 'primeng/toast';
 
 //sftpuploadForm

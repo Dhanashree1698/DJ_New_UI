@@ -17,7 +17,7 @@
                 <a href="javascript:void(0)" class="text-gray"> Report </a>
               </li>
               <li aria-current="page" class=" breadcrumb-item active text-dark">
-                Meta Data Report
+                Master Report
               </li>
             </ol>
           </nav>
@@ -34,45 +34,73 @@
       <form [formGroup]="MetaDataForm"> 
       <div class=" card">
         <div class="card-header">
-          <div class=" row">
-           
-           
-
-              <div class="col-lg-3 col-md-3 col-sm-4 col-xs-4">   
-                <label class=" form-control-label" for="DATEFROM">
-                  Folder
-                 </label>
-                <select name="BranchID" id="BranchID" class="form-control" formControlName="BranchID" >
-                  <option value=0>ALL</option>   
-                  <option *ngFor="let _Bracnch of BranchList" [value]="_Bracnch.BranchID"  >  
-                  {{_Bracnch.BranchName}}  
-                  </option>
-                </select>
-              </div>  
-              <div class="col-lg-3 col-md-3 col-sm-4 col-xs-4">    
-                <label class=" form-control-label" for="DATEFROM">
-                  Template Name
-                 </label>
-                <select name="TemplateID" id="TemplateID" class="form-control" formControlName="TemplateID" (change)="geTemplateNameListByTempID($event.target.value)">
-                  <option value=0>ALL</option>   
-                  <option *ngFor="let _Temp of TemplateList" [value]="_Temp.TemplateID"  >  
-                  {{_Temp.TemplateName}}  
-                  </option>   
-                  </select>
+          <div class="row align-items-center">
+            <!-- From Date -->
+            <div class="col-md-2 d-flex align-items-center">
+              <label class="mr-2 text-nowrap">From</label>
+              <div class="input-group">
+                <input type="text" formControlName="DATEFROM" placeholder="Datepicker" class="form-control"
+                  bsDatepicker [bsValue]="bsValue" [bsConfig]="{ isAnimated: true, containerClass: 'theme-red' }"
+                  [maxDate]="maxDate" (bsValueChange)="onFromDateChange($event)" />
+                <div class="input-group-append">
+                  <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                </div>
               </div>
-
-              <div class=" col-md-3" style="padding-top: 35px" >  
-                <button class="btn success" [disabled]="!isValid()" (click)="onSearch()" tooltip="Search"> <i class="fa fa-search fa-lg"></i> </button>
-                <!-- <button class="btn reset_btn" [disabled]="!isValid()" (click)="onDownload()"> Download</button>    -->
-                <button type="button" class="btn success" tooltip="Download" [disabled]="!isValid()" (click)="onDownload()">
-                  <i class="fa fa-download fa-lg"></i> </button>    
-              </div>   
-            
-
-
-              
+            </div>
           
+            <!-- To Date -->
+            <div class="col-md-2 d-flex align-items-center">
+              <label class="mr-2 text-nowrap">To</label>
+              <div class="input-group">
+                <input type="text" formControlName="DATETO" placeholder="Datepicker" class="form-control" bsDatepicker
+                  [bsValue]="bsValue" [bsConfig]="{ isAnimated: true, containerClass: 'theme-red' }" [minDate]="bsValueFrom"
+                  (bsValueChange)="onToDateChange($event)"
+                  [maxDate]="maxDate" />
+                <div class="input-group-append">
+                  <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                </div>
+              </div>
+            </div>
+          
+            <!-- Folder -->
+            <!-- <div class="col-md-2 d-flex align-items-center">
+              <label class="mr-2 text-nowrap">Folder</label>
+              <select name="BranchID" id="BranchID" class="form-control" formControlName="BranchID">
+                <option value="0">ALL</option>
+                <option *ngFor="let _Bracnch of BranchList" [value]="_Bracnch.BranchID">
+                  {{ _Bracnch.BranchName }}
+                </option>
+              </select>
+            </div> -->
+          
+            <!-- Space Utilized -->
+            <div class="col-md-2 d-flex align-items-center">
+              <label class="mr-2 text-nowrap">Template</label>
+              <select name="TemplateID" id="TemplateID" class="form-control" formControlName="TemplateID"
+              (change)="geTemplateNameListByTempID($event.target.value)">
+              <option value="0">ALL</option>
+              <option *ngFor="let _Temp of TemplateList" [value]="_Temp.TemplateID">
+                {{ _Temp.TemplateName }}
+              </option>
+            </select>
+            </div>
+          
+            <div class="col-md-3 d-flex">
+              <button class="btn btn-success ml-2 flex-fill" style="border-radius: 5px;"
+                [disabled]="!isValid()" (click)="onSearch()">
+                Search
+              </button>
+              <button class="btn btn-primary ml-2 flex-fill" 
+                style="border-radius: 5px; color: white;" [disabled]="!isValid()" (click)="onDownload()">
+                Download
+              </button>
+            </div>
+
+
+
+
           </div>
+          
         </div>
         <div class="dataTables_wrapper">
           <!-- <div class="row">

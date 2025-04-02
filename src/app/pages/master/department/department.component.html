@@ -134,29 +134,39 @@
                 <form class="needs-validation" novalidate [formGroup]="AddDepartmentForm" (ngSubmit)="onSubmit()">
                   <div class="form-row">
                     <div class="col-md-12 mb-3">
-                      <label class="form-control-label" for="DepartmentName">
-                        Cabinet Name *
-                      </label>
-                      <input class="form-control" id="DepartmentName" formControlName="DepartmentName" placeholder="Name" type="text" />
+                      <label class="form-control-label" for="DepartmentName">Cabinet Name *</label>
+                      
+                      <input 
+                        class="form-control"
+                        id="DepartmentName"
+                        formControlName="DepartmentName"
+                        placeholder="Name"
+                        type="text"
+                        (input)="onCabinetNameInput($event)"
+                      />
+                    
                       <div class="valid-feedback">Looks good!</div>
-                      <div 
-                        *ngIf="f.DepartmentName.touched && f.DepartmentName.invalid && f.DepartmentName.errors?.required"
-                        style="color: red; font-size: 14px; margin-top: .25rem;">
+                    
+                      <!-- Required Field Validation -->
+                      <div *ngIf="f.DepartmentName.touched && f.DepartmentName.invalid && f.DepartmentName.errors?.required"
+                           style="color: red; font-size: 14px; margin-top: .25rem;">
                         Name is required
                       </div>
-                      <div 
-                        *ngIf="!!AddDepartmentForm.get('DepartmentName').errors?.pattern"
-                        style="color: red; font-size: 14px; margin-top: .25rem;">
-                        Please enter a valid name.
+                    
+                      <div *ngIf="f.DepartmentName.touched && f.DepartmentName.invalid && f.DepartmentName.errors?.pattern"
+                           style="color: red; font-size: 14px; margin-top: .25rem;">
+                        Please enter only alphabets (A-Z, a-z).
                       </div>
-                    </div>                    
+                    </div>
+                                   
                   </div>
                   <div class="form-row">
                     <div class="col-md-12 mb-3">
                       <label class="form-control-label" for="CabientSize">
                         Cabinet Size in GB *
                       </label>
-                      <input class="form-control" id="CabientSize" formControlName="CabientSize" placeholder="Cabient Size" type="number" />
+                      <!-- added validation for cabinet size by dhanashree-->
+                      <input class="form-control" id="CabientSize" formControlName="CabientSize" placeholder="Cabient Size" type="number" oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
                       <div class="valid-feedback">Looks good!</div>
                       <div style="color: red; font-size: 14px; margin-top: .25rem;"  *ngIf="f.CabientSize.touched && f.CabientSize.invalid && f.CabientSize.errors.required">
                         Cabient Size is required

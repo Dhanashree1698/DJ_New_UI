@@ -147,16 +147,13 @@ export class BulkFolderComponent implements OnInit {
 
   uploadListener($event: any): void {
     let text = [];
-    debugger;
     let files = $event.srcElement.files;
     if (this.isValidCSVFile(files[0])) {
       let input = $event.target;
       let reader = new FileReader();
       reader.readAsText(input.files[0]);
       $(".selected-file-name").html(input.files[0].name);
-      debugger;
       reader.onload = () => {
-        debugger;
         let csvData = reader.result;
         let csvRecordsArray = (<string>csvData).split(/\r\n|\n/);
         console.log("csvRecordsArray", csvRecordsArray)
@@ -216,7 +213,6 @@ export class BulkFolderComponent implements OnInit {
     }
   }
   getDataRecordsArrayFromCSVFile(csvRecordsArray: any, headerLength: any) {
-    debugger;
     let csvArr = [];
     for (let i = 1; i < csvRecordsArray.length; i++) {
       let curruntRecord = (<string>csvRecordsArray[i]).split(',');
@@ -235,7 +231,7 @@ export class BulkFolderComponent implements OnInit {
   }
   getHeaderArray(csvRecordsArr: any) {
     var headers;
-    headers = ["Cabinet", "Folder", "Subfolder"];
+    headers = "Cabinet, Folder, Subfolder";
     return headers;
   }
   fileReset() {
@@ -359,7 +355,6 @@ export class BulkFolderComponent implements OnInit {
   immutableFormattedData: any;
   loading: boolean = true;
   prepareTableData(tableData, headerList) {
-    debugger;
     let formattedData = [];
     let tableHeader: any = [
       { field: 'srNo', header: "SR NO", index: 1 },
@@ -371,13 +366,12 @@ export class BulkFolderComponent implements OnInit {
     tableData.forEach((el, index) => {
       formattedData.push({
         'srNo': parseInt(index + 1),
-        'Cabinet': el[0],
-        'Folder': el[1],
-        'Subfolder': el[2],
+        'Cabinet': el.Cabinet,
+        'Folder': el.Folder,
+        'Subfolder': el.Subfolder,
       });
 
     });
-    debugger;
     this.headerList = tableHeader;
     this.immutableFormattedData = JSON.parse(JSON.stringify(formattedData));
     this.formattedData = formattedData;

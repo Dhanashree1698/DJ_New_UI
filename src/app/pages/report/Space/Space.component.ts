@@ -48,7 +48,10 @@ export class SpaceComponent implements OnInit {
 
   bsValue = new Date();
   bsRangeValue: Date[];
-  maxDate = new Date();
+  bsValueFrom: Date = new Date(); 
+  bsValueTo: Date = new Date();  
+  minToDate: Date = new Date();   
+  maxDate: Date = new Date();   
   first = 0;
   rows = 10;
 
@@ -76,8 +79,17 @@ export class SpaceComponent implements OnInit {
 
     this.geBranchList();
     this.BindHeader(this._StatusList,this._StatusList);
+    this.bsValueFrom = null;
+    this.bsValueTo = null;
+  }
+  onFromDateChange(selectedDate: Date) {
+    this.bsValueFrom = selectedDate;
+    this.bsValueTo = this.bsValueTo < selectedDate ? selectedDate : this.bsValueTo;
   }
 
+  onToDateChange(selectedDate: Date) {
+    this.bsValueTo = selectedDate;
+  }
 
   // Getpagerights() {
 

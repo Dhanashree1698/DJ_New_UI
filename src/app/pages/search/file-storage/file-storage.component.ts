@@ -819,7 +819,7 @@ export class FileStorageComponent implements OnInit, AfterViewInit {
           "EntryDate": el.EntryDate,
           "fileSize": (el.FileSize) + ' MB',
           "PageCount": el.PageCount,
-          "IsIndexing": el.IsIndexing,
+          // "IsIndexing": el.IsIndexing,
           "BranchName": el.BranchName,
           "DepartmentName": el.DepartmentName,  
           "SubfolderName": el.SubfolderName,   
@@ -853,7 +853,7 @@ export class FileStorageComponent implements OnInit, AfterViewInit {
       { field: 'EntryDate', header: 'UPLOAD DATE', index: 3 },
       { field: 'fileSize', header: 'File Size', index: 4 },
       { field: 'PageCount', header: 'PAGE COUNT', index: 5 },
-      { field: 'IsIndexing', header: 'IS INDEXING', index: 5 },
+      // { field: 'IsIndexing', header: 'IS INDEXING', index: 5 },
 
     ];
 

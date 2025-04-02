@@ -44,7 +44,10 @@ export class StatusComponent implements OnInit {
   
   bsValue = new Date();
   bsRangeValue: Date[];
-  maxDate = new Date();
+  maxDate = new Date(); // Prevent future dates
+  minToDate: Date | null = null;
+  bsValueFrom: Date | null = null;
+  bsValueTo: Date | null = null;
   first = 0;
   rows = 10;
 
@@ -71,6 +74,21 @@ export class StatusComponent implements OnInit {
     this.geBranchList();
  
     
+  }
+  onFromDateChange(selectedDate: Date) {
+    this.bsValueFrom = selectedDate;
+    this.StatusReportForm.controls['DATEFROM'].setValue(selectedDate);
+    this.minToDate = selectedDate; 
+
+    const currentToDate = this.StatusReportForm.controls['DATETO'].value;
+    if (currentToDate && currentToDate < selectedDate) {
+      this.StatusReportForm.controls['DATETO'].setValue(null);
+    }
+  }
+
+  onToDateChange(selectedDate: Date) {
+    this.bsValueTo = selectedDate;
+    this.StatusReportForm.controls['DATETO'].setValue(selectedDate);
   }
 
   Getpagerights() {
@@ -137,23 +155,23 @@ loading: boolean = true;
 prepareTableData(tableData, headerList) {
   let formattedData = [];
  // alert(this.type);
-
+console.log(tableData);
 // if (this.type=="Checker" )
 //{
   let tableHeader: any = [
     { field: 'srNo', header: "SR NO", index: 1 },
-    { field: 'Department', header: 'CABINET', index: 3 },
-    { field: 'BranchName', header: 'FOLDER', index: 3 },
+    { field: 'Cabinet', header: 'CABINET', index: 3 },
+    { field: 'Folder', header: 'FOLDER', index: 3 },
     { field: 'SubfolderName', header: 'SUB FOLDER', index: 2 },
     { field: 'FileNo', header: 'FILE NAME', index: 3 },
-    { field: 'PageCount', header: 'PAGE COUNT', index: 3 },
-    { field: 'IsIndexing', header: 'IS INDEXING', index: 3 },
     { field: 'TemplateName', header: 'TEMPLATE', index: 3 },
     { field: 'TempCode', header: 'TEMPLATE CODE', index: 3 },
+    { field: 'IsIndexing', header: 'IS INDEXING', index: 3 },
+    { field: 'PageCount', header: 'PAGE COUNT', index: 3 },
     { field: 'FileSize', header: 'FILE SIZE (KB)', index: 3 },
-    { field: 'EntryBy', header: 'UPLOAD BY', index: 3 },
+    { field: 'UploadBy', header: 'UPLOAD BY', index: 3 },
     // { field: 'Status', header: 'STATUS', index: 3 },
-    { field: 'upload_date', header: 'UPLOAD DATE', index: 3 }
+    { field: 'UploadDate', header: 'UPLOAD DATE', index: 3 }
     
     //,{ field: 'DownloadDate', header: 'DownloadDate', index: 3 },
    // { field: 'SendDate', header: 'SendDate', index: 7 }, { field: 'IsSend', header: 'IsSend', index: 8 },
@@ -163,7 +181,8 @@ prepareTableData(tableData, headerList) {
   tableData.forEach((el, index) => {
     formattedData.push({
       'srNo': parseInt(index + 1),
-      'Department': el.Department,
+      'Cabinet': el.Cabinet,
+      'Folder': el.Folder,
       'BranchName': el.BranchName,
       'id': el.id,
       'SubfolderName': el.SubfolderName,
@@ -171,8 +190,8 @@ prepareTableData(tableData, headerList) {
       'PageCount': el.PageCount,
       'IsIndexing': el.IsIndexing,
        'FileSize': el.FileSize,
-      'upload_date': el.EntryDate,
-      'EntryBy': el.EntryBy,
+      'UploadBy': el.UploadBy,
+      'UploadDate': el.UploadDate,
       'TemplateName': el.TemplateName,
       'TempCode' : el.TempCode
           
@@ -201,10 +220,10 @@ BindHeader(tableData, headerList) {
     { field: 'BranchName', header: 'FOLDER', index: 3 },
     { field: 'SubfolderName', header: 'SUB FOLDER ', index: 2 },
     { field: 'FileNo', header: 'FILE NAME', index: 3 },
-    { field: 'PageCount', header: 'PAGE COUNT', index: 3 },
-    { field: 'IsIndexing', header: 'IS INDEXING', index: 3 },
     { field: 'TemplateName', header: 'TEMPLATE', index: 3 },
     { field: 'TempCode', header: 'TEMPLATE CODE', index: 3 },
+    { field: 'IsIndexing', header: 'IS INDEXING', index: 3 },
+    { field: 'PageCount', header: 'PAGE COUNT', index: 3 },
     { field: 'FileSize', header: 'FILE SIZE (KB)', index: 3 },
     // { field: 'Status', header: 'STATUS', index: 3 },
     { field: 'EntryBy', header: 'UPLOAD BY', index: 3 },
@@ -294,7 +313,7 @@ searchTable($event) {
 
   getStatusList() {  
 
-    const apiUrl = this._global.baseAPIUrl + 'Status/GetStatusReport';          
+    const apiUrl = this._global.baseAPIUrl + 'StatusReport/GetStatusReport';          
     this._onlineExamService.postData(this.StatusReportForm.value,apiUrl)
     // .pipe(first())
 

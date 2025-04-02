@@ -171,7 +171,7 @@ export class BasicSearchComponent implements OnInit {
       DocuemntType: [''],
       AccNo: [''],     
       ToEmailID:[''],
-      ValidDate:[''],
+      ValidDate:['01-01-2025'],
       IsAttachment:[''],
       BranchID:['0'],
       DeptID:['0'],
@@ -363,6 +363,7 @@ debugger
            'branch': el.BranchName,
            'SubfolderName': el.SubfolderName,
            'TemplateName': el.TemplateName,  
+           'fileSize': el.FileSize + " MB",
            'pageCount': el.DocCount,       
           "entryDate": el.EntryDate,
         //  'department': el.DepartmentName,
@@ -867,7 +868,7 @@ GetFilterData(tempID:any) {
 
 
   onSendEmailByShare() {
-
+debugger
     const apiUrl = this._global.baseAPIUrl + 'Mail/SendEmailBulkFiles';
     let toEmailString = ''; 
     this.emailReciepientsShare.forEach(el => toEmailString += el.display + ',');

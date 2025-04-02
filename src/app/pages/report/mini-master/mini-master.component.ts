@@ -40,9 +40,11 @@ export class MinimasterComponent implements OnInit {
   _ColNameList = ["FileName", "EmpCode","FirstName","SecondName","Location","Band"];
   first = 0;
   rows = 10;
-  bsValue = new Date();
   bsRangeValue: Date[];
-  maxDate = new Date();
+  bsValueFrom: Date = new Date(); // Default From Date
+  bsValueTo: Date = new Date();   // Default To Date
+  minToDate: Date = new Date();   // Ensures To Date is always >= From Date
+  maxDate: Date = new Date();   
 
   constructor(
     public toastr: ToastrService,
@@ -58,7 +60,8 @@ export class MinimasterComponent implements OnInit {
       User_Token:  localStorage.getItem('User_Token') ,  
       CreatedBy: localStorage.getItem('UserID') ,      
     });
-
+    this.bsValueFrom = null;
+    this.bsValueTo = null;
     
     this.getStatusList();
     
@@ -78,7 +81,14 @@ export class MinimasterComponent implements OnInit {
   onActivate(event) {
     this.activeRow = event.row;
   }
+  onFromDateChange(selectedDate: Date) {
+    this.bsValueFrom = selectedDate;
+    this.bsValueTo = this.bsValueTo < selectedDate ? selectedDate : this.bsValueTo;
+  }
 
+  onToDateChange(selectedDate: Date) {
+    this.bsValueTo = selectedDate;
+  }
 
   paginate(e) {
     this.first = e.first;

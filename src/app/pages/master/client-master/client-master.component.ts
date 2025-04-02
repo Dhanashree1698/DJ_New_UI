@@ -43,6 +43,9 @@ export class ClientMasterComponent implements OnInit {
   //maxDate = new Date();
   first = 0;
 rows = 10;
+//Project Validity changes by dhanashree
+minDate: string = new Date().toISOString().split('T')[0];
+
 
   constructor(
     private modalService: BsModalService,
@@ -53,26 +56,36 @@ rows = 10;
     private route: ActivatedRoute,
     private router: Router,
     private messageService: MessageService
-  ) {}
+    
+  ) {
+;
+  }
   ngOnInit() {
-    this.AddTemplateForm = this.formBuilder.group({
+    debugger
+        this.AddTemplateForm = this.formBuilder.group({
+      
       // ClientName: ['',[Validators.required, Validators.pattern(/^[a-zA-Z\-\s]+$/)]],
-        // changes added by dhanashree for space char for ClientName 
-        ClientName: ['',[Validators.required, Validators.pattern(/^(?!\s*$).+/)]],
-      Cabinet: [0, Validators.required],
-      Folder: [0, Validators.required],
+            // changes added by dhanashree for space char for ClientName 
+      ClientName: ['',[Validators.required, Validators.pattern(/^(?!\s*$).+/)]],
+      // Cabinet: [0, Validators.required],
+      // Folder: [0, Validators.required],
       StorageSpace:['',Validators.required],
       NoofUsers:['',Validators.required],
    //   validity:['',Validators.required],
       User_Token: localStorage.getItem('User_Token') ,
       UserID: localStorage.getItem('UserID') ,
-      id:[0]
-    });
-    this.GetClientData();
-    this.getCabient();
-    //this.Getpagerights();
-  }
+      id:[0],
+      OCRdump:[0, Validators.required],
+      Projectvalidity: ['', Validators.required] ,
 
+    });
+    
+    this.GetClientData();
+    // this.getCabient();
+    //this.Getpagerights();
+    
+  }
+ 
   get f(){
     return this.AddTemplateForm.controls;
   }
@@ -110,24 +123,25 @@ rows = 10;
     });
   }
 
-  getFolderByCabient(DepartmentID:any)
-  {
-    const apiUrl =
-    this._global.baseAPIUrl +"BranchMapping/GetFolderDataBydeptandUserWise?ID="+localStorage.getItem('UserID')+"&user_Token="+localStorage.getItem('User_Token')+"&DeptID="+DepartmentID;
-    this._onlineExamService.getAllData(apiUrl).subscribe((data: any) => {
-    this.FolderList = data;
+//   getFolderByCabient(DepartmentID:any)
+//   {
+//     const apiUrl =
+//     this._global.baseAPIUrl +"BranchMapping/GetFolderDataBydeptandUserWise?ID="+localStorage.getItem('UserID')+"&user_Token="+localStorage.getItem('User_Token')+"&DeptID="+DepartmentID;
+//     this._onlineExamService.getAllData(apiUrl).subscribe((data: any) => {
+//     this.FolderList = data;
 
-});
+// });
 
-  }
+//   }
 
 
   GetClientData() {
-
+debugger
   const apiUrl=this._global.baseAPIUrl+'ClientMaster/GetClientMasterRecords?user_Token='+ localStorage.getItem('User_Token')+'&userid='+ localStorage.getItem('UserID') 
   this._onlineExamService.getAllData(apiUrl).subscribe((data: {}) => {     
   this._TemplateList = data;
   this._FilteredList = data
+  debugger
   this.prepareTableData( this._TemplateList,  this._FilteredList);
 
   });
@@ -138,27 +152,34 @@ headerList: any;
 immutableFormattedData: any;
 loading: boolean = true;
 prepareTableData(tableData, headerList) {
+  debugger
   let formattedData = [];
+
   let tableHeader: any = [
     { field: 'srNo', header: "SR NO", index: 1 },      
     { field: 'ClientName', header: 'CLIENT NAME', index: 2 },  
-    { field: 'CabinetName', header: 'CABINET', index: 2 },  
-       { field: 'FolderName', header: 'FOLDER', index: 3 },  
+    // { field: 'CabinetName', header: 'CABINET', index: 2 },  
+      //  { field: 'FolderName', header: 'FOLDER', index: 3 },  
    { field: 'StorageSpace', header: 'STORAGE SPACE', index: 4 },
-   { field: 'NoOfUsers', header: 'NO OF USERS', index: 4 },         
-              
+   { field: 'NoOfUsers', header: 'NO OF USERS', index: 4 },  
+          
+   { field: 'OCRDump', header: 'OCR', index: 5 },         
+   { field: 'ProjectValidity', header: 'PROJECT VALIDITY', index: 5 },         
+      
   ];
  
   tableData.forEach((el, index) => {
     formattedData.push({
       'srNo': parseInt(index + 1),
       'ClientName': el.ClientName,
-      'CabinetName': el.CabinetName,
-      'FolderName': el.FolderName,
+      // 'CabinetName': el.CabinetName,
+      // 'FolderName': el.FolderName,
        'StorageSpace': el.StorageSpace,
         'NoOfUsers': el.NoOfUsers,
-        'Cabinet': el.Cabinet,
-        'Folder': el.Folder,
+        // 'Cabinet': el.Cabinet,
+        // 'Folder': el.Folder,
+         'OCRDump': el.OCRDump,
+        'ProjectValidity': el.ProjectValidity,
 
     });
  
@@ -202,7 +223,11 @@ searchTable($event) {
     this.modalRef.hide();  
   }
 
+ 
+
+
   onSubmit() {
+    debugger
     this.submitted = true;
     //console.log(this.AddTemplateForm);
     if (this.AddTemplateForm.invalid) {
@@ -280,14 +305,16 @@ searchTable($event) {
        this.AddTemplateForm.patchValue({
         id: that._SingleDepartment.id,
         ClientName: that._SingleDepartment.ClientName,
-        Cabinet: that._SingleDepartment.Cabinet,
+        // Cabinet: that._SingleDepartment.Cabinet,
    //     Folder: that._SingleDepartment.PageNo,
         StorageSpace:that._SingleDepartment.StorageSpace,
-        NoofUsers:that._SingleDepartment.NoOfUsers
+        NoofUsers:that._SingleDepartment.NoOfUsers,
+        OCRdump:that._SingleDepartment.OCRDump,
+        Projectvalidity:that._SingleDepartment.ProjectValidity,
 
       })
-    this.getFolderByCabient(that._SingleDepartment.Cabinet);
-    this.AddTemplateForm.controls['Folder'].setValue(that._SingleDepartment.Folder);
+    // this.getFolderByCabient(that._SingleDepartment.Cabinet);
+    // this.AddTemplateForm.controls['Folder'].setValue(that._SingleDepartment.Folder);
 
 //this.AddTemplateForm.
      // console.log('form', this.AddTemplateForm);
@@ -300,10 +327,12 @@ searchTable($event) {
     this.AddTemplateForm.patchValue({
       //id: that._SingleDepartment.id,
       ClientName:'',
-      Cabinet:0,
-      Folder:0,
+      // Cabinet:0,
+      // Folder:0,
       StorageSpace:'',
-      NoofUsers:''
+      NoofUsers:'',
+      OCRdump:'',
+      Projectvalidity:'',
 
     })
  // this.getFolderByCabient(that._SingleDepartment.Cabinet);
@@ -322,19 +351,21 @@ searchTable($event) {
     // this.downloadFile();
   }
 
+  // Added Changes By Dhanashree
+
+  onSizeInput(event: any) {
+    const value = event.target.value;
+    const validValue = value.replace(/[^0-9]/g, ''); 
+    event.target.value = validValue; 
+  }
+
+  
+  
   exportToExcel(data: any[], fileName: string): void {
     const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(data);
     const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
     const excelBuffer: any = XLSX.write(workbook, { bookType: 'csv', type: 'array' });
     this.saveExcelFile(excelBuffer, fileName);
-}
-
- // Added Changes By Dhanashree
-
- onSizeInput(event: any) {
-  const value = event.target.value;
-  const validValue = value.replace(/[^0-9]/g, ''); 
-  event.target.value = validValue; 
 }
 
 private saveExcelFile(buffer: any, fileName: string): void {

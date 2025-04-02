@@ -70,14 +70,6 @@ export class AddFieldComponent implements OnInit {
   }
   
 
-  changeMinMaxDisable()
-  {
-    this.AddCustomForm.controls['MaxLenght'].disable();
-    this.AddCustomForm.controls['MinLenght'].disable();
-    this.isDisable=true;
-
-  }
-
 
   getTemplate() {  
     const apiUrl=this._global.baseAPIUrl+'Template/GetTemplate?user_Token='+ localStorage.getItem('User_Token') 
@@ -90,6 +82,28 @@ export class AddFieldComponent implements OnInit {
     //this.itemRows = Array.from(Array(Math.ceil(this.adresseList.length/2)).keys())
     });
     }
+    //Changes added by dhanashree
+  changeMinMaxDisable() {
+    debugger;
+   
+    let selectedValue = this.AddCustomForm.controls['FieldType'].value;
+ 
+    if (selectedValue == 3 || selectedValue == 4) {
+      this.AddCustomForm.controls['MaxLenght'].disable();
+      this.AddCustomForm.controls['MinLenght'].disable();
+    } else {
+      this.AddCustomForm.controls['MaxLenght'].enable();
+      this.AddCustomForm.controls['MinLenght'].enable();
+    }
+ 
+    // Enable Master Data Field only for Drop Down, disable otherwise
+    if (selectedValue == 4) {
+      this.AddCustomForm.controls['ListData'].enable();
+    } else {
+      this.AddCustomForm.controls['ListData'].disable();
+    }
+  }
+ 
 
   OnReset() {
     this.Reset = true;

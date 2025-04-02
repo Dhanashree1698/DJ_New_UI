@@ -54,9 +54,8 @@ export class EntityComponent implements OnInit {
   ngOnInit() {
     this.AddEntityForm = this.formBuilder.group({
       // SubfolderName: ['',[Validators.required, Validators.pattern(/^[a-zA-Z0-9\-_\s]+$/)]],
-            // changes added by dhanashree for space char for subfolder name
-            SubfolderName: ['',[Validators.required, Validators.pattern(/^(?!\s*$).+/)]], 
-
+      // changes added by dhanashree for space char for subfolder name
+      SubfolderName: ['',[Validators.required, Validators.pattern(/^(?!\s*$).+/)]], 
       User_Token: localStorage.getItem('User_Token') ,
       CreatedBy: localStorage.getItem('UserID') ,
       BranchID:[0, Validators.required],
@@ -107,6 +106,7 @@ export class EntityComponent implements OnInit {
       const apiUrl=this._global.baseAPIUrl+'DepartmentMapping/GetDepartmentByUser?ID='+ localStorage.getItem('UserID')+'&user_Token='+localStorage.getItem('User_Token') 
       this._onlineExamService.getAllData(apiUrl).subscribe((data: {}) => {     
         this._DepartmentList = data;
+        debugger
        // console.log("DepList",data);
       //  this._FilteredList = data
         //this.itemRows = Array.from(Array(Math.ceil(this.adresseList.length/2)).keys())
@@ -169,7 +169,6 @@ export class EntityComponent implements OnInit {
   OnReset() {
     this.Reset = true;
     //this.AddEntityForm.reset();
-    this.AddEntityForm.get('SubfolderName')?.reset();
     this.AddEntityForm.controls['SubfolderName'].reset();
   //  this.AddEntityForm.controls['BranchID'].reset();
     this.AddEntityForm.controls['DeptID'].setValue(0);

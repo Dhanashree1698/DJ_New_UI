@@ -89,7 +89,8 @@ export class CheckerComponent implements OnInit {
       TemplateName: [''],
       FileList: [''],
       BranchName: [''],
-      Status: ['Checker'],
+      SubfolderName:[''],
+      Status: ['Checker Pending'],
     });
     this.TempField = localStorage.getItem('Fname');
     this._PageNo = 1;
@@ -132,7 +133,7 @@ export class CheckerComponent implements OnInit {
     });
   }
   GetIndexListPending() {
-
+debugger
     const apiUrl = this._global.baseAPIUrl + 'DataEntry/GetCheckerPending?UserID=' + localStorage.getItem('UserID') + '&user_Token=' + localStorage.getItem('User_Token');
     this._onlineExamService.getAllData(apiUrl).subscribe((data) => {
       this._IndexPendingList = data;
@@ -166,21 +167,21 @@ export class CheckerComponent implements OnInit {
         this.onEdit(data);
       }
       else {
-        // this.toastr.show(
-        //   '<div class="alert-text"</div> <span class="alert-title" data-notify="title">Success!</span> <span data-notify="message"> No record Found </span></div>',
-        //   "",
-        //   {
-        //     timeOut: 3000,
-        //     closeButton: true,
-        //     enableHtml: true,
-        //     tapToDismiss: false,
-        //     titleClass: "alert-title",
-        //     positionClass: "toast-top-center",
-        //     toastClass:
-        //       "ngx-toastr alert alert-dismissible alert-success alert-notify"
-        //   }
-        // );
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'No Record Found' });
+        this.toastr.show(
+          '<div class="alert-text"</div> <span class="alert-title" data-notify="title">Success!</span> <span data-notify="message"> No record Found </span></div>',
+          "",
+          {
+            timeOut: 3000,
+            closeButton: true,
+            enableHtml: true,
+            tapToDismiss: false,
+            titleClass: "alert-title",
+            positionClass: "toast-top-center",
+            toastClass:
+              "ngx-toastr alert alert-dismissible alert-success alert-notify"
+          }
+        );
+        // this.messageService.add({ severity: 'success', summary: 'Success', detail: 'No Record Found' });
       }
 
     });
@@ -229,81 +230,81 @@ export class CheckerComponent implements OnInit {
       if (el.FieldType === '3') { // Date Format check
         if (!this.checkDateFormat(this.DataEntryForm.get('_ColNameList').value[el.DisplayName])) {
           isValidDateFormat = false;
-          // this.toastr.show(
-          //   '<div class="alert-text"</div> <span class="alert-title" data-notify="title">Error!</span> <span data-notify="message"><b>' + el.DisplayName + '</b> : Please select date in dd-mm-yyyy format</span></div>',
-          //   "",
-          //   {
-          //     timeOut: 5000,
-          //     closeButton: true,
-          //     enableHtml: true,
-          //     tapToDismiss: false,
-          //     titleClass: "alert-title",
-          //     positionClass: "toast-top-center",
-          //     toastClass: "ngx-toastr alert alert-dismissible alert-danger alert-notify"
-          //   }
-          // );
-          this.messageService.add({ severity: 'error', summary: 'Error', detail:  el.DisplayName `: Please select date in dd-mm-yyyy format'Message Content`});
+          this.toastr.show(
+            '<div class="alert-text"</div> <span class="alert-title" data-notify="title">Error!</span> <span data-notify="message"><b>' + el.DisplayName + '</b> : Please select date in dd-mm-yyyy format</span></div>',
+            "",
+            {
+              timeOut: 5000,
+              closeButton: true,
+              enableHtml: true,
+              tapToDismiss: false,
+              titleClass: "alert-title",
+              positionClass: "toast-top-center",
+              toastClass: "ngx-toastr alert alert-dismissible alert-danger alert-notify"
+            }
+          );
+          // this.messageService.add({ severity: 'error', summary: 'Error', detail:  el.DisplayName `: Please select date in dd-mm-yyyy format'Message Content`});
         }
       }
       if (el.FieldType === '1' && el.IsMandatory === '1') { // Text field required validation check
         if (this.DataEntryForm.get('_ColNameList').value[el.DisplayName] === '') {
           textFieldRequiredValidation = false;
-          // this.toastr.show(
-          //   '<div class="alert-text"</div> <span class="alert-title" data-notify="title">Error!</span> <span data-notify="message"><b>' + el.DisplayName + '</b> : This field is required</span></div>',
-          //   "",
-          //   {
-          //     timeOut: 5000,
-          //     closeButton: true,
-          //     enableHtml: true,
-          //     tapToDismiss: false,
-          //     titleClass: "alert-title",
-          //     positionClass: "toast-top-center",
-          //     toastClass: "ngx-toastr alert alert-dismissible alert-danger alert-notify"
-          //   }
-          // );
-          this.messageService.add({ severity: 'error', summary: 'Error', detail:el.DisplayName`: This field is required` });
+          this.toastr.show(
+            '<div class="alert-text"</div> <span class="alert-title" data-notify="title">Error!</span> <span data-notify="message"><b>' + el.DisplayName + '</b> : This field is required</span></div>',
+            "",
+            {
+              timeOut: 5000,
+              closeButton: true,
+              enableHtml: true,
+              tapToDismiss: false,
+              titleClass: "alert-title",
+              positionClass: "toast-top-center",
+              toastClass: "ngx-toastr alert alert-dismissible alert-danger alert-notify"
+            }
+          );
+          // this.messageService.add({ severity: 'error', summary: 'Error', detail:el.DisplayName`: This field is required` });
         }
       }
 
       if (el.FieldType === '1') { // Text field letter validation check
         if (!(/^[a-zA-Z][a-zA-Z\s]*$/.test(this.DataEntryForm.get('_ColNameList').value[el.DisplayName]))) {
           textFieldLetterValidation = false;
-          // this.toastr.show(
-          //   '<div class="alert-text"</div> <span class="alert-title" data-notify="title">Error!</span> <span data-notify="message"><b>' + el.DisplayName + '</b> : Only letters are allowed</span></div>',
-          //   "",
-          //   {
-          //     timeOut: 5000,
-          //     closeButton: true,
-          //     enableHtml: true,
-          //     tapToDismiss: false,
-          //     titleClass: "alert-title",
-          //     positionClass: "toast-top-center",
-          //     toastClass:
-          //       "ngx-toastr alert alert-dismissible alert-danger alert-notify"
-          //   }
-          // );
-          this.messageService.add({ severity: 'error', summary: 'Error', detail:el.DisplayName`:Only letters are allowed` });
+          this.toastr.show(
+            '<div class="alert-text"</div> <span class="alert-title" data-notify="title">Error!</span> <span data-notify="message"><b>' + el.DisplayName + '</b> : Only letters are allowed</span></div>',
+            "",
+            {
+              timeOut: 5000,
+              closeButton: true,
+              enableHtml: true,
+              tapToDismiss: false,
+              titleClass: "alert-title",
+              positionClass: "toast-top-center",
+              toastClass:
+                "ngx-toastr alert alert-dismissible alert-danger alert-notify"
+            }
+          );
+          // this.messageService.add({ severity: 'error', summary: 'Error', detail:el.DisplayName`:Only letters are allowed` });
         }
       }
 
       if (el.FieldType === '2') { // Numeric field validation check
         if (isNaN(this.DataEntryForm.get('_ColNameList').value[el.DisplayName])) {
           NumericFieldValidation = false;
-          // this.toastr.show(
-          //   '<div class="alert-text"</div> <span class="alert-title" data-notify="title">Error!</span> <span data-notify="message"><b>' + el.DisplayName + '</b> : Please enter numbers only </span></div>',
-          //   "",
-          //   {
-          //     timeOut: 5000,
-          //     closeButton: true,
-          //     enableHtml: true,
-          //     tapToDismiss: false,
-          //     titleClass: "alert-title",
-          //     positionClass: "toast-top-center",
-          //     toastClass:
-          //       "ngx-toastr alert alert-dismissible alert-danger alert-notify"
-          //   }
-          // );
-          this.messageService.add({ severity: 'error', summary: 'Error', detail:el.DisplayName`:Please enter numbers only` });
+          this.toastr.show(
+            '<div class="alert-text"</div> <span class="alert-title" data-notify="title">Error!</span> <span data-notify="message"><b>' + el.DisplayName + '</b> : Please enter numbers only </span></div>',
+            "",
+            {
+              timeOut: 5000,
+              closeButton: true,
+              enableHtml: true,
+              tapToDismiss: false,
+              titleClass: "alert-title",
+              positionClass: "toast-top-center",
+              toastClass:
+                "ngx-toastr alert alert-dismissible alert-danger alert-notify"
+            }
+          );
+          // this.messageService.add({ severity: 'error', summary: 'Error', detail:el.DisplayName`:Please enter numbers only` });
         }
       }
 
@@ -312,20 +313,20 @@ export class CheckerComponent implements OnInit {
         //   console.log(el);
         if (fieldVal !== '' && !(/^[\w\-\s]+$/.test(fieldVal))) {
           alphaNumericValidation = false;
-          // this.toastr.show(
-          //   '<div class="alert-text"</div> <span class="alert-title" data-notify="title">Error!</span> <span data-notify="message"><b>' + el.DisplayName + '</b> : Only letters and digits are allowed</span></div>',
-          //   "",
-          //   {
-          //     timeOut: 5000,
-          //     closeButton: true,
-          //     enableHtml: true,
-          //     tapToDismiss: false,
-          //     titleClass: "alert-title",
-          //     positionClass: "toast-top-center",
-          //     toastClass: "ngx-toastr alert alert-dismissible alert-danger alert-notify"
-          //   }
-          // );
-          this.messageService.add({ severity: 'success', summary: 'Success', detail:el.DisplayName`:Only letters and digits are allowed` });
+          this.toastr.show(
+            '<div class="alert-text"</div> <span class="alert-title" data-notify="title">Error!</span> <span data-notify="message"><b>' + el.DisplayName + '</b> : Only letters and digits are allowed</span></div>',
+            "",
+            {
+              timeOut: 5000,
+              closeButton: true,
+              enableHtml: true,
+              tapToDismiss: false,
+              titleClass: "alert-title",
+              positionClass: "toast-top-center",
+              toastClass: "ngx-toastr alert alert-dismissible alert-danger alert-notify"
+            }
+          );
+          // this.messageService.add({ severity: 'success', summary: 'Success', detail:el.DisplayName`:Only letters and digits are allowed` });
         }
       }
 
@@ -375,25 +376,26 @@ export class CheckerComponent implements OnInit {
       FVals: submit_data.FieldValues,
     });
     const that = this;
-    const apiUrl = this._global.baseAPIUrl + 'DataEntry/Create';
+    const apiUrl = this._global.baseAPIUrl + 'DataEntry/CheckerComplete'; //changes added by Dhanashree
+
     this._onlineExamService.postData(this.DataEntryForm.value, apiUrl)
       .subscribe(data => {
 
-        // this.toastr.show(
-        //   '<div class="alert-text"</div> <span class="alert-title" data-notify="title">Success!</span> <span data-notify="message"> ' + data + ' </span></div>',
-        //   "",
-        //   {
-        //     timeOut: 3000,
-        //     closeButton: true,
-        //     enableHtml: true,
-        //     tapToDismiss: false,
-        //     titleClass: "alert-title",
-        //     positionClass: "toast-top-center",
-        //     toastClass:
-        //       "ngx-toastr alert alert-dismissible alert-success alert-notify"
-        //   }
-        // );
-        this.messageService.add({ severity: 'success', summary: 'Success', detail:data });
+        this.toastr.show(
+          '<div class="alert-text"</div> <span class="alert-title" data-notify="title">Success!</span> <span data-notify="message"> ' + data + ' </span></div>',
+          "",
+          {
+            timeOut: 3000,
+            closeButton: true,
+            enableHtml: true,
+            tapToDismiss: false,
+            titleClass: "alert-title",
+            positionClass: "toast-top-center",
+            toastClass:
+              "ngx-toastr alert alert-dismissible alert-success alert-notify"
+          }
+        );
+        // this.messageService.add({ severity: 'success', summary: 'Success', detail:data });
         this.modalRef.hide();
         that.GetIndexListPending();
       });
@@ -434,7 +436,8 @@ export class CheckerComponent implements OnInit {
       BranchID: row.BranchID,
       TemplateName:row.TemplateName,
       BranchName:row.BranchName,
-      Cabinet:row.Cabinet
+      Cabinet:row.Cabinet,
+      SubfolderName:row.SubfolderName,
     })
     this._TotalPages = row.PageCount;
     this._PageNo = 1;
@@ -486,21 +489,21 @@ export class CheckerComponent implements OnInit {
   }
   ErrorMessage(msg: any) {
 
-    // this.toastr.show(
-    //   '<div class="alert-text"</div> <span class="alert-title" data-notify="title">Validation !</span> <span data-notify="message"><h4 class="text-white"> ' + msg + ' <h4></span></div>',
-    //   "",
-    //   {
-    //     timeOut: 7000,
-    //     closeButton: true,
-    //     enableHtml: true,
-    //     tapToDismiss: false,
-    //     titleClass: "alert-title",
-    //     positionClass: "toast-top-center",
-    //     toastClass:
-    //       "ngx-toastr alert alert-dismissible alert-danger alert-notify"
-    //   }
-    // );
-    this.messageService.add({ severity: 'error', summary: 'error', detail:msg });
+    this.toastr.show(
+      '<div class="alert-text"</div> <span class="alert-title" data-notify="title">Validation !</span> <span data-notify="message"><h4 class="text-white"> ' + msg + ' <h4></span></div>',
+      "",
+      {
+        timeOut: 7000,
+        closeButton: true,
+        enableHtml: true,
+        tapToDismiss: false,
+        titleClass: "alert-title",
+        positionClass: "toast-top-center",
+        toastClass:
+          "ngx-toastr alert alert-dismissible alert-danger alert-notify"
+      }
+    );
+    // this.messageService.add({ severity: 'error', summary: 'error', detail:msg });
   }
 
   DownloadMetadata() {
@@ -552,12 +555,13 @@ export class CheckerComponent implements OnInit {
   allSelected = false;
 
   OnReject() {
+    debugger
     var that = this;
     if (this.DataEntryForm.get('RejectReason').value == "") {
       this.ErrorMessage("Enter rejecet reason");
     }
     this.DataEntryForm.patchValue({
-      Status: 'Reject'
+      Status: 'Reject by Checker'
     })
 
     const apiUrl = this._global.baseAPIUrl + 'DataEntry/RejectFile';
@@ -570,21 +574,21 @@ export class CheckerComponent implements OnInit {
   }
   Message(msg: any) {
 
-    // this.toastr.show(
-    //   '<div class="alert-text"</div> <span class="alert-title" data-notify="title"></span> <span data-notify="message"><h4 class="text-white"> ' + msg + ' <h4></span></div>',
-    //   "",
-    //   {
-    //     timeOut: 7000,
-    //     closeButton: true,
-    //     enableHtml: true,
-    //     tapToDismiss: false,
-    //     titleClass: "alert-title",
-    //     positionClass: "toast-top-center",
-    //     toastClass:
-    //       "ngx-toastr alert alert-dismissible alert-success alert-notify"
-    //   }
-    // );
-    this.messageService.add({ severity: 'success', summary: 'Success', detail: msg });
+    this.toastr.show(
+      '<div class="alert-text"</div> <span class="alert-title" data-notify="title"></span> <span data-notify="message"><h4 class="text-white"> ' + msg + ' <h4></span></div>',
+      "",
+      {
+        timeOut: 7000,
+        closeButton: true,
+        enableHtml: true,
+        tapToDismiss: false,
+        titleClass: "alert-title",
+        positionClass: "toast-top-center",
+        toastClass:
+          "ngx-toastr alert alert-dismissible alert-success alert-notify"
+      }
+    );
+    // this.messageService.add({ severity: 'success', summary: 'Success', detail: msg });
   }
 
   AutoChecker() {
@@ -650,13 +654,14 @@ export class CheckerComponent implements OnInit {
   immutableFormattedData: any;
   loading: boolean = true;
   prepareTableData(tableData, headerList) {
+    debugger
     let formattedData = [];
     let tableHeader: any = [
       { field: 'srNo', header: "SR NO", index: 1 },
       { field: 'FileNo', header: 'FILE NO', index: 2 },
       { field: 'Cabinet', header: 'CABINET', index: 2 },
       { field: 'BranchName', header: 'FOLDER', index: 3 },
-      { field: 'SubFolder', header: 'SUB FOLDER', index: 2 },
+      { field: 'SubfolderName', header: 'SUB FOLDER', index: 4},
       { field: 'TemplateName', header: 'TEMPLATE NAME', index: 3 },
       { field: 'Status', header: 'STATUS', index: 3 },
     ];
@@ -671,7 +676,7 @@ export class CheckerComponent implements OnInit {
         'BranchID': el.BranchID,
          'PageCount': el.PageCount,
          'Cabinet':el.Cabinet,
-         'SubFolder':el.SubFolder
+         'SubfolderName':el.SubfolderName
       });
     });
     this.headerList = tableHeader;

@@ -89,7 +89,8 @@ export class DataEntryComponent implements OnInit {
       FileList: [''],
       TemplateName: [''],
       BranchName: [''],
-      Status: ['Maker'],
+      SubfolderName:[''],
+      Status: ['Maker Pending'],
 
     });
 
@@ -146,7 +147,7 @@ export class DataEntryComponent implements OnInit {
 
 
   GetIndexListPending() {
-
+debugger
     const apiUrl = this._global.baseAPIUrl + 'DataEntry/GetPendingData?UserID=' + localStorage.getItem('UserID') + '&user_Token=' + localStorage.getItem('User_Token');
     this._onlineExamService.getAllData(apiUrl).subscribe((data: {}) => {
       this._IndexPendingList = data;
@@ -208,6 +209,7 @@ export class DataEntryComponent implements OnInit {
   }
 
   GetFieldList() {
+    debugger;
     let __TempID = this.DataEntryForm.controls['TemplateID'].value;
     let __FileNo = this.DataEntryForm.controls['FileNo'].value;
     const apiUrl = this._global.baseAPIUrl + 'DataEntry/GetFieldsName?id=' + __TempID + '&FileNo=' + __FileNo + '&user_Token=' + localStorage.getItem('User_Token');
@@ -440,11 +442,13 @@ export class DataEntryComponent implements OnInit {
   }
 
   AddIndexing(template: TemplateRef<any>, row: any) {
+    debugger;
     var that = this;
     this.DataEntryForm.patchValue({
       FileNo: row.FileNo,
       TemplateID: row.TemplateID,
       BranchID: row.BranchID,
+      SubfolderName:row.SubfolderName,
       Cabinet:row.Cabinet
     })
     this._TotalPages = row.PageCount;
@@ -456,6 +460,7 @@ export class DataEntryComponent implements OnInit {
   }
 
   GetFullFile(FileNo: any) {
+    debugger;
     const apiUrl = this._global.baseAPIUrl + 'SearchFileStatus/GetFullFile?ID=' + localStorage.getItem('UserID') + '&&_fileName=' + FileNo + '&user_Token=' + localStorage.getItem('User_Token');
     this._onlineExamService.getDataById(apiUrl).subscribe(res => {
       if (res) {
@@ -534,7 +539,22 @@ export class DataEntryComponent implements OnInit {
   OnReject() {
     var that = this;
     if (this.DataEntryForm.get('RejectReason').value == "") {
-      this.ErrorMessage("Enter rejecet reason");
+     // this.ErrorMessage("Enter rejecet reason");
+      this.toastr.show(
+           '<div class="alert-text"</div> <span class="alert-title" data-notify="title">Validation !</span> <span data-notify="message"><h4 class="text-white"> ' + "Enter rejecet reason" + ' <h4></span></div>',
+           "",
+           {
+             timeOut: 7000,
+            closeButton: true,
+             enableHtml: true,
+            tapToDismiss: false,
+            titleClass: "alert-title",
+            positionClass: "toast-top-center",
+            toastClass:
+              "ngx-toastr alert alert-dismissible alert-danger alert-notify"
+          }
+         );
+      return;
     }
     this.DataEntryForm.patchValue({
       Status: 'Reject'
@@ -662,10 +682,10 @@ export class DataEntryComponent implements OnInit {
       { field: 'FileNo', header: 'FILE NO', index: 2 },
       {field:'Cabinet',header:'CABINET',index:4},
       { field: 'BranchName', header: 'FOLDER', index: 3 },
-      {field:'SubFolder',header:'SUB FOLDER',index:4},
+      {field:'SubfolderName',header:'SUB FOLDER',index:4},
       { field: 'TemplateName', header: 'TEMPLATE NAME', index: 5 },
       { field: 'Status', header: 'STATUS', index: 6 },
-      { field: 'IsIndexing', header: 'IS INDEXING', index: 7 },
+      // { field: 'IsIndexing', header: 'IS INDEXING', index: 7 },
 
 
 
@@ -683,7 +703,7 @@ export class DataEntryComponent implements OnInit {
        'PageCount': el.PageCount,
         'IsIndexing': el.IsIndexing,
         'Cabinet':el.Cabinet,
-        'SubFolder':el.SubFolder
+        'SubfolderName':el.SubfolderName
 
       });
 
