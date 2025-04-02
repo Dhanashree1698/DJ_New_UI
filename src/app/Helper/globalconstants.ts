@@ -6,10 +6,10 @@ export class Globalconstants {
 
 //build//////////////////
 
-//  string = 'http://localhost:50819/api/';
+  string = 'http://localhost:50819/api/';
  
 
 
-string  ='https://Canfin.crownims.com/CanfinDMS/api/';
+//string  ='https://Canfin.crownims.com/CanfinDMS/api/';
   
 }

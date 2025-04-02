@@ -86,23 +86,16 @@
                 </select>
               </div>
             
-              <!-- Search & Download Buttons -->
-              <div class="col-md-4 d-flex">
-                <button class="btn btn-primary ml-2" tooltip="Search Report" style="border-radius: 5px;" [disabled]="!isValid()" (click)="onSearch()">
-                  <i class="fa fa-search"></i> 
+              <div class="col-md-3 d-flex">
+                <button class="btn btn-success ml-2 flex-fill" style="border-radius: 5px;"
+                  [disabled]="!isValid()" (click)="onSearch()">
+                  Search
                 </button>
-                <button class="btn btn-lg " tooltip="Download Report" style="font-size: 19px;color: black;" [disabled]="!isValid()" (click)="onDownload()">
-                  <i class="fa fa-download"></i>
+                <button class="btn btn-primary ml-2 flex-fill" 
+                  style="border-radius: 5px; color: white;" [disabled]="!isValid()" (click)="onDownload()">
+                  Download
                 </button>
               </div>
-
-              	
-	
-
-
-
-
-
 
             </div>
             

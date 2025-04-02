@@ -24,46 +24,57 @@
     background-color: #0056b3;
     border-color: #004085;
   } */
-  .dataTables_wrapper{
-    margin-top: -0.7rem !important;
-  }
-
-  select.form-control {
-    /* font-size: 18px;  */
-    padding-right: 30px; 
-    background-size: 30px; 
+  .btn {
+    border-radius: 5px !important;
+    font-weight: 500;
+    text-transform: uppercase;
+    transition: background-color 0.3s, border-color 0.3s;
+    width: 120px; 
+    margin: 0 5px; 
+    text-align: center; 
   }
   
-  select.form-control {
-    -webkit-appearance: none; 
-    -moz-appearance: none;
-    appearance: none; 
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='30' height='30'><path fill='black' d='M7 10l5 5 5-5z'/></svg>"); /* Custom large arrow */
-    background-repeat: no-repeat;
-    background-position: right 10px center;
+  
+  .btn-success {
+    background-color: #28a745; 
+    border-color: #28a745;
+    color: white;
   }
+  
+  
   .btn-primary {
     background-color: #003366;
     border-color: #003366;
     color: white;
-    font-weight: 500;
-    text-transform: uppercase;
-    border-radius: 4px;
-    padding: 8px 16px;
-    transition: background-color 0.3s, border-color 0.3s;
-  }
-
-  th {
-    white-space: nowrap; 
-    overflow: hidden;
-    text-overflow: ellipsis; 
-  }
-  .btn {
-    border-radius: 5px !important; 
   }
   
   .btn:hover,
   .btn:focus {
-    border-radius: 5px !important; 
     box-shadow: none !important;
+    border-radius: 5px !important;
+    opacity: 0.9; 
   }
+  
+  
+  select.form-control {
+    padding-right: 30px; 
+    background-size: 30px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='30' height='30'><path fill='black' d='M7 10l5 5 5-5z'/></svg>"); /* Custom large arrow */
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+  }
+  
+  th {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  
+  .dataTables_wrapper {
+    margin-top: -0.7rem !important;
+  }
+  
